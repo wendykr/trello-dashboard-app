@@ -1,10 +1,11 @@
 import React from 'react';
 import { Label } from '../Label/Label';
 import { Tag } from '../Tag/Tag';
+import { PopUpList } from '../PopUpList/PopUpList';
 
 export const Item = ({ text, src }) => {
   return (
-    <li className="my-2 bg-white hover:border-[#5881fd] text-[#1d284c] leading-snug cursor-pointer border-[2px] border-[#eaebee] rounded-lg">
+    <li className="relative z-20 my-2 bg-white hover:border-[#5881fd] text-[#1d284c] leading-snug cursor-pointer border-[2px] border-[#eaebee] rounded-lg">
       {
         src && <figure className="flex items-center"><img className="max-h-52 sm:max-h-36 rounded-t-lg" src={src} alt="Vite Header" /></figure>
       }
@@ -21,6 +22,7 @@ export const Item = ({ text, src }) => {
           <Tag category="code" />
         </aside>
       </div>
+      <PopUpList />
     </li>
   )
 }
