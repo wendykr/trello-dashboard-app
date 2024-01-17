@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card } from '../../components/Card/Card';
 
-export const HomePage = () => {
+export const DashboardPage = () => {
   return (
-    <main className="min-h-screen bg bg-purple-500">
-      <div className="w-screen flex px-4 py-10">
+    <main className="flex min-h-screen bg-[#228cd5]">
+      <div className="w-screen px-4 py-10 overflow-x-auto flex items-start ">
         <Card title="Todo" />
         <Card title="In progress" />
         <Card title="Done" />

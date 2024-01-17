@@ -2,6 +2,6 @@ import React from 'react'
 
 export const Item = ({ text }) => {
   return (
-    <li className="my-2 p-3 bg-white hover:bg-gray-100 cursor-pointer border-b border-gray-400 rounded">{ text }</li>
+    <li className="my-2 p-2 bg-white hover:border-[#5881fd] text-[#1d284c] leading-snug cursor-pointer border-[2px] border-[#eaebee] rounded-lg">{ text }</li>
   )
 }
