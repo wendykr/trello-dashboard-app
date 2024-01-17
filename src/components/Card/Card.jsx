@@ -1,6 +1,7 @@
 import React from 'react';
 import { Checklist } from '../Checklist/Checklist';
 import { AddCard } from '../AddCard/AddCard';
+import { Form } from '../Form/Form';
 
 export const Card = ({ title }) => {
   return (
@@ -11,6 +12,7 @@ export const Card = ({ title }) => {
 
       <Checklist />
 
+      <Form />
       <AddCard />
     </section>
   )
