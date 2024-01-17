@@ -1,5 +1,6 @@
 import React from 'react';
 import { Label } from '../Label/Label';
+import { Tag } from '../Tag/Tag';
 
 export const Item = ({ text, src }) => {
   return (
@@ -12,9 +13,13 @@ export const Item = ({ text, src }) => {
           <Label color="yellow" />
           <Label color="blue" />
         </aside>
-        <p>
+        <p contenteditable="" className="outline-none">
           { text }
         </p>
+        <aside className="mb-0.5 mt-1.5 flex gap-1.5">
+          <Tag category="design" />
+          <Tag category="code" />
+        </aside>
       </div>
     </li>
   )
