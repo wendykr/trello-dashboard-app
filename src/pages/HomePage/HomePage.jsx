@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../../components/Card/Card';
 
-export const HomePages = () => {
+export const HomePage = () => {
   return (
     <main className="min-h-screen bg bg-purple-500">
       <div className="w-screen flex px-4 py-10">
