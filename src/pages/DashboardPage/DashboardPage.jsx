@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
+import { FormColumn } from '../../components/FormColumn/FormColumn';
 
 export const DashboardPage = () => {
   return (
@@ -10,7 +11,10 @@ export const DashboardPage = () => {
         <Card title="Todo" />
         <Card title="In progress" />
         <Card title="Done" />
-        <NewColumn />
+        <div>
+          <FormColumn />
+          <NewColumn />
+        </div>
       </div>
     </main>
   )
