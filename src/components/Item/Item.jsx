@@ -2,6 +2,7 @@ import React from 'react';
 import { Label } from '../Label/Label';
 import { Tag } from '../Tag/Tag';
 import { PopupList } from '../PopupList/PopupList';
+import { LinkEdit } from '../LinkEdit/LinkEdit';
 
 export const Item = ({ text, src }) => {
   return (
@@ -24,6 +25,7 @@ export const Item = ({ text, src }) => {
         </aside>
       </div>
       <PopupList />
+      <LinkEdit />
     </li>
   )
 }
