@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
   font-size: 16px;
   font-weight: 400;
   color: #242424;
-  background-color: #cccccc;
+  background-color: #228cd5;
 }
