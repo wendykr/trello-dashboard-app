@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const PopUpLink = ({ icon, link }) => {
+export const PopupLink = ({ icon, link }) => {
   return (
     <li className="flex">
       <a href="#"

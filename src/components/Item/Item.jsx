@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label } from '../Label/Label';
 import { Tag } from '../Tag/Tag';
-import { PopUpList } from '../PopUpList/PopUpList';
+import { PopupList } from '../PopupList/PopupList';
 
 export const Item = ({ text, src }) => {
   return (
@@ -23,7 +23,7 @@ export const Item = ({ text, src }) => {
           <Tag category="code" />
         </aside>
       </div>
-      <PopUpList />
+      <PopupList />
     </li>
   )
 }
