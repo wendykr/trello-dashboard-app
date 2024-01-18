@@ -11,8 +11,9 @@ export const Item = ({ text, src }) => {
       }
       <div className="p-2">
         <aside className="mt-0.5 mb-1.5 flex">
-          <Label color="yellow" />
-          <Label color="blue" />
+          <Label color="red-400" />
+          <Label color="yellow-400" />
+          <Label color="green-400" />
         </aside>
         <p contenteditable="" className="outline-none">
           { text }
