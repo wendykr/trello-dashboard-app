@@ -5,8 +5,8 @@ export const Checklist = () => {
   return (
     <ul>
       <Item text="Frontend" src="./img/vite_header.jpg" />
-      <Item text="Styled" src="" />
-      <Item text="Bundler" src="" />
+      <Item text="Styled"/>
+      <Item text="Bundler" src="./img/react_header.jpg" />
       <Item text="Frontend" />
       <Item text="Styled" />
       <Item text="Bundler" />
