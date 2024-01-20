@@ -32,7 +32,7 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
                   color={oneLabel.color}
                   title={oneLabel.title}
                   key={oneLabel.id}
-                  isClicked={isClickLabel}
+                  isClickedLabel={isClickLabel}
                   onClickLabel={onClickLabel}
                 />
               ))}
