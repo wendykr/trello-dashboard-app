@@ -4,7 +4,7 @@ import tailwind_img from '../assets/img/tailwind_header.jpg';
 import typescript_img from '../assets/img/react_header.jpg';
 import vite_img from '../assets/img/vite_header.jpg';
 
-export const taskData = [
+export const tasksData = [
   {
     id: 1,
     title: 'Todo',
