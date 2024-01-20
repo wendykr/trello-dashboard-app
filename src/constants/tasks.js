@@ -1,3 +1,9 @@
+import react_img from '../assets/img/react_header.jpg';
+import supabase_img from '../assets/img/supabase_header.jpg';
+import tailwind_img from '../assets/img/tailwind_header.jpg';
+import typescript_img from '../assets/img/react_header.jpg';
+import vite_img from '../assets/img/vite_header.jpg';
+
 export const taskData = [
   {
     id: 1,
@@ -7,7 +13,7 @@ export const taskData = [
         id: 1,
         title: 'TypeScript',
         description: 'lorem ipsum',
-        image: '/public/img/typescript_header.jpg',
+        image: typescript_img,
         labels: [
           {
             id: 1,
@@ -70,7 +76,7 @@ export const taskData = [
         id: 2,
         title: 'Vite',
         description: 'lorem ipsum',
-        image: '/public/img/vite_header.jpg',
+        image: vite_img,
         labels: [
           {
             id: 1,
@@ -102,7 +108,7 @@ export const taskData = [
         id: 4,
         title: 'React 1 - Základy',
         description: 'lorem ipsum',
-        image: '/public/img/react_header.jpg',
+        image: react_img,
         labels: [
           {
             id: 1,
@@ -115,7 +121,7 @@ export const taskData = [
         id: 5,
         title: 'Supabase',
         description: 'lorem ipsum',
-        image: '/public/img/supabase_header.jpg',
+        image: supabase_img,
         // labels: [
 
         // ],
@@ -124,7 +130,7 @@ export const taskData = [
         id: 6,
         title: 'Tailwind CSS',
         description: 'lorem ipsum',
-        image: '/public/img/tailwind_header.jpg',
+        image: tailwind_img,
         // labels: [
 
         // ],
