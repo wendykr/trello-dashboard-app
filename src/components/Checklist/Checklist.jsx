@@ -1,12 +1,20 @@
 import React from 'react';
 import { Item } from '../Item/Item';
 
-export const Checklist = ({ cards }) => {
+export const Checklist = ({ cards, isClickLabel, onClickLabel }) => {
+
   return (
     <ul>
       {
         cards.map(oneCard => (
-          <Item text={oneCard.title} src={oneCard.image} labels={oneCard.labels} key={oneCard.id} />
+          <Item
+            text={oneCard.title}
+            src={oneCard.image}
+            labels={oneCard.labels}
+            key={oneCard.id}
+            isClickLabel={isClickLabel}
+            onClickLabel={onClickLabel}
+          />
         ))
       }
     </ul>

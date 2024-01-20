@@ -5,7 +5,8 @@ import { Form } from '../Form/Form';
 import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 
-export const Card = ({ title, cards }) => {
+export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
+
   return (
     <section className="flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 bg-[#f1f2f4] text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5">
       <div className="flex flex-row justify-between items-center">
@@ -14,7 +15,11 @@ export const Card = ({ title, cards }) => {
       </div>
 
       <div className="h-full overflow-x-hidden overflow-y-auto">
-        <Checklist cards={cards} />
+        <Checklist
+          cards={cards}
+          isClickLabel={isClickLabel}
+          onClickLabel={onClickLabel}
+        />
 
         <Form />
       </div>

@@ -4,7 +4,7 @@ import { Label } from '../Label/Label';
 import { PopupList } from '../PopupList/PopupList';
 import { LinkEdit } from '../LinkEdit/LinkEdit';
 
-export const Item = ({ text, labels, src }) => {
+export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
 
   const [isShowEditLink, setIsShowEditLink]= useState(false);
 
@@ -28,7 +28,13 @@ export const Item = ({ text, labels, src }) => {
           labels && (
             <aside className="mt-0.5 mb-1.5 flex">
               {labels.map(oneLabel => (
-                <Label color={oneLabel.color} key={oneLabel.id} />
+                <Label
+                  color={oneLabel.color}
+                  title={oneLabel.title}
+                  key={oneLabel.id}
+                  isClicked={isClickLabel}
+                  onClickLabel={onClickLabel}
+                />
               ))}
             </aside>
           )
