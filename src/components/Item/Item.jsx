@@ -6,14 +6,14 @@ import { LinkEdit } from '../LinkEdit/LinkEdit';
 
 export const Item = ({ text, labels, src }) => {
 
-  const [isEditing, setIsEditing]= useState(false);
+  const [isShowEditLink, setIsShowEditLink]= useState(false);
 
   const handleMouseEnter = () => {
-    setIsEditing(true);
+    setIsShowEditLink(true);
   };
 
   const handleMouseLeave = () => {
-    setIsEditing(false);
+    setIsShowEditLink(false);
   };
 
   return (
@@ -42,7 +42,7 @@ export const Item = ({ text, labels, src }) => {
         </aside> */}
       </div>
       <PopupList />
-      {isEditing && <LinkEdit />}
+      {isShowEditLink && <LinkEdit />}
     </li>
   )
 }
