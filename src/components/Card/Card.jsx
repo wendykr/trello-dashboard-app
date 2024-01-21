@@ -11,7 +11,6 @@ export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
 
   const onClickAddCard = () => {
     setIsClickAddCard(true);
-    console.log('click');
   }
 
   return (
