@@ -6,10 +6,19 @@ import { tasksData } from '../../constants/tasks';
 
 export const DashboardPage = () => {
   const [isClickLabel, setIsClickLabel] = useState(false);
+  const [isClickLinkClose, setIsClickLinkClose] = useState(false);
 
   const handleClickLabel = () => {
     setIsClickLabel((prev) => !prev);
   };
+
+  const onClickLinkClose = () => {
+    setIsClickLinkClose(false);
+  }
+
+  const onClickNewColumn = () => {
+    setIsClickLinkClose(true);
+  }
 
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
@@ -27,8 +36,12 @@ export const DashboardPage = () => {
           ))
         }
         <div>
-          <FormColumn />
-          <NewColumn />
+          {
+            isClickLinkClose ?
+              <FormColumn onClickLinkClose={onClickLinkClose} />
+              :
+              <NewColumn onClickNewColumn={onClickNewColumn} />
+          }
         </div>
       </div>
     </main>

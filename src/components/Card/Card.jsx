@@ -8,9 +8,16 @@ import { LinkMore } from '../LinkMore/LinkMore';
 export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
+  const [isClickLinkClose, setIsClickLinkClose] = useState(true);
 
   const onClickAddCard = () => {
     setIsClickAddCard(true);
+    setIsClickLinkClose(false);
+  }
+
+  const onClickLinkClose = () => {
+    setIsClickLinkClose(false);
+    setIsClickAddCard(false);
   }
 
   return (
@@ -28,7 +35,7 @@ export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
         />
 
         {
-          isClickAddCard && <Form />
+          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} />
         }
       </div>
 
