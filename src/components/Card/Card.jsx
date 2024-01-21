@@ -5,7 +5,7 @@ import { Form } from '../Form/Form';
 import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 
-export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
+export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
@@ -16,8 +16,13 @@ export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
   }
 
   const onClickLinkClose = () => {
-    setIsClickLinkClose(false);
+    setIsClickLinkClose(true);
     setIsClickAddCard(false);
+  }
+
+  const onClickButton = (event) => {
+    event.preventDefault();
+    onClickLinkClose();
   }
 
   return (
@@ -35,7 +40,7 @@ export const Card = ({ title, cards,  isClickLabel, onClickLabel  }) => {
         />
 
         {
-          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} />
+          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} />
         }
       </div>
 

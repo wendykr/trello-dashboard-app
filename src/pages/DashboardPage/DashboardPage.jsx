@@ -8,8 +8,8 @@ export const DashboardPage = () => {
   const [isClickLabel, setIsClickLabel] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
 
-  const handleClickLabel = () => {
-    setIsClickLabel((prev) => !prev);
+  const onClickLabel = () => {
+    setIsClickLabel(prevState => !prevState);
   };
 
   const onClickLinkClose = () => {
@@ -18,6 +18,11 @@ export const DashboardPage = () => {
 
   const onClickNewColumn = () => {
     setIsClickLinkClose(true);
+  }
+
+  const onClickButton = (event) => {
+    event.preventDefault();
+    onClickLinkClose();
   }
 
   return (
@@ -31,14 +36,14 @@ export const DashboardPage = () => {
               cards={oneTask.cards}
               key={oneTask.id} 
               isClickLabel={isClickLabel}
-              onClickLabel={handleClickLabel}
+              onClickLabel={onClickLabel}
             />
           ))
         }
         <div>
           {
             isClickLinkClose ?
-              <FormColumn onClickLinkClose={onClickLinkClose} />
+              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} />
               :
               <NewColumn onClickNewColumn={onClickNewColumn} />
           }

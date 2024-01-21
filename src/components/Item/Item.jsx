@@ -8,18 +8,20 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
 
   const [isShowEditLink, setIsShowEditLink]= useState(false);
 
-  const handleMouseEnter = () => {
+  const onMouseEnter = () => {
     setIsShowEditLink(true);
   };
 
-  const handleMouseLeave = () => {
+  const onMouseLeave = () => {
     setIsShowEditLink(false);
   };
 
   return (
-    <li onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      className="relative z-20 mx-2 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)]">
+    <li 
+      className="relative z-20 mx-2 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)]"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       {
         src && <figure className="flex items-center"><img className="sm:max-h-36 max-h-52 w-full rounded-t-lg" src={src} alt="***" /></figure>
       }
