@@ -7,8 +7,6 @@ import { LinkMore } from '../LinkMore/LinkMore';
 
 export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
-  console.log('cards', cards);
-
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
