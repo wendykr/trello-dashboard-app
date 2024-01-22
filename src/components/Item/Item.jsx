@@ -41,7 +41,7 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
             </aside>
           )
         }
-        <p contentEditable className="outline-none text-[#172b4d]">
+        <p className="outline-none text-[#172b4d]">
           { text }
         </p>
         {/* <aside className="mb-0.5 mt-1.5 flex gap-1.5">

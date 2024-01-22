@@ -25,6 +25,11 @@ export const DashboardPage = () => {
     onClickLinkClose();
   }
 
+  const onChangeValue = (event) => {
+    console.log(event.target.value);
+    event.preventDefault();
+  }
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -37,13 +42,14 @@ export const DashboardPage = () => {
               key={oneTask.id} 
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
+              onChangeValue={onChangeValue}
             />
           ))
         }
         <div>
           {
             isClickLinkClose ?
-              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} />
+              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} />
               :
               <NewColumn onClickNewColumn={onClickNewColumn} />
           }
