@@ -5,10 +5,11 @@ import { Form } from '../Form/Form';
 import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 
-export const Card = ({ title, cards, isClickLabel, onClickLabel, onChangeValue }) => {
+export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
+  const [textareaValue, setTextareaValue] = useState('');
 
   const onClickAddCard = () => {
     setIsClickAddCard(true);
@@ -22,7 +23,17 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel, onChangeValue }
 
   const onClickButton = (event) => {
     event.preventDefault();
-    onClickLinkClose();
+    if (textareaValue) {
+      setTextareaValue('');
+      onClickLinkClose();
+    } else {
+      // add red outlet for textarea
+    }
+  }
+
+  const onChangeValue = (event) => {
+    event.preventDefault();
+    setTextareaValue(event.target.value);
   }
 
   return (
@@ -40,7 +51,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel, onChangeValue }
         />
 
         {
-          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} />
+          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} />
         }
       </div>
 

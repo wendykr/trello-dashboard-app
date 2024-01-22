@@ -7,6 +7,7 @@ import { tasksData } from '../../constants/tasks';
 export const DashboardPage = () => {
   const [isClickLabel, setIsClickLabel] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
+  const [textareaValue, setTextareaValue] = useState('');
 
   const onClickLabel = () => {
     setIsClickLabel(prevState => !prevState);
@@ -22,12 +23,17 @@ export const DashboardPage = () => {
 
   const onClickButton = (event) => {
     event.preventDefault();
-    onClickLinkClose();
+    if (textareaValue) {
+      setTextareaValue('');
+      onClickLinkClose();
+    } else {
+      // add red outlet for textarea
+    }
   }
 
   const onChangeValue = (event) => {
-    console.log(event.target.value);
     event.preventDefault();
+    setTextareaValue(event.target.value);
   }
 
   return (
@@ -42,14 +48,13 @@ export const DashboardPage = () => {
               key={oneTask.id} 
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
-              onChangeValue={onChangeValue}
             />
           ))
         }
         <div>
           {
             isClickLinkClose ?
-              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} />
+              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} />
               :
               <NewColumn onClickNewColumn={onClickNewColumn} />
           }

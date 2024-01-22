@@ -3,7 +3,7 @@ import { Button } from '../Button/Button';
 import { Textarea } from '../Textarea/Textarea';
 import { LinkClose } from '../LinkClose/LinkClose';
 
-export const Form = ({ onClickButton, onClickLinkClose, onChangeValue }) => {
+export const Form = ({ onClickButton, onClickLinkClose, onChangeValue, textareaValue }) => {
 
   return (
     <form action="" className="m-2">
@@ -12,6 +12,7 @@ export const Form = ({ onClickButton, onClickLinkClose, onChangeValue }) => {
         placeholder="Zadej název pro tuto kartu..."
         shadow="shadow-[0_1px_0px_rgba(9,30,66,0.3)]"
         onChangeValue={onChangeValue}
+        textareaValue={textareaValue}
       />
       <div className="flex flex-row items-center gap-1">
         <Button text="Přidat kartu" onClickButton={onClickButton} />
