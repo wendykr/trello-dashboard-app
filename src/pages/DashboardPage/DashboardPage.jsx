@@ -8,6 +8,7 @@ export const DashboardPage = () => {
   const [isClickLabel, setIsClickLabel] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
+  const [columns, setColumns] = useState(tasksData);
 
   const onClickLabel = () => {
     setIsClickLabel(prevState => !prevState);
@@ -24,6 +25,15 @@ export const DashboardPage = () => {
   const onClickButton = (event) => {
     event.preventDefault();
     if (textareaValue) {
+      const newColumn = {
+        id: Date.now(),
+        title: textareaValue,
+        cards: [
+        ]
+      };
+
+      setColumns(prevColumns => [...prevColumns, newColumn]);
+
       setTextareaValue('');
       onClickLinkClose();
     } else {
@@ -41,7 +51,7 @@ export const DashboardPage = () => {
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
         <div id="overlay" className="hidden fixed top-0 left-0 w-full h-screen bg-black bg-opacity-70 z-10"></div>
         {
-          tasksData.map(oneTask => (
+          columns.map(oneTask => (
             <Card
               title={oneTask.title}
               cards={oneTask.cards}
