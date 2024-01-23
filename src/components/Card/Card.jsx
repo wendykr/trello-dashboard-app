@@ -17,7 +17,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
   useEffect(() => {
     if (isClickEditHeading && refValue.current) {
-      refValue.current.focus();
+      refValue.current.select();
     }
   }, [isClickEditHeading, refValue]);
 
