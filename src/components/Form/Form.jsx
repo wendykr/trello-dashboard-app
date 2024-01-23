@@ -6,7 +6,7 @@ import { LinkClose } from '../LinkClose/LinkClose';
 export const Form = ({ onClickButton, onClickLinkClose, onChangeValue, textareaValue }) => {
 
   return (
-    <form action="" className="m-2">
+    <form action="" className="mx-1 my-2">
       <Textarea
         rows="3"
         placeholder="Zadej název pro tuto kartu..."

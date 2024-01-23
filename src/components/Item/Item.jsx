@@ -18,7 +18,7 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
 
   return (
     <li 
-      className="relative z-20 mx-2 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)]"
+      className="relative z-20 mx-1 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)]"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >

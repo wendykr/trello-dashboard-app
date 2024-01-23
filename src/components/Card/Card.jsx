@@ -46,8 +46,8 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
   return (
     <section className="flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 bg-[#f1f2f4] text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5">
-      <div className="flex flex-row justify-between items-center">
-        <h3 className="pl-3 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none">{title}</h3>
+      <div className="mx-1 flex flex-row justify-between items-center">
+        <h3 className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none">{title}</h3>
         <LinkMore />
       </div>
 
@@ -65,7 +65,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
       {
         !isClickAddCard &&
-          <div className="flex flex-row">
+          <div className="flex flex-row mx-1">
             <AddCard onClickAddCard={onClickAddCard} />
             <LinkCopy />
           </div>
