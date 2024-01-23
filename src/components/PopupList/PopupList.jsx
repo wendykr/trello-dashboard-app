@@ -4,7 +4,9 @@ import { PopupLink } from '../PopupLink/PopupLink'
 export const PopupList = () => {
   return (
     <ul id="popup"
-      className="hidden ml-2 sm:ml-[-20px] w-40 text-sm text-white font-semibold flex flex-col gap-2 sm:absolute top-0 left-80">
+      className="ml-2 sm:ml-[-20px] w-40 text-sm text-white font-semibold flex flex-col gap-2 sm:absolute top-0 left-80 z-30"
+      style={{ overflow: 'visible' }}
+    >
       <PopupLink
         icon={
           <svg className="w-4 h-4 fill-white" viewBox="0 0 20 20">

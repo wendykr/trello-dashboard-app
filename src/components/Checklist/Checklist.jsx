@@ -4,7 +4,7 @@ import { Item } from '../Item/Item';
 export const Checklist = ({ cards, isClickLabel, onClickLabel }) => {
 
   return (
-    <ul>
+    <ul className="relative overflow-visible">
       {
         cards.map(oneCard => (
           <Item
