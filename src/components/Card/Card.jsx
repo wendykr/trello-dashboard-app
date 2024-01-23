@@ -10,6 +10,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
+  const [rows, setRows] = useState(cards);
 
   const onClickAddCard = () => {
     setIsClickAddCard(true);
@@ -24,6 +25,13 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
   const onClickButton = (event) => {
     event.preventDefault();
     if (textareaValue) {
+      const newRow = {
+        id: Date.now(),
+        title: textareaValue
+      };
+
+      setRows(prevRows => [...prevRows, newRow]);
+
       setTextareaValue('');
       onClickLinkClose();
     } else {
@@ -45,7 +53,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
       <div className="h-full overflow-x-hidden overflow-y-auto">
         <Checklist
-          cards={cards}
+          cards={rows}
           isClickLabel={isClickLabel}
           onClickLabel={onClickLabel}
         />
