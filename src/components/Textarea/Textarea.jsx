@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-export const Textarea = ({ rows, placeholder, shadow, border, onChangeValue, textareaValue }) => {
+export const Textarea = ({ rows, placeholder, height, padding, shadow, border, bold, onChangeValue, textareaValue }) => {
 
   return (
     <textarea
-      className={`w-full p-3 ${shadow} rounded-lg outline-none ${border}`}
+      className={`w-full ${height} ${padding} ${shadow} rounded-lg outline-none ${border} ${bold}`}
       rows={rows}
       placeholder={placeholder}
       onChange={onChangeValue}
