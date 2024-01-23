@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export const Textarea = ({ rows, placeholder, shadow, border, onChangeValue, textareaValue }) => {
+export const Textarea = ({ rows, placeholder, height, padding, shadow, border, bold, onChangeValue, onBlurHandler, textareaValue, refValue }) => {
 
   return (
     <textarea
-      className={`w-full p-3 ${shadow} rounded-lg outline-none ${border}`}
+      className={`w-full ${height} ${padding} ${shadow} rounded-lg outline-none ${border} ${bold}`}
       rows={rows}
       placeholder={placeholder}
       onChange={onChangeValue}
+      onBlur={onBlurHandler}
       value={textareaValue}
+      ref={refValue}
     ></textarea>
   )
 }
