@@ -45,6 +45,7 @@ export const DashboardPage = () => {
       onClickLinkClose();
     } else {
       // add red outlet for textarea
+      refValueColumn.current.focus();
     }
   }
 

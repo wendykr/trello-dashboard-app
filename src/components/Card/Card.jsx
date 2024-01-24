@@ -51,6 +51,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
       onClickLinkClose();
     } else {
       // add red outlet for textarea
+      refValue.current.focus();
     }
   }
 
