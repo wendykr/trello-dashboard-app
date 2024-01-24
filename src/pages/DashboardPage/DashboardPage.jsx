@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
@@ -9,6 +9,13 @@ export const DashboardPage = () => {
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
   const [columns, setColumns] = useState(tasksData);
+  const refValueColumn = useRef(null);
+
+  useEffect(() => {
+    if (isClickLinkClose && refValueColumn.current) {
+      refValueColumn.current.focus();
+    }
+  }, [isClickLinkClose, refValueColumn]);
 
   const onClickLabel = () => {
     setIsClickLabel(prevState => !prevState);
@@ -38,6 +45,7 @@ export const DashboardPage = () => {
       onClickLinkClose();
     } else {
       // add red outlet for textarea
+      refValueColumn.current.focus();
     }
   }
 
@@ -45,6 +53,10 @@ export const DashboardPage = () => {
     event.preventDefault();
     setTextareaValue(event.target.value);
   }
+
+  const onBlurHandler = () => {
+    setIsClickLinkClose(false);
+  };
 
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
@@ -64,7 +76,14 @@ export const DashboardPage = () => {
         <div>
           {
             isClickLinkClose ?
-              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} />
+              <FormColumn
+                onClickLinkClose={onClickLinkClose}
+                onClickButton={onClickButton}
+                onChangeValue={onChangeValue}
+                textareaValue={textareaValue}
+                refValue={refValueColumn}
+                onBlurHandler={onBlurHandler}
+              />
               :
               <NewColumn onClickNewColumn={onClickNewColumn} />
           }
