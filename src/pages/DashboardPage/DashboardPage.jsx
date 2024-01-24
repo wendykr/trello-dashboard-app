@@ -13,7 +13,7 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     if (isClickLinkClose && refValueColumn.current) {
-      refValueColumn.current.select();
+      refValueColumn.current.focus();
     }
   }, [isClickLinkClose, refValueColumn]);
 

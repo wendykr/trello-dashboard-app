@@ -23,7 +23,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
 
   useEffect(() => {
     if (isClickAddCard && refValue.current) {
-      refValue.current.select();
+      refValue.current.focus();
     }
   }, [isClickAddCard, refValue]);
 
