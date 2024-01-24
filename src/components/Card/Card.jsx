@@ -21,6 +21,12 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
     }
   }, [isClickEditHeading, refValue]);
 
+  useEffect(() => {
+    if (isClickAddCard && refValue.current) {
+      refValue.current.select();
+    }
+  }, [isClickAddCard, refValue]);
+
   const onClickAddCard = () => {
     setIsClickAddCard(true);
     setIsClickLinkClose(false);
@@ -66,7 +72,16 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
     <section className="flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 bg-[#f1f2f4] text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5">
       <div className="mx-1 flex flex-row justify-between items-center gap-1">
         { isClickEditHeading ?
-          <Textarea height="h-8" padding="px-1.5 py-0.5" border="border-[2px] border-[#5881fd]" bold="font-bold" textareaValue={title} onChangeValue={onChangeValue} onBlurHandler={onBlurHandler} refValue={refValue} /> :
+          <Textarea
+            height="h-8"
+            padding="px-1.5 py-0.5"
+            border="border-[2px] border-[#5881fd]"
+            bold="font-bold"
+            textareaValue={title}
+            onChangeValue={onChangeValue}
+            onBlurHandler={onBlurHandler}
+            refValue={refValue}
+          /> :
           <h3
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
             onClick={onClickEditHeading} 
@@ -84,7 +99,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
         />
 
         {
-          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} />
+          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
         }
       </div>
 
