@@ -4,7 +4,7 @@ import { Label } from '../Label/Label';
 import { PopupList } from '../PopupList/PopupList';
 import { LinkEdit } from '../LinkEdit/LinkEdit';
 
-export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
+export const Item = ({ text, idItem, labels, src, isClickLabel, onClickLabel, onClickRemove }) => {
 
   const [isShowEditLink, setIsShowEditLink]= useState(false);
 
@@ -16,11 +16,16 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel }) => {
     setIsShowEditLink(false);
   };
 
+  const handleClickRemove = () => {
+    onClickRemove(idItem);
+  }
+
   return (
     <li 
       className="relative z-20 mx-1 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)]"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={handleClickRemove}
     >
       {
         src && <figure className="flex items-center"><img className="sm:max-h-36 max-h-52 w-full rounded-t-lg" src={src} alt="***" /></figure>
