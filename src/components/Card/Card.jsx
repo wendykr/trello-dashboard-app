@@ -11,6 +11,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
+  const [titleValue,setTitleValue] = useState(title);
   const [rows, setRows] = useState(cards);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
@@ -55,8 +56,19 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
     }
   }
 
-  const onChangeValue = (event) => {
-    console.log(event.target.value);
+  // const onChangeValue = (event) => {
+  //   console.log(event.target.value);
+  //   event.preventDefault();
+  //   setTextareaValue(event.target.value);
+  //   setTitleValue(event.target.value);
+  // }
+
+  const onChangeValueTitle = (event) => {
+    event.preventDefault();
+    setTitleValue(event.target.value);
+  }
+
+  const onChangeValueTextarea = (event) => {
     event.preventDefault();
     setTextareaValue(event.target.value);
   }
@@ -78,15 +90,15 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
             padding="px-1.5 py-0.5"
             border="border-[2px] border-[#5881fd]"
             bold="font-bold"
-            textareaValue={title}
-            onChangeValue={onChangeValue}
+            textareaValue={titleValue}
+            onChangeValue={onChangeValueTitle}
             onBlurHandler={onBlurHandler}
             refValue={refValue}
           /> :
           <h3
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
             onClick={onClickEditHeading} 
-            >{title}
+            >{titleValue}
           </h3>}
 
         <LinkMore />
@@ -100,7 +112,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
         />
 
         {
-          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
+          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValueTextarea} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
         }
       </div>
 
