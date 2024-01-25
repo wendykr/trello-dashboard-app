@@ -58,6 +58,21 @@ export const DashboardPage = () => {
     setIsClickLinkClose(false);
   };
 
+  const onClickCopy = (clickedTaskId) => {
+    const copiedColumns = columns.map(oneTask => {
+      if (oneTask.id === clickedTaskId) {
+        // Klonujte pouze kartu, na kterou bylo kliknuto
+        return {
+          ...oneTask,
+          id: Date.now(), // Nastavte nový identifikátor pro klon
+        };
+      }
+      return oneTask;
+    });
+
+    setColumns(copiedColumns);
+  }
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -67,9 +82,11 @@ export const DashboardPage = () => {
             <Card
               title={oneTask.title}
               cards={oneTask.cards}
-              key={oneTask.id} 
+              key={oneTask.id}
+              id={oneTask.id}
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
+              onClickCopy={onClickCopy}
             />
           ))
         }
