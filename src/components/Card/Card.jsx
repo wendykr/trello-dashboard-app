@@ -56,13 +56,6 @@ export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy
     }
   }
 
-  // const onChangeValue = (event) => {
-  //   console.log(event.target.value);
-  //   event.preventDefault();
-  //   setTextareaValue(event.target.value);
-  //   setTitleValue(event.target.value);
-  // }
-
   const onChangeValueTitle = (event) => {
     event.preventDefault();
     setTitleValue(event.target.value);
@@ -81,8 +74,8 @@ export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy
     setIsClickEditHeading(false);
   };
 
-  const handleClickCopy = (id) => {
-    console.log('id', id)
+  const handleClickCopy = () => {
+    onClickCopy(id);
   }
 
   return (
@@ -124,7 +117,7 @@ export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy
         !isClickAddCard &&
           <div className="flex flex-row mx-1">
             <AddCard onClickAddCard={onClickAddCard} />
-            <LinkCopy onClickCopy={handleClickCopy} />
+            <LinkCopy handleClickCopy={handleClickCopy} />
           </div>
       }
 

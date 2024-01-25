@@ -59,19 +59,18 @@ export const DashboardPage = () => {
   };
 
   const onClickCopy = (clickedTaskId) => {
-    const copiedColumns = columns.map(oneTask => {
-      if (oneTask.id === clickedTaskId) {
-        // Klonujte pouze kartu, na kterou bylo kliknuto
-        return {
-          ...oneTask,
-          id: Date.now(), // Nastavte nový identifikátor pro klon
-        };
-      }
-      return oneTask;
-    });
 
-    setColumns(copiedColumns);
-  }
+    const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
+
+    if (clickedColumn) {
+      const copiedColumn = {
+        ...clickedColumn,
+        id: Date.now(),
+      };
+
+      setColumns([...columns, copiedColumn]);
+    }
+  };
 
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
