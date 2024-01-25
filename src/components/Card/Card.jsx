@@ -56,13 +56,6 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
     }
   }
 
-  // const onChangeValue = (event) => {
-  //   console.log(event.target.value);
-  //   event.preventDefault();
-  //   setTextareaValue(event.target.value);
-  //   setTitleValue(event.target.value);
-  // }
-
   const onChangeValueTitle = (event) => {
     event.preventDefault();
     setTitleValue(event.target.value);
