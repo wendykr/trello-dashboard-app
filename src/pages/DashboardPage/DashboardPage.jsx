@@ -58,6 +58,20 @@ export const DashboardPage = () => {
     setIsClickLinkClose(false);
   };
 
+  const onClickCopy = (clickedTaskId) => {
+
+    const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
+
+    if (clickedColumn) {
+      const copiedColumn = {
+        ...clickedColumn,
+        id: Date.now(),
+      };
+
+      setColumns([...columns, copiedColumn]);
+    }
+  };
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -67,9 +81,11 @@ export const DashboardPage = () => {
             <Card
               title={oneTask.title}
               cards={oneTask.cards}
-              key={oneTask.id} 
+              key={oneTask.id}
+              id={oneTask.id}
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
+              onClickCopy={onClickCopy}
             />
           ))
         }

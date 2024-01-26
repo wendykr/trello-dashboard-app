@@ -6,7 +6,7 @@ import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 import { Textarea } from '../Textarea/Textarea';
 
-export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
+export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
@@ -74,6 +74,10 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
     setIsClickEditHeading(false);
   };
 
+  const handleClickCopy = () => {
+    onClickCopy(id);
+  }
+
   return (
     <section className="flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 bg-[#f1f2f4] text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5">
       <div className="mx-1 flex flex-row justify-between items-center gap-1">
@@ -113,7 +117,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
         !isClickAddCard &&
           <div className="flex flex-row mx-1">
             <AddCard onClickAddCard={onClickAddCard} />
-            <LinkCopy />
+            <LinkCopy handleClickCopy={handleClickCopy} />
           </div>
       }
 
