@@ -5,7 +5,7 @@ import { Form } from '../Form/Form';
 import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 
-export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
+export const Card = ({ title, cards, isClickLabel, onClickLabel, onClickDetail }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
@@ -56,6 +56,7 @@ export const Card = ({ title, cards, isClickLabel, onClickLabel }) => {
           cards={rows}
           isClickLabel={isClickLabel}
           onClickLabel={onClickLabel}
+          onClickDetail={onClickDetail}
         />
 
         {

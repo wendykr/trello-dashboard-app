@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
+import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
 import { tasksData } from '../../constants/tasks';
 
 export const DashboardPage = () => {
   const [isClickLabel, setIsClickLabel] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
+  const [isShowDetailItem, setIsShowDetailItem] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
   const [columns, setColumns] = useState(tasksData);
+  const [detailTitle, setDetailTitle] = useState('');
 
   const onClickLabel = () => {
     setIsClickLabel(prevState => !prevState);
@@ -16,6 +19,7 @@ export const DashboardPage = () => {
 
   const onClickLinkClose = () => {
     setIsClickLinkClose(false);
+    setIsShowDetailItem(false);
   }
 
   const onClickNewColumn = () => {
@@ -46,6 +50,11 @@ export const DashboardPage = () => {
     setTextareaValue(event.target.value);
   }
 
+  const onClickDetail = (text) => {
+    setDetailTitle(text);
+    setIsShowDetailItem(true);
+  }
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -58,6 +67,7 @@ export const DashboardPage = () => {
               key={oneTask.id} 
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
+              onClickDetail={onClickDetail}
             />
           ))
         }
@@ -70,6 +80,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
+      {isShowDetailItem && <ItemDetail title={detailTitle} onClickLinkClose={onClickLinkClose} /> }
     </main>
   )
 }
