@@ -20,7 +20,8 @@ export const DashboardPage = () => {
     }
   }, [isClickLinkClose, refValueColumn]);
 
-  const onClickLabel = () => {
+  const onClickLabel = (event) => {
+    event.stopPropagation();
     setIsClickLabel(prevState => !prevState);
   };
 
