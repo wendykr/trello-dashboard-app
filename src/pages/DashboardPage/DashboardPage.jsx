@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
@@ -12,6 +12,13 @@ export const DashboardPage = () => {
   const [textareaValue, setTextareaValue] = useState('');
   const [columns, setColumns] = useState(tasksData);
   const [detailTitle, setDetailTitle] = useState('');
+  const refValueColumn = useRef(null);
+
+  useEffect(() => {
+    if (isClickLinkClose && refValueColumn.current) {
+      refValueColumn.current.focus();
+    }
+  }, [isClickLinkClose, refValueColumn]);
 
   const onClickLabel = () => {
     setIsClickLabel(prevState => !prevState);
@@ -42,6 +49,7 @@ export const DashboardPage = () => {
       onClickLinkClose();
     } else {
       // add red outlet for textarea
+      refValueColumn.current.focus();
     }
   }
 
@@ -54,6 +62,23 @@ export const DashboardPage = () => {
     setDetailTitle(text);
     setIsShowDetailItem(true);
   }
+  const onBlurHandler = () => {
+    setIsClickLinkClose(false);
+  };
+
+  const onClickCopy = (clickedTaskId) => {
+
+    const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
+
+    if (clickedColumn) {
+      const copiedColumn = {
+        ...clickedColumn,
+        id: Date.now(),
+      };
+
+      setColumns([...columns, copiedColumn]);
+    }
+  };
 
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
@@ -64,9 +89,11 @@ export const DashboardPage = () => {
             <Card
               title={oneTask.title}
               cards={oneTask.cards}
-              key={oneTask.id} 
+              key={oneTask.id}
+              id={oneTask.id}
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
+              onClickCopy={onClickCopy}
               onClickDetail={onClickDetail}
             />
           ))
@@ -74,7 +101,14 @@ export const DashboardPage = () => {
         <div>
           {
             isClickLinkClose ?
-              <FormColumn onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValue} textareaValue={textareaValue} />
+              <FormColumn
+                onClickLinkClose={onClickLinkClose}
+                onClickButton={onClickButton}
+                onChangeValue={onChangeValue}
+                textareaValue={textareaValue}
+                refValue={refValueColumn}
+                onBlurHandler={onBlurHandler}
+              />
               :
               <NewColumn onClickNewColumn={onClickNewColumn} />
           }
