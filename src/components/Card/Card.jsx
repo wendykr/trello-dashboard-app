@@ -6,7 +6,7 @@ import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 import { Textarea } from '../Textarea/Textarea';
 
-export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy }) => {
+export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy, onClickDetail }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
@@ -106,6 +106,7 @@ export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy
           cards={rows}
           isClickLabel={isClickLabel}
           onClickLabel={onClickLabel}
+          onClickDetail={onClickDetail}
         />
 
         {

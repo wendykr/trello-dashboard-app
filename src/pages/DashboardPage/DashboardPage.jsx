@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
+import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
 import { tasksData } from '../../constants/tasks';
 
 export const DashboardPage = () => {
   const [isClickLabel, setIsClickLabel] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
+  const [isShowDetailItem, setIsShowDetailItem] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
   const [columns, setColumns] = useState(tasksData);
+  const [detailTitle, setDetailTitle] = useState('');
   const refValueColumn = useRef(null);
 
   useEffect(() => {
@@ -23,6 +26,7 @@ export const DashboardPage = () => {
 
   const onClickLinkClose = () => {
     setIsClickLinkClose(false);
+    setIsShowDetailItem(false);
   }
 
   const onClickNewColumn = () => {
@@ -54,6 +58,10 @@ export const DashboardPage = () => {
     setTextareaValue(event.target.value);
   }
 
+  const onClickDetail = (text) => {
+    setDetailTitle(text);
+    setIsShowDetailItem(true);
+  }
   const onBlurHandler = () => {
     setIsClickLinkClose(false);
   };
@@ -86,6 +94,7 @@ export const DashboardPage = () => {
               isClickLabel={isClickLabel}
               onClickLabel={onClickLabel}
               onClickCopy={onClickCopy}
+              onClickDetail={onClickDetail}
             />
           ))
         }
@@ -105,6 +114,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
+      {isShowDetailItem && <ItemDetail title={detailTitle} onClickLinkClose={onClickLinkClose} /> }
     </main>
   )
 }

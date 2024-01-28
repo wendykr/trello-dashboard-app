@@ -1,10 +1,10 @@
 import React from 'react';
 import { Item } from '../Item/Item';
 
-export const Checklist = ({ cards, isClickLabel, onClickLabel }) => {
+export const Checklist = ({ cards, isClickLabel, onClickLabel, onClickDetail }) => {
 
   return (
-    <ul>
+    <ul className="relative overflow-visible">
       {
         cards.map(oneCard => (
           <Item
@@ -14,6 +14,7 @@ export const Checklist = ({ cards, isClickLabel, onClickLabel }) => {
             key={oneCard.id}
             isClickLabel={isClickLabel}
             onClickLabel={onClickLabel}
+            onClickDetail={onClickDetail}
           />
         ))
       }
