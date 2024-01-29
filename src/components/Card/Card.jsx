@@ -108,6 +108,7 @@ export const Card = ({ title, id, cards, isClickLabel, onClickLabel, onClickCopy
           onClickLabel={onClickLabel}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}
+          titleValue={titleValue}
         />
 
         {

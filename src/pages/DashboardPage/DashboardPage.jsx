@@ -11,7 +11,9 @@ export const DashboardPage = () => {
   const [isShowDetailItem, setIsShowDetailItem] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
   const [columns, setColumns] = useState(tasksData);
+  const [detailHeadline, setDetailHeadline] = useState('');
   const [detailTitle, setDetailTitle] = useState('');
+  const [detailSrc, setDetailSrc] = useState('');
   const refValueColumn = useRef(null);
 
   useEffect(() => {
@@ -59,10 +61,13 @@ export const DashboardPage = () => {
     setTextareaValue(event.target.value);
   }
 
-  const onClickDetail = (text) => {
-    setDetailTitle(text);
+  const onClickDetail = (title, headline, src) => {
+    setDetailTitle(title);
+    setDetailHeadline(headline);
+    setDetailSrc(src);
     setIsShowDetailItem(true);
   }
+
   const onBlurHandler = () => {
     setIsClickLinkClose(false);
   };
@@ -116,7 +121,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <ItemDetail title={detailTitle} onClickLinkClose={onClickLinkClose} /> }
+      {isShowDetailItem && <ItemDetail title={detailTitle} headline={detailHeadline} src={detailSrc} onClickLinkClose={onClickLinkClose} /> }
     </main>
   )
 }
