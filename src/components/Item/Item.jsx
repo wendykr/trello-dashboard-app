@@ -7,6 +7,7 @@ import { LinkEdit } from '../LinkEdit/LinkEdit';
 export const Item = ({ text, labels, src, isClickLabel, onClickLabel, onClickDetail, isShowDetailItem }) => {
 
   const [isShowEditLink, setIsShowEditLink]= useState(false);
+  const [isShowPopupList, setIsShowPopupList]= useState(false);
 
   const onMouseEnter = () => {
     setIsShowEditLink(true);
@@ -18,6 +19,11 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel, onClickDet
 
   const handleClickDetail = () => {
     onClickDetail(text);
+  }
+
+  const onClickLinkEdit = (event) => {
+    event.stopPropagation();
+    setIsShowPopupList(true);
   }
 
   return (
@@ -54,8 +60,8 @@ export const Item = ({ text, labels, src, isClickLabel, onClickLabel, onClickDet
           <Tag category="code" />
         </aside> */}
       </div>
-      <PopupList />
-      {isShowEditLink && <LinkEdit />}
+      {isShowPopupList && <PopupList />}
+      {isShowEditLink && <LinkEdit onClickLinkEdit={onClickLinkEdit} />}
     </li>
   )
 }
