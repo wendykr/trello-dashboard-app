@@ -1,8 +1,11 @@
 # Trello Dashboard React App
 
-**This project is in process.**
+**Na tomto projektu aktuálně pracuju.**
 
 
-- programming with **React**
-- styling with **Tailwind CSS**
-- build with **Vite**
+- programuju v **Reactu**
+- styluju pomocí **Tailwind CSS**
+- jako bundler využívám **Vite**
+
+
+![screenshot](./design/screen-trello.jpg)
