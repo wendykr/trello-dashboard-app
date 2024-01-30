@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { tasksData } from '../../constants/tasks';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
 import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
-import { tasksData } from '../../constants/tasks';
+import { useDetail } from '../../context/DetailContext';
 
 export const DashboardPage = () => {
 
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
-  const [isShowDetailItem, setIsShowDetailItem] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
   const [columns, setColumns] = useState(tasksData);
-  const [detailHeadline, setDetailHeadline] = useState('');
-  const [detailTitle, setDetailTitle] = useState('');
-  const [detailSrc, setDetailSrc] = useState('');
   const refValueColumn = useRef(null);
+
+  const {
+    isShowDetailItem, setIsShowDetailItem,
+    detailHeadline, detailTitle, detailSrc
+  } = useDetail();
 
   useEffect(() => {
     if (isClickLinkClose && refValueColumn.current) {
@@ -56,13 +58,6 @@ export const DashboardPage = () => {
     setTextareaValue(event.target.value);
   }
 
-  const onClickDetail = (title, headline, src) => {
-    setDetailTitle(title);
-    setDetailHeadline(headline);
-    setDetailSrc(src);
-    setIsShowDetailItem(true);
-  }
-
   const onBlurHandler = () => {
     setIsClickLinkClose(false);
   };
@@ -93,8 +88,6 @@ export const DashboardPage = () => {
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
-              onClickDetail={onClickDetail}
-              isShowDetailItem={isShowDetailItem}
             />
           ))
         }
