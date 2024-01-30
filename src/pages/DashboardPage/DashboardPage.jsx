@@ -6,7 +6,7 @@ import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
 import { tasksData } from '../../constants/tasks';
 
 export const DashboardPage = () => {
-  const [isClickLabel, setIsClickLabel] = useState(false);
+
   const [isClickLinkClose, setIsClickLinkClose] = useState(false);
   const [isShowDetailItem, setIsShowDetailItem] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
@@ -21,11 +21,6 @@ export const DashboardPage = () => {
       refValueColumn.current.focus();
     }
   }, [isClickLinkClose, refValueColumn]);
-
-  const onClickLabel = (event) => {
-    event.stopPropagation();
-    setIsClickLabel(prevState => !prevState);
-  };
 
   const onClickLinkClose = () => {
     setIsClickLinkClose(false);
@@ -97,8 +92,6 @@ export const DashboardPage = () => {
               cards={oneTask.cards}
               key={oneTask.id}
               id={oneTask.id}
-              isClickLabel={isClickLabel}
-              onClickLabel={onClickLabel}
               onClickCopy={onClickCopy}
               onClickDetail={onClickDetail}
               isShowDetailItem={isShowDetailItem}

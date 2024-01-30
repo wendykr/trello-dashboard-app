@@ -4,7 +4,7 @@ import { Label } from '../Label/Label';
 import { PopupList } from '../PopupList/PopupList';
 import { LinkEdit } from '../LinkEdit/LinkEdit';
 
-export const Item = ({ text, titleValue, labels, src, isClickLabel, onClickLabel, onClickDetail, isShowDetailItem }) => {
+export const Item = ({ text, titleValue, labels, src, onClickDetail, isShowDetailItem }) => {
 
   const [isShowEditLink, setIsShowEditLink]= useState(false);
   const [isShowPopupList, setIsShowPopupList]= useState(false);
@@ -45,8 +45,6 @@ export const Item = ({ text, titleValue, labels, src, isClickLabel, onClickLabel
                   color={oneLabel.color}
                   title={oneLabel.title}
                   key={oneLabel.id}
-                  isClickedLabel={isClickLabel}
-                  onClickLabel={onClickLabel}
                 />
               ))}
             </aside>
