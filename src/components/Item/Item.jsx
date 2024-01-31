@@ -3,11 +3,13 @@ import { Label } from '../Label/Label';
 // import { Tag } from '../Tag/Tag';
 import { PopupList } from '../PopupList/PopupList';
 import { LinkEdit } from '../LinkEdit/LinkEdit';
+import { useDetail } from '../../context/DetailContext';
 
-export const Item = ({ text, titleValue, labels, src, isClickLabel, onClickLabel, onClickDetail, isShowDetailItem }) => {
+export const Item = ({ text, titleValue, labels, src}) => {
 
   const [isShowEditLink, setIsShowEditLink]= useState(false);
   const [isShowPopupList, setIsShowPopupList]= useState(false);
+  const { isShowDetailItem, onClickDetail } = useDetail();
 
   const onMouseEnter = () => {
     setIsShowEditLink(true);
@@ -45,8 +47,6 @@ export const Item = ({ text, titleValue, labels, src, isClickLabel, onClickLabel
                   color={oneLabel.color}
                   title={oneLabel.title}
                   key={oneLabel.id}
-                  isClickedLabel={isClickLabel}
-                  onClickLabel={onClickLabel}
                 />
               ))}
             </aside>
