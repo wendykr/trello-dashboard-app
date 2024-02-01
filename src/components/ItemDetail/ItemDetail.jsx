@@ -22,8 +22,9 @@ export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
     setIsClickEditHeading(true);
   }
 
-  const onBlurHandler = () => {
+  const onBlurHandler = (event) => {
     setIsClickEditHeading(false);
+    setTitleValue(event.target.value);
   };
 
   return (

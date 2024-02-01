@@ -5,9 +5,9 @@ import { PopupList } from '../PopupList/PopupList';
 import { LinkEdit } from '../LinkEdit/LinkEdit';
 import { useDetail } from '../../context/DetailContext';
 
-export const Item = ({ text, titleValue, labels, src}) => {
+export const Item = ({ text, titleValue, labels, src }) => {
 
-  const [isShowEditLink, setIsShowEditLink]= useState(false);
+  const [isShowEditLink, setIsShowEditLink] = useState(false);
   const [isShowPopupList, setIsShowPopupList]= useState(false);
   const { isShowDetailItem, onClickDetail } = useDetail();
 
