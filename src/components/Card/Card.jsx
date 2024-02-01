@@ -96,8 +96,8 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
             onClick={onClickEditHeading} 
             >{titleValue}
-          </h3>}
-
+          </h3>
+        }
         <LinkMore />
       </div>
 
