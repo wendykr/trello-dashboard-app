@@ -8,11 +8,13 @@ export const DetailProvider = ({ children }) => {
   const [detailHeadline, setDetailHeadline] = useState('');
   const [detailTitle, setDetailTitle] = useState('');
   const [detailSrc, setDetailSrc] = useState('');
+  const [detailDescription, setDetailDescription] = useState('');
 
-  const onClickDetail = (title, headline, src) => {
+  const onClickDetail = (title, headline, src, description) => {
     setDetailTitle(title);
     setDetailHeadline(headline);
     setDetailSrc(src);
+    setDetailDescription(description);
     setIsShowDetailItem(true);
   }
 
@@ -22,6 +24,7 @@ export const DetailProvider = ({ children }) => {
       detailHeadline, setDetailHeadline,
       detailTitle, setDetailTitle,
       detailSrc, setDetailSrc,
+      detailDescription, setDetailDescription,
       onClickDetail
     }}>
       {children}

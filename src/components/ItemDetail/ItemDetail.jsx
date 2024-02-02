@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { LinkClose } from '../LinkClose/LinkClose';
 import { Textarea } from '../Textarea/Textarea';
 
-export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
+export const ItemDetail = ({ title, headline, src, description, onClickLinkClose }) => {
   const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
+  const [isClickEditDescription, setIsClickEditDescription] = useState(false);
   const refValue = useRef(null);
 
   useEffect(() => {
@@ -27,12 +28,16 @@ export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
     setTitleValue(event.target.value);
   };
 
+  const onClickEditDescription = () => {
+    setIsClickEditDescription(true);
+  }
+
   return (
     <div
       className="w-[60%] h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
         { src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure> }
         <div className="p-10">
-          <div className="mx-[-10px] flex flex-row justify-between">
+          <div className="mx-[-10px] flex flex-row justify-between gap-2">
             {
               isClickEditHeading ?
                 <Textarea
@@ -51,7 +56,13 @@ export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
             <LinkClose onClickLinkClose={onClickLinkClose} />
           </div>
           <p>Ve sloupci <span className="underline">{headline}</span></p>
-          <div className="mt-6">Popis</div>
+          <div className="mt-6"><h3 className="mb-4 font-semibold">Popis</h3>
+          {
+            isClickEditDescription ?
+              <Textarea /> :
+              description ? <div onClick={onClickEditDescription} className="cursor-pointer">{description}</div> : <div onClick={onClickEditDescription} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">Detailnější popis...</div>
+          }
+          </div>
         </div>
 
     </div>

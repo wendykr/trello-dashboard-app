@@ -11,6 +11,7 @@ export const Checklist = ({ cards, titleValue }) => {
             text={oneCard.title}
             titleValue={titleValue}
             src={oneCard.image}
+            description={oneCard.description}
             labels={oneCard.labels}
             key={oneCard.id}
           />

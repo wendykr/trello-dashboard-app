@@ -15,7 +15,7 @@ export const DashboardPage = () => {
 
   const {
     isShowDetailItem, setIsShowDetailItem,
-    detailHeadline, detailTitle, setDetailTitle, detailSrc
+    detailHeadline, detailTitle, setDetailTitle, detailSrc, detailDescription
   } = useDetail();
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <ItemDetail title={detailTitle} headline={detailHeadline} src={detailSrc} onClickLinkClose={onClickLinkClose} onUpdateTitleValue={onUpdateTitleValue} /> }
+      {isShowDetailItem && <ItemDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickLinkClose={onClickLinkClose} onUpdateTitleValue={onUpdateTitleValue} /> }
     </main>
   )
 }

@@ -57,7 +57,7 @@ export const tasksData = [
       {
         id: 1,
         title: 'English',
-        description: 'lorem ipsum',
+        description: '',
         image: '',
         labels: [
           {
@@ -98,7 +98,7 @@ export const tasksData = [
       {
         id: 3,
         title: 'Programming Trello Dashboard',
-        description: 'lorem ipsum',
+        description: '',
         image: '',
         // labels: [
 
