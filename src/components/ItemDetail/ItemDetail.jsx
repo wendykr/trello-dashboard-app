@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { LinkClose } from '../LinkClose/LinkClose';
 import { Textarea } from '../Textarea/Textarea';
 
-export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
+export const ItemDetail = ({ idRow, idColumn, title, headline, src, onClickLinkClose }) => {
   const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
@@ -22,9 +22,12 @@ export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
     setIsClickEditHeading(true);
   }
 
-  const onBlurHandler = (event) => {
+  const onBlurHandler = () => {
     setIsClickEditHeading(false);
-    setTitleValue(event.target.value);
+  };
+
+  const onClickLinkCloseHandler = () => {
+    onClickLinkClose(idRow, idColumn, titleValue);
   };
 
   return (
@@ -48,7 +51,7 @@ export const ItemDetail = ({ title, headline, src, onClickLinkClose }) => {
                 /> :
                 <h2 onClick={onClickEditHeading} className="px-[10px] w-full h-10 text-xl font-semibold flex items-center">{ titleValue }</h2>
             }
-            <LinkClose onClickLinkClose={onClickLinkClose} />
+            <LinkClose onClickLinkClose={onClickLinkCloseHandler} />
           </div>
           <p>Ve sloupci <span className="underline">{headline}</span></p>
           <div className="mt-6">Popis</div>

@@ -6,7 +6,7 @@ import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 import { Textarea } from '../Textarea/Textarea';
 
-export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
+export const Card = ({ title, idColumn, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
   const [isClickLinkClose, setIsClickLinkClose] = useState(true);
@@ -75,7 +75,7 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
   };
 
   const handleClickCopy = () => {
-    onClickCopy(id);
+    onClickCopy(idColumn);
   }
 
   return (
@@ -103,6 +103,7 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
 
       <div className="h-full overflow-x-hidden overflow-y-auto">
         <Checklist
+          idColumn={idColumn}
           cards={rows}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}

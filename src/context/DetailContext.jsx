@@ -8,12 +8,16 @@ export const DetailProvider = ({ children }) => {
   const [detailHeadline, setDetailHeadline] = useState('');
   const [detailTitle, setDetailTitle] = useState('');
   const [detailSrc, setDetailSrc] = useState('');
+  const [idRow, setIdRow] = useState('');
+  const [idColumn, setIdColumn] = useState('');
 
-  const onClickDetail = (title, headline, src) => {
+  const onClickDetail = (title, headline, src, idColumn, idRow) => {
     setDetailTitle(title);
     setDetailHeadline(headline);
     setDetailSrc(src);
     setIsShowDetailItem(true);
+    setIdColumn(idColumn);
+    setIdRow(idRow);
   }
 
   return (
@@ -22,6 +26,8 @@ export const DetailProvider = ({ children }) => {
       detailHeadline, setDetailHeadline,
       detailTitle, setDetailTitle,
       detailSrc, setDetailSrc,
+      idRow, setIdRow,
+      idColumn, setIdColumn,
       onClickDetail
     }}>
       {children}

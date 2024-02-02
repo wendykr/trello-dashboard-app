@@ -15,7 +15,8 @@ export const DashboardPage = () => {
 
   const {
     isShowDetailItem, setIsShowDetailItem,
-    detailHeadline, detailTitle, setDetailTitle, detailSrc
+    detailHeadline, detailTitle, detailSrc,
+    idRow, idColumn
   } = useDetail();
 
   useEffect(() => {
@@ -24,10 +25,38 @@ export const DashboardPage = () => {
     }
   }, [isClickLinkClose, refValueColumn]);
 
-  const onClickLinkClose = () => {
+  useEffect(() => {
+    console.log('Columns changed:', columns);
+  }, [columns]);
+
+  const onUpdateItemValue = (clickedColumnId, clickedRowId, newValue) => {
+    console.log('newValue', newValue);
+    const updatedColumns = columns.map(column => {
+      if (column.id === clickedColumnId) {
+        console.log('column.id', column.id);
+        console.log('clickedColumnId', clickedColumnId);
+        const updatedCards = column.cards.map(card => {
+          if (card.id === clickedRowId) {
+            console.log('card.id', card.id);
+            console.log('clickedRowId', clickedRowId);
+            return { ...card, title: newValue };
+          }
+          return card;
+        });
+        return { ...column, cards: updatedCards };
+      }
+      return column;
+    });
+
+    setColumns(updatedColumns);
+    console.log(updatedColumns);
+  };
+
+  const onClickLinkClose = (closedIdRow, closedIdColumn, closedTitleValue) => {
     setIsClickLinkClose(false);
     setIsShowDetailItem(false);
-  }
+    onUpdateItemValue(closedIdRow, closedIdColumn, closedTitleValue);
+  };
 
   const onClickNewColumn = () => {
     setIsClickLinkClose(true);
@@ -76,10 +105,6 @@ export const DashboardPage = () => {
     }
   };
 
-  const onUpdateTitleValue = (newTitle) => {
-    setDetailTitle(newTitle);
-  };
-
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -90,7 +115,7 @@ export const DashboardPage = () => {
               title={oneTask.title}
               cards={oneTask.cards}
               key={oneTask.id}
-              id={oneTask.id}
+              idColumn={oneTask.id}
               onClickCopy={onClickCopy}
               detailTitle={detailTitle}
             />
@@ -112,7 +137,8 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <ItemDetail title={detailTitle} headline={detailHeadline} src={detailSrc} onClickLinkClose={onClickLinkClose} onUpdateTitleValue={onUpdateTitleValue} /> }
+      {isShowDetailItem && <ItemDetail idRow={idRow} idColumn={idColumn} title={detailTitle} headline={detailHeadline} src={detailSrc} onClickLinkClose={onClickLinkClose} onUpdateItemValue={onUpdateItemValue}
+      /> }
     </main>
   )
 }
