@@ -4,7 +4,7 @@ export const LinkClose = ({ onClickLinkClose }) => {
 
   return (
     <a href="#"
-      className="p-1.5 hover:bg-[#091e4224] text-[#44546f] rounded-[3px]"
+      className="p-1.5 hover:bg-[#091e4224] text-[#44546f] rounded-[3px] flex justify-center items-center"
       onClick={onClickLinkClose}>
       <svg className="w-6 h-6 fill-current" viewBox="0 0 20 20">
         <path
