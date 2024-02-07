@@ -5,6 +5,7 @@ import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
 import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
 import { useDetail } from '../../context/DetailContext';
+import { v4 as uuidv4 } from 'uuid';
 
 export const DashboardPage = () => {
 
@@ -37,7 +38,7 @@ export const DashboardPage = () => {
     event.preventDefault();
     if (textareaValue) {
       const newColumn = {
-        id: Date.now(),
+        id: uuidv4(),
         title: textareaValue,
         cards: [
         ]
@@ -69,7 +70,7 @@ export const DashboardPage = () => {
     if (clickedColumn) {
       const copiedColumn = {
         ...clickedColumn,
-        id: Date.now(),
+        id: uuidv4(),
       };
 
       setColumns([...columns, copiedColumn]);

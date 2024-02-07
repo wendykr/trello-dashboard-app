@@ -5,6 +5,7 @@ import { Form } from '../Form/Form';
 import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 import { Textarea } from '../Textarea/Textarea';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
 
@@ -42,7 +43,7 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
     event.preventDefault();
     if (textareaValue) {
       const newRow = {
-        id: Date.now(),
+        id: uuidv4(),
         title: textareaValue
       };
 
