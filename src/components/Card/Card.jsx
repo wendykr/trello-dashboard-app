@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Checklist } from '../Checklist/Checklist';
 import { AddCard } from '../AddCard/AddCard';
 import { Form } from '../Form/Form';
 import { LinkCopy } from '../LinkCopy/LinkCopy';
 import { LinkMore } from '../LinkMore/LinkMore';
 import { Textarea } from '../Textarea/Textarea';
-import { v4 as uuidv4 } from 'uuid';
 
 export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
 
@@ -50,10 +52,32 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
       setRows(prevRows => [...prevRows, newRow]);
 
       setTextareaValue('');
+      toast.success('Vložena nová karta.', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
       onClickLinkClose();
     } else {
       // add red outlet for textarea
       refValue.current.focus();
+      toast.error('Zadej název karty!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     }
   }
 
