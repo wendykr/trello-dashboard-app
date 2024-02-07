@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { tasksData } from '../../constants/tasks';
+import { v4 as uuidv4 } from 'uuid';
+import { toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Card } from '../../components/Card/Card';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
 import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
 import { useDetail } from '../../context/DetailContext';
-import { v4 as uuidv4 } from 'uuid';
 
 export const DashboardPage = () => {
 
@@ -47,10 +49,32 @@ export const DashboardPage = () => {
       setColumns(prevColumns => [...prevColumns, newColumn]);
 
       setTextareaValue('');
+      toast.success('Přidaný nový sloupec.', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
       onClickLinkClose();
     } else {
       // add red outlet for textarea
       refValueColumn.current.focus();
+      toast.error('Zadej jméno sloupce!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     }
   }
 
@@ -74,6 +98,17 @@ export const DashboardPage = () => {
       };
 
       setColumns([...columns, copiedColumn]);
+      toast.success('Sloupec byl duplikován.', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     }
   };
 
