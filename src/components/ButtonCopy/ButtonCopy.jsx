@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LinkCopy = ({ handleClickCopy }) => {
+export const ButtonCopy = ({ handleClickCopy }) => {
 
   return (
     <a href="#"

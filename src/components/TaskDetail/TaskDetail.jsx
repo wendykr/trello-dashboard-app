@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LinkClose } from '../LinkClose/LinkClose';
+import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 
-export const ItemDetail = ({ title, headline, src, description, onClickLinkClose }) => {
+export const TaskDetail = ({ title, headline, src, description, onClickButtonClose }) => {
   const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
@@ -53,7 +53,7 @@ export const ItemDetail = ({ title, headline, src, description, onClickLinkClose
                 /> :
                 <h2 onClick={onClickEditHeading} className="px-[10px] w-full h-10 text-xl font-semibold flex items-center">{ titleValue }</h2>
             }
-            <LinkClose onClickLinkClose={onClickLinkClose} />
+            <ButtonClose onClickButtonClose={onClickButtonClose} />
           </div>
           <p>Ve sloupci <span className="underline">{headline}</span></p>
           <div className="mt-6"><h3 className="mb-4 font-semibold">Popis</h3>

@@ -2,22 +2,31 @@ import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Checklist } from '../Checklist/Checklist';
+import { Tasks } from '../Tasks/Tasks';
 import { AddCard } from '../AddCard/AddCard';
 import { Form } from '../Form/Form';
-import { LinkCopy } from '../LinkCopy/LinkCopy';
-import { LinkMore } from '../LinkMore/LinkMore';
+import { ButtonCopy } from '../ButtonCopy/ButtonCopy';
+import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
+import { useDrop } from 'react-dnd';
 
-export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
+export const List = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "li",
+    drop: (item) => addItemToCard(item.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver()
+    })
+  }));
 
   const [isClickAddCard, setIsClickAddCard] = useState(false);
-  const [isClickLinkClose, setIsClickLinkClose] = useState(true);
+  const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue,setTitleValue] = useState(title);
   const [rows, setRows] = useState(cards);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
+  const [filteredRows, setFilteredRows] = useState([]);
 
   useEffect(() => {
     if (isClickEditHeading && refValue.current) {
@@ -33,11 +42,11 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
 
   const onClickAddCard = () => {
     setIsClickAddCard(true);
-    setIsClickLinkClose(false);
+    setIsClickButtonClose(false);
   }
 
-  const onClickLinkClose = () => {
-    setIsClickLinkClose(true);
+  const onClickButtonClose = () => {
+    setIsClickButtonClose(true);
     setIsClickAddCard(false);
   }
 
@@ -46,13 +55,14 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
     if (textareaValue) {
       const newRow = {
         id: uuidv4(),
-        title: textareaValue
+        title: textareaValue,
+        status: title
       };
 
       setRows(prevRows => [...prevRows, newRow]);
 
       setTextareaValue('');
-      toast.success('Vložena nová karta.', {
+      toast.success('Přidaná nová karta.', {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -63,7 +73,7 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
         theme: "light",
         transition: Slide,
       });
-      onClickLinkClose();
+      onClickButtonClose();
     } else {
       // add red outlet for textarea
       refValue.current.focus();
@@ -103,8 +113,23 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
     onClickCopy(id);
   }
 
+  const addItemToCard = (id) => {
+    const updatedRows = rows.filter(card => card.id !== id);
+
+    const draggedCard = rows.find(card => card.id === id);
+    draggedCard.status = title;
+
+    setRows([...updatedRows, draggedCard]);
+  };
+
+  useEffect(() => {
+    const filteredRows = rows.filter(card => card.status === title);
+    setFilteredRows(filteredRows);
+  }, [rows, title]);
+
   return (
-    <section className="flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 bg-[#f1f2f4] text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5">
+    <section ref={drop}
+      className={`flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 ${isOver ? 'bg-[#d4d7de]' : 'bg-[#f1f2f4]'} text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5`}>
       <div className="mx-1 flex flex-row justify-between items-center gap-1">
         { isClickEditHeading ?
           <Textarea
@@ -123,19 +148,19 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
             >{titleValue}
           </h3>
         }
-        <LinkMore />
+        <ButtonMore />
       </div>
 
       <div className="h-full overflow-x-hidden overflow-y-auto">
-        <Checklist
-          cards={rows}
+        <Tasks
+          cards={filteredRows}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}
           titleValue={titleValue}
         />
 
         {
-          isClickAddCard && <Form onClickLinkClose={onClickLinkClose} onClickButton={onClickButton} onChangeValue={onChangeValueTextarea} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
+          isClickAddCard && <Form onClickButtonClose={onClickButtonClose} onClickButton={onClickButton} onChangeValue={onChangeValueTextarea} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
         }
       </div>
 
@@ -143,7 +168,7 @@ export const Card = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
         !isClickAddCard &&
           <div className="flex flex-row mx-1">
             <AddCard onClickAddCard={onClickAddCard} />
-            <LinkCopy handleClickCopy={handleClickCopy} />
+            <ButtonCopy handleClickCopy={handleClickCopy} />
           </div>
       }
 
