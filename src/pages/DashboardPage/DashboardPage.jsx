@@ -87,7 +87,6 @@ export const DashboardPage = () => {
   };
 
   const onClickCopy = (clickedTaskId) => {
-    console.log('click');
 
     const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
 

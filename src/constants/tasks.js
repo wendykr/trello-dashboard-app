@@ -8,7 +8,7 @@ export const tasksData = [
   {
     id: 2,
     title: 'TypeScript',
-    description: 'lorem ipsum',
+    description: 'Chci se jej naučit v Reactu k typování komponent, props, stavů a dalších stavebních bloků.',
     image: typescript_img,
     labels: [
       {
@@ -22,7 +22,7 @@ export const tasksData = [
   {
     id: 3,
     title: 'Figma',
-    description: 'lorem ipsum',
+    description: 'Naučit se navrhovat jednoduché wireframy a prototypy webových aplikací, pro kódování do HTML/CSS. Design a barvy ladící oku ráda přenechám zkušenějším grafikům :-)',
     image: '',
     labels: [
       {
@@ -36,7 +36,7 @@ export const tasksData = [
   {
     id: 4,
     title: 'Coaching course on Prague - Úvod do HTML a CSS',
-    description: 'lorem ipsum',
+    description: '',
     image: '',
     labels: [
       {
@@ -50,7 +50,7 @@ export const tasksData = [
   {
     id: 6,
     title: 'English',
-    description: '',
+    description: 'Pracuju na sobě a učím se tak, abych se mohla dále vzdělávat ve frontendu zahraničními online kurzy a tutoriály.',
     image: '',
     labels: [
       {
@@ -69,7 +69,7 @@ export const tasksData = [
   {
     id: 7,
     title: 'Vite',
-    description: 'lorem ipsum',
+    description: '',
     image: vite_img,
     labels: [
       {
@@ -102,7 +102,7 @@ export const tasksData = [
   {
     id: 9,
     title: 'React 1 - Základy',
-    description: 'lorem ipsum',
+    description: 'Třídím si své myšlenky a naučené postupy, abych sladila své znalosti s rozsahem kurzu. Mou další cestou je se bez jakýchkoliv obav přihlásit na kurz React 2 - Nástroje a techniky.',
     image: react_img,
     labels: [
       {
@@ -116,7 +116,7 @@ export const tasksData = [
   {
     id:10,
     title: 'Supabase',
-    description: 'lorem ipsum',
+    description: 'Backendová služba, které chci znát více do hloubky, abych dokázala ve webových aplikacích pracovat s dynamickými daty.',
     image: supabase_img,
     // labels: [
     // ],
@@ -125,7 +125,7 @@ export const tasksData = [
   {
     id: 11,
     title: 'Tailwind CSS',
-    description: 'lorem ipsum',
+    description: 'Ráda si osahávám nové technologie, abych si dokázala zhodnotit, jestli je budu chtít na svých projektech využívat, či nikoliv.',
     image: tailwind_img,
     // labels: [
     // ],
