@@ -1,7 +1,7 @@
 import react_img from '../assets/img/react_header.jpg';
 import supabase_img from '../assets/img/supabase_header.jpg';
 import tailwind_img from '../assets/img/tailwind_header.jpg';
-import typescript_img from '../assets/img/react_header.jpg';
+import typescript_img from '../assets/img/typescript_header.jpg';
 import vite_img from '../assets/img/vite_header.jpg';
 
 export const tasksData = [
