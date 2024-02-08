@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from '../Button/Button';
 import { Textarea } from '../Textarea/Textarea';
-import { LinkClose } from '../LinkClose/LinkClose';
+import { ButtonClose } from '../ButtonClose/ButtonClose';
 
-export const Form = ({ onClickButton, onClickLinkClose, onChangeValue, onBlurHandler, textareaValue, refValue }) => {
+export const Form = ({ onClickButton, onClickButtonClose, onChangeValue, onBlurHandler, textareaValue, refValue }) => {
 
   return (
     <form action="" className="mx-1 my-2">
@@ -19,7 +19,7 @@ export const Form = ({ onClickButton, onClickLinkClose, onChangeValue, onBlurHan
       />
       <div className="flex flex-row items-center gap-1">
         <Button text="Přidat kartu" onClickButton={onClickButton} />
-        <LinkClose onClickLinkClose={onClickLinkClose} />
+        <ButtonClose onClickButtonClose={onClickButtonClose} />
       </div>
     </form>
   )

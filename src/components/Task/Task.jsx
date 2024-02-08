@@ -2,35 +2,43 @@ import React, {useState} from 'react';
 import { Label } from '../Label/Label';
 // import { Tag } from '../Tag/Tag';
 import { PopupList } from '../PopupList/PopupList';
-import { LinkEdit } from '../LinkEdit/LinkEdit';
+import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
+import { useDrag } from 'react-dnd';
 
-export const Item = ({ text, titleValue, labels, src, description }) => {
+export const Task = ({ id, text, titleValue, labels, src, description }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "li",
+    item: {id},
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }));
 
-  const [isShowEditLink, setIsShowEditLink] = useState(false);
+  const [isShowEditButton, setIsShowEditButton] = useState(false);
   const [isShowPopupList, setIsShowPopupList]= useState(false);
   const { isShowDetailItem, onClickDetail } = useDetail();
 
   const onMouseEnter = () => {
-    setIsShowEditLink(true);
+    setIsShowEditButton(true);
   };
 
   const onMouseLeave = () => {
-    setIsShowEditLink(false);
+    setIsShowEditButton(false);
   };
 
   const handleClickDetail = () => {
     onClickDetail(text, titleValue, src, description);
   }
 
-  const onClickLinkEdit = (event) => {
+  const onClickButtonEdit = (event) => {
     event.stopPropagation();
     setIsShowPopupList(true);
   }
 
   return (
-    <li 
-      className={`relative ${isShowDetailItem ? '' : 'z-20'} mx-1 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)]`}
+    <li ref={drag}
+      className={`relative ${isShowDetailItem ? '' : 'z-20'} mx-1 my-2 bg-white text-[#1d284c] leading-snug cursor-pointer hover:outline hover:outline-2 hover:outline-[#5881fd] rounded-lg shadow-[0_1px_0px_rgba(9,30,66,0.3)] ${isDragging ? 'opacity-25' : 'opacity-100'}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={handleClickDetail}
@@ -61,7 +69,7 @@ export const Item = ({ text, titleValue, labels, src, description }) => {
         </aside> */}
       </div>
       {isShowPopupList && <PopupList />}
-      {isShowEditLink && <LinkEdit onClickLinkEdit={onClickLinkEdit} />}
+      {isShowEditButton && <ButtonEdit onClickButtonEdit={onClickButtonEdit} />}
     </li>
   )
 }

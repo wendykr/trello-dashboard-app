@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { listsData } from '../../constants/lists';
 import { tasksData } from '../../constants/tasks';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Card } from '../../components/Card/Card';
+import { List } from '../../components/List/List';
 import { NewColumn } from '../../components/NewColumn/NewColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
-import { ItemDetail } from '../../components/ItemDetail/ItemDetail';
+import { TaskDetail } from '../../components/TaskDetail/TaskDetail';
 import { useDetail } from '../../context/DetailContext';
 
 export const DashboardPage = () => {
 
-  const [isClickLinkClose, setIsClickLinkClose] = useState(false);
+  const [isClickButtonClose, setIsClickButtonClose] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
-  const [columns, setColumns] = useState(tasksData);
+  const [columns, setColumns] = useState(listsData);
   const refValueColumn = useRef(null);
 
   const {
@@ -22,18 +23,18 @@ export const DashboardPage = () => {
   } = useDetail();
 
   useEffect(() => {
-    if (isClickLinkClose && refValueColumn.current) {
+    if (isClickButtonClose && refValueColumn.current) {
       refValueColumn.current.focus();
     }
-  }, [isClickLinkClose, refValueColumn]);
+  }, [isClickButtonClose, refValueColumn]);
 
-  const onClickLinkClose = () => {
-    setIsClickLinkClose(false);
+  const onClickButtonClose = () => {
+    setIsClickButtonClose(false);
     setIsShowDetailItem(false);
   }
 
   const onClickNewColumn = () => {
-    setIsClickLinkClose(true);
+    setIsClickButtonClose(true);
   }
 
   const onClickButton = (event) => {
@@ -41,9 +42,7 @@ export const DashboardPage = () => {
     if (textareaValue) {
       const newColumn = {
         id: uuidv4(),
-        title: textareaValue,
-        cards: [
-        ]
+        name: textareaValue,
       };
 
       setColumns(prevColumns => [...prevColumns, newColumn]);
@@ -60,7 +59,7 @@ export const DashboardPage = () => {
         theme: "light",
         transition: Slide,
       });
-      onClickLinkClose();
+      onClickButtonClose();
     } else {
       // add red outlet for textarea
       refValueColumn.current.focus();
@@ -84,10 +83,11 @@ export const DashboardPage = () => {
   }
 
   const onBlurHandler = () => {
-    setIsClickLinkClose(false);
+    setIsClickButtonClose(false);
   };
 
   const onClickCopy = (clickedTaskId) => {
+    console.log('click');
 
     const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
 
@@ -122,9 +122,9 @@ export const DashboardPage = () => {
         <div id="overlay" className={`${isShowDetailItem ? '' : 'hidden'} fixed top-0 left-0 w-full h-screen bg-black bg-opacity-70 z-10`}></div>
         {
           columns.map(oneTask => (
-            <Card
-              title={oneTask.title}
-              cards={oneTask.cards}
+            <List
+              title={oneTask.name}
+              cards={tasksData}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
@@ -134,9 +134,9 @@ export const DashboardPage = () => {
         }
         <div>
           {
-            isClickLinkClose ?
+            isClickButtonClose ?
               <FormColumn
-                onClickLinkClose={onClickLinkClose}
+                onClickButtonClose={onClickButtonClose}
                 onClickButton={onClickButton}
                 onChangeValue={onChangeValue}
                 textareaValue={textareaValue}
@@ -148,7 +148,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <ItemDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickLinkClose={onClickLinkClose} onUpdateTitleValue={onUpdateTitleValue} /> }
+      {isShowDetailItem && <TaskDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={onUpdateTitleValue} /> }
     </main>
   )
 }
