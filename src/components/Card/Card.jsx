@@ -6,7 +6,7 @@ import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
 import { useDrag } from 'react-dnd';
 
-export const Task = ({ id, text, titleValue, labels, src, description }) => {
+export const Card = ({ id, text, titleValue, labels, src, description }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "li",
     item: {id},

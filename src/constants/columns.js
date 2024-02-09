@@ -1,4 +1,4 @@
-export const listsData = [
+export const columnsData = [
   {
     id: 1,
     name: 'Todo',

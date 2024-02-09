@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 
-export const TaskDetail = ({ title, headline, src, description, onClickButtonClose }) => {
+export const CardDetail = ({ title, headline, src, description, onClickButtonClose }) => {
   const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);

@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Tasks } from '../Tasks/Tasks';
-import { AddCard } from '../AddCard/AddCard';
+import { CardsList } from '../CardsList/CardsList';
+import { ButtonAddCard } from '../ButtonAddCard/ButtonAddCard';
 import { Form } from '../Form/Form';
 import { ButtonCopy } from '../ButtonCopy/ButtonCopy';
 import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
 import { useDrop } from 'react-dnd';
 
-export const List = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
+export const Column = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "li",
     drop: (item) => addItemToCard(item.id),
@@ -19,7 +19,7 @@ export const List = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
     })
   }));
 
-  const [isClickAddCard, setIsClickAddCard] = useState(false);
+  const [isClickButtonAddCard, setIsClickButtonAddCard] = useState(false);
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue,setTitleValue] = useState(title);
@@ -35,19 +35,19 @@ export const List = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
   }, [isClickEditHeading, refValue]);
 
   useEffect(() => {
-    if (isClickAddCard && refValue.current) {
+    if (isClickButtonAddCard && refValue.current) {
       refValue.current.focus();
     }
-  }, [isClickAddCard, refValue]);
+  }, [isClickButtonAddCard, refValue]);
 
-  const onClickAddCard = () => {
-    setIsClickAddCard(true);
+  const onClickButtonAddCard = () => {
+    setIsClickButtonAddCard(true);
     setIsClickButtonClose(false);
   }
 
   const onClickButtonClose = () => {
     setIsClickButtonClose(true);
-    setIsClickAddCard(false);
+    setIsClickButtonAddCard(false);
   }
 
   const onClickButton = (event) => {
@@ -152,7 +152,7 @@ export const List = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
       </div>
 
       <div className="h-full overflow-x-hidden overflow-y-auto">
-        <Tasks
+        <CardsList
           cards={filteredRows}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}
@@ -160,14 +160,14 @@ export const List = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetai
         />
 
         {
-          isClickAddCard && <Form onClickButtonClose={onClickButtonClose} onClickButton={onClickButton} onChangeValue={onChangeValueTextarea} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
+          isClickButtonAddCard && <Form onClickButtonClose={onClickButtonClose} onClickButton={onClickButton} onChangeValue={onChangeValueTextarea} textareaValue={textareaValue} refValue={refValue} onBlurHandler={onBlurHandler}/>
         }
       </div>
 
       {
-        !isClickAddCard &&
+        !isClickButtonAddCard &&
           <div className="flex flex-row mx-1">
-            <AddCard onClickAddCard={onClickAddCard} />
+            <ButtonAddCard onClickAddCard={onClickButtonAddCard} />
             <ButtonCopy handleClickCopy={handleClickCopy} />
           </div>
       }

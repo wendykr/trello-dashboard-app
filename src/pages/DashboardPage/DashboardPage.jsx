@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { listsData } from '../../constants/lists';
-import { tasksData } from '../../constants/tasks';
+import { columnsData } from '../../constants/columns';
+import { cardsData } from '../../constants/cards';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { List } from '../../components/List/List';
-import { NewColumn } from '../../components/NewColumn/NewColumn';
+import { Column } from '../../components/Column/Column';
+import { ButtonAddColumn } from '../../components/ButtonAddColumn/ButtonAddColumn';
 import { FormColumn } from '../../components/FormColumn/FormColumn';
-import { TaskDetail } from '../../components/TaskDetail/TaskDetail';
+import { CardDetail } from '../../components/CardDetail/CardDetail';
 import { useDetail } from '../../context/DetailContext';
 
 export const DashboardPage = () => {
 
   const [isClickButtonClose, setIsClickButtonClose] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
-  const [columns, setColumns] = useState(listsData);
+  const [columns, setColumns] = useState(columnsData);
   const refValueColumn = useRef(null);
 
   const {
@@ -33,7 +33,7 @@ export const DashboardPage = () => {
     setIsShowDetailItem(false);
   }
 
-  const onClickNewColumn = () => {
+  const onClickButtonAddColumn = () => {
     setIsClickButtonClose(true);
   }
 
@@ -121,9 +121,9 @@ export const DashboardPage = () => {
         <div id="overlay" className={`${isShowDetailItem ? '' : 'hidden'} fixed top-0 left-0 w-full h-screen bg-black bg-opacity-70 z-10`}></div>
         {
           columns.map(oneTask => (
-            <List
+            <Column
               title={oneTask.name}
-              cards={tasksData}
+              cards={cardsData}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
@@ -143,11 +143,11 @@ export const DashboardPage = () => {
                 onBlurHandler={onBlurHandler}
               />
               :
-              <NewColumn onClickNewColumn={onClickNewColumn} />
+              <ButtonAddColumn onClickAddColumn={onClickButtonAddColumn} />
           }
         </div>
       </div>
-      {isShowDetailItem && <TaskDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={onUpdateTitleValue} /> }
+      {isShowDetailItem && <CardDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={onUpdateTitleValue} /> }
     </main>
   )
 }

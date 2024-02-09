@@ -1,13 +1,13 @@
 import React from 'react';
-import { Task } from '../Task/Task';
+import { Card } from '../Card/Card';
 
-export const Tasks = ({ cards, titleValue }) => {
+export const CardsList = ({ cards, titleValue }) => {
 
   return (
     <ul className="relative overflow-visible">
       {
         cards.map(oneCard => (
-          <Task
+          <Card
             id={oneCard.id}
             text={oneCard.title}
             titleValue={titleValue}
