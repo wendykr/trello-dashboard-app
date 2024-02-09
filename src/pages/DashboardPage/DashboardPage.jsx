@@ -14,13 +14,22 @@ export const DashboardPage = () => {
 
   const [isClickButtonClose, setIsClickButtonClose] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
-  const [columns, setColumns] = useState(columnsData);
+  const [columns, setColumns] = useState(() => {
+    const storedColumns = JSON.parse(localStorage.getItem("columns"));
+    return storedColumns || columnsData;
+  });
   const refValueColumn = useRef(null);
 
   const {
     isShowDetailItem, setIsShowDetailItem,
     detailHeadline, detailTitle, setDetailTitle, detailSrc, detailDescription
   } = useDetail();
+
+  useEffect(() => {
+    if (!localStorage.getItem("columns")) {
+      localStorage.setItem("columns", JSON.stringify(columnsData));
+    }
+  }, []);
 
   useEffect(() => {
     if (isClickButtonClose && refValueColumn.current) {
@@ -45,7 +54,10 @@ export const DashboardPage = () => {
         name: textareaValue,
       };
 
-      setColumns(prevColumns => [...prevColumns, newColumn]);
+      const updatedColumns = [...columns, newColumn];
+      setColumns(updatedColumns);
+
+      localStorage.setItem("columns", JSON.stringify(updatedColumns));
 
       setTextareaValue('');
       toast.success('Přidaný nový sloupec.', {
@@ -95,6 +107,11 @@ export const DashboardPage = () => {
         ...clickedColumn,
         id: uuidv4(),
       };
+
+      const copiedColumns = [...columns, copiedColumn];
+      setColumns(copiedColumns);
+
+      localStorage.setItem("columns", JSON.stringify(copiedColumns));
 
       setColumns([...columns, copiedColumn]);
       toast.success('Sloupec byl duplikován.', {
