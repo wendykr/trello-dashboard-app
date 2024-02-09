@@ -23,10 +23,19 @@ export const Column = ({ title, id, cards, onClickCopy, onClickDetail, isShowDet
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue,setTitleValue] = useState(title);
-  const [rows, setRows] = useState(cards);
+  const [rows, setRows] = useState(() => {
+    const storedRows = JSON.parse(localStorage.getItem("cards"));
+    return storedRows || cards;
+  });
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
   const [filteredRows, setFilteredRows] = useState([]);
+
+  useEffect(() => {
+    if (!localStorage.getItem("cards")) {
+      localStorage.setItem("cards", JSON.stringify(cards));
+    }
+  }, []);
 
   useEffect(() => {
     if (isClickEditHeading && refValue.current) {
@@ -60,6 +69,11 @@ export const Column = ({ title, id, cards, onClickCopy, onClickDetail, isShowDet
       };
 
       setRows(prevRows => [...prevRows, newRow]);
+
+      const updatedRows = [...rows, newRow];
+      setRows(updatedRows);
+
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
 
       setTextareaValue('');
       toast.success('Přidaná nová karta.', {
@@ -114,12 +128,14 @@ export const Column = ({ title, id, cards, onClickCopy, onClickDetail, isShowDet
   }
 
   const addItemToCard = (id) => {
-    const updatedRows = rows.filter(card => card.id !== id);
-
     const draggedCard = rows.find(card => card.id === id);
     draggedCard.status = title;
 
-    setRows([...updatedRows, draggedCard]);
+    const updatedRows = rows.filter(card => card.id !== id);
+    const updatedColumns = [...updatedRows, draggedCard];
+    setRows(updatedColumns);
+
+    localStorage.setItem("cards", JSON.stringify(updatedColumns));
   };
 
   useEffect(() => {
