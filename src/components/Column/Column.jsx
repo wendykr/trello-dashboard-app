@@ -10,7 +10,7 @@ import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
 import { useDrop } from 'react-dnd';
 
-export const Column = ({ title, id, cards, onClickCopy, onClickDetail, isShowDetailItem }) => {
+export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "li",
     drop: (item) => addItemToCard(item.id),
@@ -23,19 +23,9 @@ export const Column = ({ title, id, cards, onClickCopy, onClickDetail, isShowDet
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue,setTitleValue] = useState(title);
-  const [rows, setRows] = useState(() => {
-    const storedRows = JSON.parse(localStorage.getItem("cards"));
-    return storedRows || cards;
-  });
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
   const [filteredRows, setFilteredRows] = useState([]);
-
-  useEffect(() => {
-    if (!localStorage.getItem("cards")) {
-      localStorage.setItem("cards", JSON.stringify(cards));
-    }
-  }, []);
 
   useEffect(() => {
     if (isClickEditHeading && refValue.current) {
