@@ -18,6 +18,10 @@ export const DashboardPage = () => {
     const storedColumns = JSON.parse(localStorage.getItem("columns"));
     return storedColumns || columnsData;
   });
+  const [rows, setRows] = useState(() => {
+    const storedRows = JSON.parse(localStorage.getItem("cards"));
+    return storedRows || cardsData;
+  });
   const refValueColumn = useRef(null);
 
   const {
@@ -28,6 +32,10 @@ export const DashboardPage = () => {
   useEffect(() => {
     if (!localStorage.getItem("columns")) {
       localStorage.setItem("columns", JSON.stringify(columnsData));
+    }
+
+    if (!localStorage.getItem("cards")) {
+      localStorage.setItem("cards", JSON.stringify(cardsData));
     }
   }, []);
 
@@ -140,7 +148,8 @@ export const DashboardPage = () => {
           columns.map(oneTask => (
             <Column
               title={oneTask.name}
-              cards={cardsData}
+              rows={rows}
+              setRows={setRows}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
