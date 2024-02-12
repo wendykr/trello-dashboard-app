@@ -19,13 +19,20 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     })
   }));
 
+  const [filteredRows, setFilteredRows] = useState([]);
   const [isClickButtonAddCard, setIsClickButtonAddCard] = useState(false);
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue,setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
-  const [filteredRows, setFilteredRows] = useState([]);
+  const refRows = useRef(rows);
+
+  useEffect(() => {
+    const filteredRows = rows.filter(card => card.status === title);
+    setFilteredRows(filteredRows);
+    refRows.current = rows;
+  }, [rows, title]);
 
   useEffect(() => {
     if (isClickEditHeading && refValue.current) {
@@ -59,8 +66,8 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
       };
 
       const updatedRows = [...rows, newRow];
-      console.log(updatedRows);
       setRows(updatedRows);
+      refRows.current = updatedRows;
 
       localStorage.setItem("cards", JSON.stringify(updatedRows));
 
@@ -117,25 +124,15 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   }
 
   const addItemToCard = (id) => {
-  console.log("ID drop card:", id);
-  console.log("rows:", rows);
-  const draggedCard = rows.find(card => card.id === id);
-  console.log("draggedCard:", draggedCard);
-
+    const draggedCard = refRows.current.find(card => card.id === id);
     draggedCard.status = title;
 
-    const updatedRows = rows.filter(card => card.id !== id);
-    const updatedColumns = [...updatedRows, draggedCard];
-    setRows(updatedColumns);
+    const updatedRows = refRows.current.map(card => (card.id === id ? draggedCard : card));
+    setRows(updatedRows);
+    refRows.current = updatedRows;
 
-    localStorage.setItem("cards", JSON.stringify(updatedColumns));
+    localStorage.setItem("cards", JSON.stringify(updatedRows));
   };
-
-  useEffect(() => {
-    const filteredRows = rows.filter(card => card.status === title);
-    setFilteredRows(filteredRows);
-    console.log('EFECT');
-  }, [rows, title]);
 
   return (
     <section ref={drop}
