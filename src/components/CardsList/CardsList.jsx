@@ -3,6 +3,8 @@ import { Card } from '../Card/Card';
 
 export const CardsList = ({ cards, titleValue }) => {
 
+  console.log('cards', cards);
+
   return (
     <ul className="relative overflow-visible">
       {

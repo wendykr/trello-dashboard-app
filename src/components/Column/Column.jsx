@@ -58,9 +58,8 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
         status: title
       };
 
-      setRows(prevRows => [...prevRows, newRow]);
-
       const updatedRows = [...rows, newRow];
+      console.log(updatedRows);
       setRows(updatedRows);
 
       localStorage.setItem("cards", JSON.stringify(updatedRows));
@@ -118,7 +117,11 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   }
 
   const addItemToCard = (id) => {
-    const draggedCard = rows.find(card => card.id === id);
+  console.log("ID drop card:", id);
+  console.log("rows:", rows);
+  const draggedCard = rows.find(card => card.id === id);
+  console.log("draggedCard:", draggedCard);
+
     draggedCard.status = title;
 
     const updatedRows = rows.filter(card => card.id !== id);
@@ -131,6 +134,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   useEffect(() => {
     const filteredRows = rows.filter(card => card.status === title);
     setFilteredRows(filteredRows);
+    console.log('EFECT');
   }, [rows, title]);
 
   return (
