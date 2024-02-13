@@ -114,6 +114,7 @@ export const DashboardPage = () => {
       const copiedColumn = {
         ...clickedColumn,
         id: uuidv4(),
+        name: 'Kopie ' + clickedColumn.name
       };
 
       const copiedColumns = [...columns, copiedColumn];
