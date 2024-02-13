@@ -127,8 +127,10 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     const draggedCard = refRows.current.find(card => card.id === id);
     draggedCard.status = title;
 
-    const updatedRows = refRows.current.map(card => (card.id === id ? draggedCard : card));
-    setRows(updatedRows);
+    const updatedRows = refRows.current.filter(card => card.id !== id);
+    const updatedColumns = [draggedCard, ...updatedRows];
+    setRows(updatedColumns);
+
     refRows.current = updatedRows;
 
     localStorage.setItem("cards", JSON.stringify(updatedRows));
@@ -151,7 +153,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
           /> :
           <h3
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
-            onClick={onClickEditHeading} 
+            onClick={onClickEditHeading}
             >{titleValue}
           </h3>
         }
