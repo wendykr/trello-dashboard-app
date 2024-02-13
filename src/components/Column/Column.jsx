@@ -19,13 +19,20 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     })
   }));
 
+  const [filteredRows, setFilteredRows] = useState([]);
   const [isClickButtonAddCard, setIsClickButtonAddCard] = useState(false);
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue,setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
-  const [filteredRows, setFilteredRows] = useState([]);
+  const refRows = useRef(rows);
+
+  useEffect(() => {
+    const filteredRows = rows.filter(card => card.status === title);
+    setFilteredRows(filteredRows);
+    refRows.current = rows;
+  }, [rows, title]);
 
   useEffect(() => {
     if (isClickEditHeading && refValue.current) {
@@ -58,10 +65,9 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
         status: title
       };
 
-      setRows(prevRows => [...prevRows, newRow]);
-
       const updatedRows = [...rows, newRow];
       setRows(updatedRows);
+      refRows.current = updatedRows;
 
       localStorage.setItem("cards", JSON.stringify(updatedRows));
 
@@ -118,20 +124,17 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   }
 
   const addItemToCard = (id) => {
-    const draggedCard = rows.find(card => card.id === id);
+    const draggedCard = refRows.current.find(card => card.id === id);
     draggedCard.status = title;
 
-    const updatedRows = rows.filter(card => card.id !== id);
-    const updatedColumns = [...updatedRows, draggedCard];
+    const updatedRows = refRows.current.filter(card => card.id !== id);
+    const updatedColumns = [draggedCard, ...updatedRows];
     setRows(updatedColumns);
 
-    localStorage.setItem("cards", JSON.stringify(updatedColumns));
-  };
+    refRows.current = updatedRows;
 
-  useEffect(() => {
-    const filteredRows = rows.filter(card => card.status === title);
-    setFilteredRows(filteredRows);
-  }, [rows, title]);
+    localStorage.setItem("cards", JSON.stringify(updatedRows));
+  };
 
   return (
     <section ref={drop}
@@ -150,7 +153,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
           /> :
           <h3
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
-            onClick={onClickEditHeading} 
+            onClick={onClickEditHeading}
             >{titleValue}
           </h3>
         }
