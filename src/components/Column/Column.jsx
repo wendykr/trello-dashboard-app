@@ -128,13 +128,11 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     const draggedCard = refRows.current.find(card => card.id === id);
     draggedCard.status = title;
 
-    const updatedRows = refRows.current.filter(card => card.id !== id);
-    const updatedColumns = [draggedCard, ...updatedRows];
+    const updatedColumns = [draggedCard, ...refRows.current.filter(card => card.id !== id)];
+
     setRows(updatedColumns);
-
-    refRows.current = updatedRows;
-
-    localStorage.setItem("cards", JSON.stringify(updatedRows));
+    refRows.current = updatedColumns;
+    localStorage.setItem("cards", JSON.stringify(updatedColumns));
   };
 
   return (
