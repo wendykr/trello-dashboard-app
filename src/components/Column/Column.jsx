@@ -10,7 +10,7 @@ import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
 import { useDrop } from 'react-dnd';
 
-export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem }) => {
+export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem, onUpdateTitle }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "li",
     drop: (item) => addItemToCard(item.id),
@@ -104,6 +104,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const onChangeValueTitle = (event) => {
     event.preventDefault();
     setTitleValue(event.target.value);
+    onUpdateTitle(event.target.value);
   }
 
   const onChangeValueTextarea = (event) => {

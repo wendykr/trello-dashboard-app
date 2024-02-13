@@ -150,6 +150,30 @@ export const DashboardPage = () => {
     setDetailTitle(newTitle);
   };
 
+  const onUpdateTitle = (columnId, newTitle) => {
+    const currentColumnName = columns.find(column => column.id === columnId)?.name;
+  
+    const updatedColumns = columns.map(column => {
+      if (column.id === columnId) {
+        return { ...column, name: newTitle };
+      }
+      return column;
+    });
+  
+    const updatedRows = rows.map(row => {
+      if (row.status === currentColumnName) {
+        return { ...row, status: newTitle };
+      }
+      return row;
+    });
+  
+    setColumns(updatedColumns);
+    localStorage.setItem("columns", JSON.stringify(updatedColumns));
+  
+    setRows(updatedRows);
+    localStorage.setItem("cards", JSON.stringify(updatedRows));
+  };
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -158,12 +182,15 @@ export const DashboardPage = () => {
           columns.map(oneTask => (
             <Column
               title={oneTask.name}
+              columns={columns}
+              setColumns={setColumns}
               rows={rows}
               setRows={setRows}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
               detailTitle={detailTitle}
+              onUpdateTitle={(newTitle) => onUpdateTitle(oneTask.id, newTitle)}
             />
           ))
         }
