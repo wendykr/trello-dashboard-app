@@ -57,29 +57,47 @@ export const DashboardPage = () => {
   const onClickButton = (event) => {
     event.preventDefault();
     if (textareaValue) {
-      const newColumn = {
-        id: uuidv4(),
-        name: textareaValue,
-      };
+      const existingName = columns.find(column => column.name === textareaValue);
 
-      const updatedColumns = [...columns, newColumn];
-      setColumns(updatedColumns);
-
-      localStorage.setItem("columns", JSON.stringify(updatedColumns));
-
-      setTextareaValue('');
-      toast.success('Přidaný nový sloupec.', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-      });
-      onClickButtonClose();
+      if (existingName) {
+        // add red outlet for textarea
+        refValueColumn.current.focus();
+        toast.error('Sloupec s tímto název již existuje!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+      } else {
+        const newColumn = {
+          id: uuidv4(),
+          name: textareaValue,
+        };
+  
+        const updatedColumns = [...columns, newColumn];
+        setColumns(updatedColumns);
+  
+        localStorage.setItem("columns", JSON.stringify(updatedColumns));
+  
+        setTextareaValue('');
+        toast.success('Přidaný nový sloupec.', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+        onClickButtonClose();
+      }
     } else {
       // add red outlet for textarea
       refValueColumn.current.focus();
