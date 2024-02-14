@@ -10,7 +10,7 @@ import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
 import { useDrop } from 'react-dnd';
 
-export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem }) => {
+export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem, onUpdateTitle }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "li",
     drop: (item) => addItemToCard(item.id),
@@ -104,6 +104,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const onChangeValueTitle = (event) => {
     event.preventDefault();
     setTitleValue(event.target.value);
+    onUpdateTitle(event.target.value);
   }
 
   const onChangeValueTextarea = (event) => {
@@ -127,13 +128,11 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     const draggedCard = refRows.current.find(card => card.id === id);
     draggedCard.status = title;
 
-    const updatedRows = refRows.current.filter(card => card.id !== id);
-    const updatedColumns = [draggedCard, ...updatedRows];
+    const updatedColumns = [draggedCard, ...refRows.current.filter(card => card.id !== id)];
+
     setRows(updatedColumns);
-
-    refRows.current = updatedRows;
-
-    localStorage.setItem("cards", JSON.stringify(updatedRows));
+    refRows.current = updatedColumns;
+    localStorage.setItem("cards", JSON.stringify(updatedColumns));
   };
 
   return (
