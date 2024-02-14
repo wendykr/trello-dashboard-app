@@ -107,21 +107,31 @@ export const DashboardPage = () => {
   };
 
   const onClickCopy = (clickedTaskId) => {
-
     const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
-
+  
     if (clickedColumn) {
       const copiedColumn = {
         ...clickedColumn,
         id: uuidv4(),
+        name: `Kopie ${clickedColumn.name}`
       };
-
-      const copiedColumns = [...columns, copiedColumn];
-      setColumns(copiedColumns);
-
-      localStorage.setItem("columns", JSON.stringify(copiedColumns));
-
-      setColumns([...columns, copiedColumn]);
+  
+      const copiedCards = rows
+        .filter(card => card.status === clickedColumn.name)
+        .map(card => ({
+          ...card,
+          id: uuidv4(),
+          status: `Kopie ${card.status}`
+        }));
+  
+      const updatedColumns = [...columns, copiedColumn];
+      setColumns(updatedColumns);
+      localStorage.setItem("columns", JSON.stringify(updatedColumns));
+  
+      const updatedRows = [...rows, ...copiedCards];
+      setRows(updatedRows);
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+  
       toast.success('Sloupec byl duplikován.', {
         position: "top-center",
         autoClose: 3000,
