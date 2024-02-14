@@ -62,7 +62,7 @@ export const DashboardPage = () => {
       if (existingName) {
         // add red outlet for textarea
         refValueColumn.current.focus();
-        toast.error('Sloupec s tímto název již existuje!', {
+        toast.error('Sloupec s tímto názvem již existuje!', {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
