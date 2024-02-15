@@ -23,7 +23,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const [isClickButtonAddCard, setIsClickButtonAddCard] = useState(false);
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
-  const [titleValue,setTitleValue] = useState(title);
+  const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
   const refRows = useRef(rows);
@@ -54,6 +54,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const onClickButtonClose = () => {
     setIsClickButtonClose(true);
     setIsClickButtonAddCard(false);
+    setTextareaValue('');
   }
 
   const onClickButton = (event) => {
@@ -104,7 +105,6 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const onChangeValueTitle = (event) => {
     event.preventDefault();
     setTitleValue(event.target.value);
-    onUpdateTitle(event.target.value);
   }
 
   const onChangeValueTextarea = (event) => {
@@ -118,6 +118,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
 
   const onBlurHandler = () => {
     setIsClickEditHeading(false);
+    onUpdateTitle(titleValue);
   };
 
   const handleClickCopy = () => {
@@ -140,7 +141,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
       className={`flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 ${isOver ? 'bg-[#d4d7de]' : 'bg-[#f1f2f4]'} text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5`}>
       <div className="mx-1 flex flex-row justify-between items-center gap-1">
         { isClickEditHeading ?
-          <Textarea
+          <form><Textarea
             height="h-8"
             padding="px-1.5 py-0.5"
             border="border-[2px] border-[#5881fd]"
@@ -149,7 +150,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
             onChangeValue={onChangeValueTitle}
             onBlurHandler={onBlurHandler}
             refValue={refValue}
-          /> :
+          /></form> :
           <h3
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
             onClick={onClickEditHeading}
