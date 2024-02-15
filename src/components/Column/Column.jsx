@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,7 +19,6 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     })
   }));
 
-  const [filteredRows, setFilteredRows] = useState([]);
   const [isClickButtonAddCard, setIsClickButtonAddCard] = useState(false);
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
@@ -30,10 +29,23 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
 
   const titleValueUpperCase = titleValue.toUpperCase();
 
-  useEffect(() => {
-    const filteredRows = rows.filter(card => card.status === title);
-    setFilteredRows(filteredRows);
+  // const [filteredRows, setFilteredRows] = useState([]);
+  // useEffect(() => {
+  //   const filteredRows = rows.filter(card => card.status === title);
+  //   setFilteredRows(filteredRows);
+  //   refRows.current = rows;
+  // }, [rows, title]);
+
+  // const filteredRows = rows.filter(card => card.status === title);
+
+  // const filteredRows = useMemo(() => {
+  //   return rows.filter(card => card.status === title);
+  // }, [rows, title]);
+
+  const filteredRows = useMemo(() => {
+    const filtered = rows.filter(card => card.status === title);
     refRows.current = rows;
+    return filtered;
   }, [rows, title]);
 
   useEffect(() => {
