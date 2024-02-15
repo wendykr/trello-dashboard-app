@@ -48,6 +48,7 @@ export const DashboardPage = () => {
   const onClickButtonClose = () => {
     setIsClickButtonClose(false);
     setIsShowDetailItem(false);
+    setTextareaValue('');
   }
 
   const onClickButtonAddColumn = () => {
@@ -78,12 +79,12 @@ export const DashboardPage = () => {
           id: uuidv4(),
           name: textareaValue,
         };
-  
+
         const updatedColumns = [...columns, newColumn];
         setColumns(updatedColumns);
-  
+
         localStorage.setItem("columns", JSON.stringify(updatedColumns));
-  
+
         setTextareaValue('');
         toast.success('Přidaný nový sloupec.', {
           position: "top-center",
