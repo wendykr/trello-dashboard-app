@@ -58,7 +58,7 @@ export const DashboardPage = () => {
   const onClickButton = (event) => {
     event.preventDefault();
     if (textareaValue) {
-      const existingName = columns.find(column => column.name === textareaValue);
+      const existingName = columns.find(column => column.name.toLowerCase() === textareaValue.toLowerCase());
 
       if (existingName) {
         // add red outlet for textarea
