@@ -26,7 +26,7 @@ export const DashboardPage = () => {
 
   const {
     isShowDetailItem, setIsShowDetailItem,
-    detailHeadline, detailTitle, setDetailTitle, detailSrc, detailDescription
+    detailId, detailHeadline, detailTitle, setDetailTitle, detailSrc, detailDescription
   } = useDetail();
 
   useEffect(() => {
@@ -165,8 +165,19 @@ export const DashboardPage = () => {
     }
   };
 
-  const onUpdateTitleValue = (newTitle) => {
+  const onUpdateTitleValue = (rowId, newTitle) => {
     setDetailTitle(newTitle);
+    const currentRowName = rows.find(row => row.id === rowId)?.title;
+
+    const updatedRows = rows.map(row => {
+      if (row.title === currentRowName) {
+        return { ...row, title: newTitle };
+      }
+      return row;
+    });
+
+    setRows(updatedRows);
+    localStorage.setItem("cards", JSON.stringify(updatedRows));
   };
 
   const onUpdateTitle = (columnId, newTitle) => {
@@ -229,7 +240,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <CardDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={onUpdateTitleValue} /> }
+      {isShowDetailItem && <CardDetail id={detailId} title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailId, newTitle)} /> }
     </main>
   )
 }

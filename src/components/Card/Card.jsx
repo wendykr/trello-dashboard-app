@@ -28,7 +28,7 @@ export const Card = ({ id, text, titleValue, labels, src, description }) => {
   };
 
   const handleClickDetail = () => {
-    onClickDetail(text, titleValue, src, description);
+    onClickDetail(id, text, titleValue, src, description);
   }
 
   const onClickButtonEdit = (event) => {
