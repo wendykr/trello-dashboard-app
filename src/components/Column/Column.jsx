@@ -28,6 +28,8 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const refValue = useRef(null);
   const refRows = useRef(rows);
 
+  const titleValueUpperCase = titleValue.toUpperCase();
+
   useEffect(() => {
     const filteredRows = rows.filter(card => card.status === title);
     setFilteredRows(filteredRows);
@@ -154,7 +156,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
           <h3
             className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
             onClick={onClickEditHeading}
-            >{titleValue}
+            >{titleValueUpperCase}
           </h3>
         }
         <ButtonMore />
@@ -165,7 +167,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
           cards={filteredRows}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}
-          titleValue={titleValue}
+          titleValue={titleValueUpperCase}
         />
 
         {
