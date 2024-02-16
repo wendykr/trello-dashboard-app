@@ -25,7 +25,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
-  const refRows = useRef(rows);
+  // const refRows = useRef(rows);
 
   const titleValueUpperCase = titleValue.toUpperCase();
 
@@ -44,7 +44,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
 
   const filteredRows = useMemo(() => {
     const filtered = rows.filter(card => card.status === title);
-    refRows.current = rows;
+    // refRows.current = rows;
     return filtered;
   }, [rows, title]);
 
@@ -82,7 +82,7 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
 
       const updatedRows = [...rows, newRow];
       setRows(updatedRows);
-      refRows.current = updatedRows;
+      // refRows.current = updatedRows;
 
       localStorage.setItem("cards", JSON.stringify(updatedRows));
 
@@ -139,15 +139,28 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
     onClickCopy(id);
   }
 
+  // const addItemToCard = (id) => {
+  //   const draggedCard = refRows.current.find(card => card.id === id);
+  //   draggedCard.status = title;
+
+  //   const updatedColumns = [draggedCard, ...refRows.current.filter(card => card.id !== id)];
+
+  //   setRows(updatedColumns);
+  //   refRows.current = updatedColumns;
+  //   localStorage.setItem("cards", JSON.stringify(updatedColumns));
+  // };
+
   const addItemToCard = (id) => {
-    const draggedCard = refRows.current.find(card => card.id === id);
-    draggedCard.status = title;
+    const updatedRows = (prevRows) => {
+      const draggedCard = prevRows.find(card => card.id === id);
+      draggedCard.status = title;
+  
+      const updatedColumns = [draggedCard, ...prevRows.filter(card => card.id !== id)];
+      localStorage.setItem("cards", JSON.stringify(updatedColumns));
+      return updatedColumns;
 
-    const updatedColumns = [draggedCard, ...refRows.current.filter(card => card.id !== id)];
-
-    setRows(updatedColumns);
-    refRows.current = updatedColumns;
-    localStorage.setItem("cards", JSON.stringify(updatedColumns));
+    }
+    setRows(updatedRows);
   };
 
   return (
