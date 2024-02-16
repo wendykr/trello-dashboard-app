@@ -170,31 +170,33 @@ export const DashboardPage = () => {
 
     const currentRowName = rows.find(row => row.id === rowId)?.title;
 
-    const updatedRows = rows.map(row => {
-      if (row.title === currentRowName) {
-        return { ...row, title: newTitle };
-      }
-      return row;
+    setRows((prevRows) => {
+      const updatedRows = prevRows.map(row => {
+        if (row.title === currentRowName) {
+          return { ...row, title: newTitle };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
     });
-
-    setRows(updatedRows);
-    localStorage.setItem("cards", JSON.stringify(updatedRows));
   };
 
   const onUpdateDescriptionValue = (rowId, newDescription) => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, description: newDescription }));
 
-    const currentRowName = rows.find(row => row.id === rowId)?.description;
+    const currentRowDescription = rows.find(row => row.id === rowId)?.description;
 
-    const updatedRows = rows.map(row => {
-      if (row.description === currentRowName) {
-        return { ...row, description: newDescription };
-      }
-      return row;
+    setRows((prevRows) => {
+      const updatedRows = prevRows.map(row => {
+        if (row.description === currentRowDescription) {
+          return { ...row, description: newDescription };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
     });
-
-    setRows(updatedRows);
-    localStorage.setItem("cards", JSON.stringify(updatedRows));
   };
 
   const onUpdateTitle = (columnId, newTitle) => {
