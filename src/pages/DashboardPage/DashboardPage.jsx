@@ -26,7 +26,7 @@ export const DashboardPage = () => {
 
   const {
     isShowDetailItem, setIsShowDetailItem,
-    detailId, detailHeadline, detailTitle, setDetailTitle, detailSrc, detailDescription
+    detailCard, setDetailCard
   } = useDetail();
 
   useEffect(() => {
@@ -166,7 +166,8 @@ export const DashboardPage = () => {
   };
 
   const onUpdateTitleValue = (rowId, newTitle) => {
-    setDetailTitle(newTitle);
+    setDetailCard((prevFormData) => ({ ...prevFormData, title: newTitle }));
+
     const currentRowName = rows.find(row => row.id === rowId)?.title;
 
     const updatedRows = rows.map(row => {
@@ -219,7 +220,7 @@ export const DashboardPage = () => {
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
-              detailTitle={detailTitle}
+              detailTitle={detailCard.title}
               onUpdateTitle={(newTitle) => onUpdateTitle(oneTask.id, newTitle)}
             />
           ))
@@ -240,7 +241,8 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <CardDetail id={detailId} title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailId, newTitle)} /> }
+      {isShowDetailItem && <CardDetail detailCard={detailCard}
+      onClickButtonClose={onClickButtonClose} onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)} /> }
     </main>
   )
 }
