@@ -166,13 +166,29 @@ export const DashboardPage = () => {
   };
 
   const onUpdateTitleValue = (rowId, newTitle) => {
-    setDetailCard((prevFormData) => ({ ...prevFormData, title: newTitle }));
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, title: newTitle }));
 
     const currentRowName = rows.find(row => row.id === rowId)?.title;
 
     const updatedRows = rows.map(row => {
       if (row.title === currentRowName) {
         return { ...row, title: newTitle };
+      }
+      return row;
+    });
+
+    setRows(updatedRows);
+    localStorage.setItem("cards", JSON.stringify(updatedRows));
+  };
+
+  const onUpdateDescriptionValue = (rowId, newDescription) => {
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, description: newDescription }));
+
+    const currentRowName = rows.find(row => row.id === rowId)?.description;
+
+    const updatedRows = rows.map(row => {
+      if (row.description === currentRowName) {
+        return { ...row, description: newDescription };
       }
       return row;
     });
@@ -242,7 +258,10 @@ export const DashboardPage = () => {
         </div>
       </div>
       {isShowDetailItem && <CardDetail detailCard={detailCard}
-      onClickButtonClose={onClickButtonClose} onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)} /> }
+      onClickButtonClose={onClickButtonClose}
+      onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
+      onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
+      /> }
     </main>
   )
 }

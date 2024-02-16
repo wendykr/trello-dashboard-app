@@ -5,12 +5,17 @@ import { Textarea } from '../Textarea/Textarea';
 export const CardDetail = ({
     detailCard,
     onClickButtonClose,
-    onUpdateTitleValue
+    onUpdateTitleValue,
+    onUpdateDescriptionValue
   }) => {
   
   const { title, headline, src, description } = detailCard;
-  const [titleValue, setTitleValue] = useState(title);
-  const [descriptionValue, setDescriptionValue] = useState(description);
+  const [detailValueCard, setDetailValueCard] = useState({
+    titleValue: title,
+    descriptionValue: description
+  });
+  const { titleValue, descriptionValue } = detailValueCard;
+
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
   const refTitleValue = useRef(null);
@@ -26,21 +31,25 @@ export const CardDetail = ({
   }, [isClickEditHeading, isClickEditDescription]);
 
   const onChangeValueTitle = (event) => {
-    setTitleValue(event.target.value);
+    setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, titleValue: event.target.value }));
   }
 
   const onChangeDescriptionValue = (event) => {
-    setDescriptionValue(event.target.value);
+    setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, descriptionValue: event.target.value }));
   }
 
   const onClickEditHeading = () => {
     setIsClickEditHeading(true);
   }
 
-  const onBlurHandler = (event) => {
+  const onBlurHandlerHeading = () => {
     setIsClickEditHeading(false);
+    onUpdateTitleValue(titleValue);
+  };
+
+  const onBlurHandlerDescription = () => {
     setIsClickEditDescription(false);
-    onUpdateTitleValue(event.target.value);
+    onUpdateDescriptionValue(descriptionValue);
   };
 
   const onClickEditDescription = () => {
@@ -61,7 +70,7 @@ export const CardDetail = ({
               bold="font-semibold"
               textareaValue={titleValue}
               onChangeValue={onChangeValueTitle}
-              onBlurHandler={onBlurHandler}
+              onBlurHandler={onBlurHandlerHeading}
               refValue={refTitleValue}
             />
           ) : (
@@ -77,7 +86,7 @@ export const CardDetail = ({
               padding="px-4 py-2"
               textareaValue={descriptionValue}
               onChangeValue={onChangeDescriptionValue}
-              onBlurHandler={onBlurHandler}
+              onBlurHandler={onBlurHandlerDescription}
               refValue={refDescriptionValue}
             />
           ) : (
