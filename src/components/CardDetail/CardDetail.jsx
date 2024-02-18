@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toast, Slide } from 'react-toastify';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 
@@ -39,8 +40,23 @@ export const CardDetail = ({
   }
 
   const onBlurHandlerHeading = () => {
-    setIsClickEditHeading(false);
-    onUpdateTitleValue(titleValue);
+    if (titleValue) {
+      setIsClickEditHeading(false);
+      onUpdateTitleValue(titleValue);
+    } else {
+      refTitleValue.current.focus();
+      toast.error('Název karty nesmí být prázdný!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+    }
   };
 
   const onClickEditDescription = () => {
