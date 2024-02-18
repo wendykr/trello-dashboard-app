@@ -36,4 +36,4 @@ export const DetailProvider = ({ children }) => {
   );
 };
 
-export const useDetail= () => useContext(DetailContext);
+export const useDetail = () => useContext(DetailContext);

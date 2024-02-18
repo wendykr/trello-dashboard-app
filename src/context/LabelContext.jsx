@@ -20,4 +20,4 @@ export const LabelProvider = ({ children }) => {
   );
 };
 
-export const useLabel= () => useContext(LabelContext);
+export const useLabel = () => useContext(LabelContext);

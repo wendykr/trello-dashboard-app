@@ -127,14 +127,14 @@ export const DashboardPage = () => {
 
   const onClickCopy = (clickedTaskId) => {
     const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
-  
+
     if (clickedColumn) {
       const copiedColumn = {
         ...clickedColumn,
         id: uuidv4(),
         name: `Kopie ${clickedColumn.name}`
       };
-  
+
       const copiedCards = rows
         .filter(card => card.status === clickedColumn.name)
         .map(card => ({
@@ -142,15 +142,15 @@ export const DashboardPage = () => {
           id: uuidv4(),
           status: `Kopie ${card.status}`
         }));
-  
+
       const updatedColumns = [...columns, copiedColumn];
       setColumns(updatedColumns);
       localStorage.setItem("columns", JSON.stringify(updatedColumns));
-  
+
       const updatedRows = [...rows, ...copiedCards];
       setRows(updatedRows);
       localStorage.setItem("cards", JSON.stringify(updatedRows));
-  
+
       toast.success('Sloupec byl duplikován.', {
         position: "top-center",
         autoClose: 3000,
@@ -168,11 +168,10 @@ export const DashboardPage = () => {
   const onUpdateTitleValue = (rowId, newTitle) => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, title: newTitle }));
 
-    const currentRowName = rows.find(row => row.id === rowId)?.title;
-
     setRows((prevRows) => {
+      const currentRowTitle = rows.find(row => row.id === rowId)?.title;
       const updatedRows = prevRows.map(row => {
-        if (row.title === currentRowName) {
+        if (row.title === currentRowTitle) {
           return { ...row, title: newTitle };
         }
         return row;
@@ -185,9 +184,8 @@ export const DashboardPage = () => {
   const onUpdateDescriptionValue = (rowId, newDescription) => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, description: newDescription }));
 
-    const currentRowDescription = rows.find(row => row.id === rowId)?.description;
-
     setRows((prevRows) => {
+      const currentRowDescription = rows.find(row => row.id === rowId)?.description;
       const updatedRows = prevRows.map(row => {
         if (row.description === currentRowDescription) {
           return { ...row, description: newDescription };
@@ -201,24 +199,24 @@ export const DashboardPage = () => {
 
   const onUpdateTitle = (columnId, newTitle) => {
     const currentColumnName = columns.find(column => column.id === columnId)?.name;
-  
+
     const updatedColumns = columns.map(column => {
       if (column.id === columnId) {
         return { ...column, name: newTitle };
       }
       return column;
     });
-  
+
     const updatedRows = rows.map(row => {
       if (row.status === currentColumnName) {
         return { ...row, status: newTitle };
       }
       return row;
     });
-  
+
     setColumns(updatedColumns);
     localStorage.setItem("columns", JSON.stringify(updatedColumns));
-  
+
     setRows(updatedRows);
     localStorage.setItem("cards", JSON.stringify(updatedRows));
   };

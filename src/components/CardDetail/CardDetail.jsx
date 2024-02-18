@@ -22,12 +22,8 @@ export const CardDetail = ({
   const refDescriptionValue = useRef(null);
 
   useEffect(() => {
-    if (isClickEditHeading && refTitleValue.current) {
-      refTitleValue.current.select();
-    }
-    if (isClickEditDescription && refDescriptionValue.current) {
-      refDescriptionValue.current.focus();
-    }
+    (isClickEditHeading && refTitleValue.current) && refTitleValue.current.select();
+    (isClickEditDescription && refDescriptionValue.current) && refDescriptionValue.current.focus();
   }, [isClickEditHeading, isClickEditDescription]);
 
   const onChangeValueTitle = (event) => {
@@ -47,14 +43,14 @@ export const CardDetail = ({
     onUpdateTitleValue(titleValue);
   };
 
+  const onClickEditDescription = () => {
+    setIsClickEditDescription(true);
+  }
+
   const onBlurHandlerDescription = () => {
     setIsClickEditDescription(false);
     onUpdateDescriptionValue(descriptionValue);
   };
-
-  const onClickEditDescription = () => {
-    setIsClickEditDescription(true);
-  }
 
   return (
     <div className="w-[60%] h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
