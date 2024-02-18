@@ -5,7 +5,7 @@ import { Textarea } from '../Textarea/Textarea';
 
 export const CardDetail = ({
     detailCard,
-    onClickButtonClose,
+    setIsShowDetailItem,
     onUpdateTitleValue,
     onUpdateDescriptionValue
   }) => {
@@ -42,7 +42,6 @@ export const CardDetail = ({
   const onBlurHandlerHeading = () => {
     if (titleValue) {
       setIsClickEditHeading(false);
-      onUpdateTitleValue(titleValue);
     } else {
       refTitleValue.current.focus();
       toast.error('Název karty nesmí být prázdný!', {
@@ -56,6 +55,7 @@ export const CardDetail = ({
         theme: "light",
         transition: Slide,
       });
+      setIsShowDetailItem(true);
     }
   };
 
@@ -63,9 +63,16 @@ export const CardDetail = ({
     setIsClickEditDescription(true);
   }
 
+  const onClickButtonClose = () => {
+    if (titleValue) {
+      onUpdateDescriptionValue(descriptionValue);
+      onUpdateTitleValue(titleValue);
+      setIsShowDetailItem(false);
+    }
+  }
+
   const onBlurHandlerDescription = () => {
     setIsClickEditDescription(false);
-    onUpdateDescriptionValue(descriptionValue);
   };
 
   return (

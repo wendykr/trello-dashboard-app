@@ -49,6 +49,9 @@ export const DashboardPage = () => {
     setIsClickButtonClose(false);
     setIsShowDetailItem(false);
     setTextareaValue('');
+
+    onUpdateTitleValue(detailCard.id, detailCard.title);
+    onUpdateDescriptionValue(detailCard.id, detailCard.description);
   }
 
   const onClickButtonAddColumn = () => {
@@ -258,7 +261,7 @@ export const DashboardPage = () => {
         </div>
       </div>
       {isShowDetailItem && <CardDetail detailCard={detailCard}
-      onClickButtonClose={onClickButtonClose}
+      setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
       /> }
