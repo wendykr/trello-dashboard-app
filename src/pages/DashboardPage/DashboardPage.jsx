@@ -26,7 +26,7 @@ export const DashboardPage = () => {
 
   const {
     isShowDetailItem, setIsShowDetailItem,
-    detailHeadline, detailTitle, setDetailTitle, detailSrc, detailDescription
+    detailCard, setDetailCard
   } = useDetail();
 
   useEffect(() => {
@@ -49,6 +49,9 @@ export const DashboardPage = () => {
     setIsClickButtonClose(false);
     setIsShowDetailItem(false);
     setTextareaValue('');
+
+    onUpdateTitleValue(detailCard.id, detailCard.title);
+    onUpdateDescriptionValue(detailCard.id, detailCard.description);
   }
 
   const onClickButtonAddColumn = () => {
@@ -127,14 +130,14 @@ export const DashboardPage = () => {
 
   const onClickCopy = (clickedTaskId) => {
     const clickedColumn = columns.find(oneTask => oneTask.id === clickedTaskId);
-  
+
     if (clickedColumn) {
       const copiedColumn = {
         ...clickedColumn,
         id: uuidv4(),
         name: `Kopie ${clickedColumn.name}`
       };
-  
+
       const copiedCards = rows
         .filter(card => card.status === clickedColumn.name)
         .map(card => ({
@@ -142,15 +145,15 @@ export const DashboardPage = () => {
           id: uuidv4(),
           status: `Kopie ${card.status}`
         }));
-  
+
       const updatedColumns = [...columns, copiedColumn];
       setColumns(updatedColumns);
       localStorage.setItem("columns", JSON.stringify(updatedColumns));
-  
+
       const updatedRows = [...rows, ...copiedCards];
       setRows(updatedRows);
       localStorage.setItem("cards", JSON.stringify(updatedRows));
-  
+
       toast.success('Sloupec byl duplikován.', {
         position: "top-center",
         autoClose: 3000,
@@ -165,30 +168,58 @@ export const DashboardPage = () => {
     }
   };
 
-  const onUpdateTitleValue = (newTitle) => {
-    setDetailTitle(newTitle);
+  const onUpdateTitleValue = (rowId, newTitle) => {
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, title: newTitle }));
+
+    setRows((prevRows) => {
+      const currentRowTitle = rows.find(row => row.id === rowId)?.title;
+      const updatedRows = prevRows.map(row => {
+        if (row.title === currentRowTitle) {
+          return { ...row, title: newTitle };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
+    });
+  };
+
+  const onUpdateDescriptionValue = (rowId, newDescription) => {
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, description: newDescription }));
+
+    setRows((prevRows) => {
+      const currentRowDescription = rows.find(row => row.id === rowId)?.description;
+      const updatedRows = prevRows.map(row => {
+        if (row.description === currentRowDescription) {
+          return { ...row, description: newDescription };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
+    });
   };
 
   const onUpdateTitle = (columnId, newTitle) => {
     const currentColumnName = columns.find(column => column.id === columnId)?.name;
-  
+
     const updatedColumns = columns.map(column => {
       if (column.id === columnId) {
         return { ...column, name: newTitle };
       }
       return column;
     });
-  
+
     const updatedRows = rows.map(row => {
       if (row.status === currentColumnName) {
         return { ...row, status: newTitle };
       }
       return row;
     });
-  
+
     setColumns(updatedColumns);
     localStorage.setItem("columns", JSON.stringify(updatedColumns));
-  
+
     setRows(updatedRows);
     localStorage.setItem("cards", JSON.stringify(updatedRows));
   };
@@ -208,7 +239,7 @@ export const DashboardPage = () => {
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
-              detailTitle={detailTitle}
+              detailTitle={detailCard.title}
               onUpdateTitle={(newTitle) => onUpdateTitle(oneTask.id, newTitle)}
             />
           ))
@@ -229,7 +260,11 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <CardDetail title={detailTitle} headline={detailHeadline} src={detailSrc} description={detailDescription} onClickButtonClose={onClickButtonClose} onUpdateTitleValue={onUpdateTitleValue} /> }
+      {isShowDetailItem && <CardDetail detailCard={detailCard}
+      setIsShowDetailItem={setIsShowDetailItem}
+      onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
+      onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
+      /> }
     </main>
   )
 }

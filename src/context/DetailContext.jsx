@@ -5,26 +5,30 @@ export const DetailContext = createContext();
 export const DetailProvider = ({ children }) => {
 
   const [isShowDetailItem, setIsShowDetailItem] = useState(false);
-  const [detailHeadline, setDetailHeadline] = useState('');
-  const [detailTitle, setDetailTitle] = useState('');
-  const [detailSrc, setDetailSrc] = useState('');
-  const [detailDescription, setDetailDescription] = useState('');
 
-  const onClickDetail = (title, headline, src, description) => {
-    setDetailTitle(title);
-    setDetailHeadline(headline);
-    setDetailSrc(src);
-    setDetailDescription(description);
+  const [detailCard, setDetailCard] = useState({
+    id: '',
+    headline: '',
+    title: '',
+    src: '',
+    description: '',
+  });
+
+  const onClickDetail = (id, title, headline, src, description) => {
+    setDetailCard({
+      id,
+      headline,
+      title,
+      src,
+      description,
+    });
     setIsShowDetailItem(true);
   }
 
   return (
     <DetailContext.Provider value={{
       isShowDetailItem, setIsShowDetailItem,
-      detailHeadline, setDetailHeadline,
-      detailTitle, setDetailTitle,
-      detailSrc, setDetailSrc,
-      detailDescription, setDetailDescription,
+      detailCard, setDetailCard,
       onClickDetail
     }}>
       {children}
@@ -32,4 +36,4 @@ export const DetailProvider = ({ children }) => {
   );
 };
 
-export const useDetail= () => useContext(DetailContext);
+export const useDetail = () => useContext(DetailContext);
