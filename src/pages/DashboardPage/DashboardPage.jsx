@@ -138,33 +138,49 @@ export const DashboardPage = () => {
         name: `Kopie ${clickedColumn.name}`
       };
 
-      const copiedCards = rows
-        .filter(card => card.status === clickedColumn.name)
-        .map(card => ({
-          ...card,
-          id: uuidv4(),
-          status: `Kopie ${card.status}`
+      const existingColumn = columns.find(column => column.name === copiedColumn.name);
+
+      if (existingColumn) {
+        toast.error('Nelze duplikovat sloupec s již existujícím názvem!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+      } else {
+        const copiedCards = rows
+          .filter(card => card.status === clickedColumn.name)
+          .map(card => ({
+            ...card,
+            id: uuidv4(),
+            status: `Kopie ${card.status}`
         }));
 
-      const updatedColumns = [...columns, copiedColumn];
-      setColumns(updatedColumns);
-      localStorage.setItem("columns", JSON.stringify(updatedColumns));
+        const updatedColumns = [...columns, copiedColumn];
+        setColumns(updatedColumns);
+        localStorage.setItem("columns", JSON.stringify(updatedColumns));
 
-      const updatedRows = [...rows, ...copiedCards];
-      setRows(updatedRows);
-      localStorage.setItem("cards", JSON.stringify(updatedRows));
+        const updatedRows = [...rows, ...copiedCards];
+        setRows(updatedRows);
+        localStorage.setItem("cards", JSON.stringify(updatedRows));
 
-      toast.success('Sloupec byl duplikován.', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-      });
+        toast.success('Sloupec byl duplikován.', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+      }
     }
   };
 
