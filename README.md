@@ -5,7 +5,8 @@
 
 - programuju v **Reactu**
 - styluju pomocí **Tailwind CSS**
-- jako bundler využívám **Vite**
+- využívám bundler **Vite**
+- data ukládám (zatím) do **localStorage**
 
 
 ![screenshot](./design/screen-trello.jpg)
