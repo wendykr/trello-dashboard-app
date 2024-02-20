@@ -10,7 +10,7 @@ import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
 import { useDrop } from 'react-dnd';
 
-export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem, onUpdateTitle }) => {
+export const Column = ({ title, columns, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem, onUpdateTitle }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "li",
     drop: (item) => addItemToCard(item.id),
@@ -119,8 +119,45 @@ export const Column = ({ title, id, rows, setRows, onClickCopy, onClickDetail, i
   }
 
   const onBlurHandler = () => {
-    setIsClickEditHeading(false);
-    onUpdateTitle(titleValue);
+    if (isClickEditHeading && titleValue === title) {
+      setIsClickEditHeading(false);
+    } else {
+      if (!titleValue) {
+        refValue.current.focus();
+        setIsClickEditHeading(true);
+        toast.error('Vyplňte název sloupce!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+      } else {
+        const existingColumnName = columns.find(column => column.name.toLowerCase() === titleValue.toLowerCase());
+        if (!isClickButtonAddCard && existingColumnName) {
+          refValue.current.focus();
+          setIsClickEditHeading(true);
+          toast.error('Sloupec s tímto názvem již existuje!', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+          });
+        } else {
+          setIsClickEditHeading(false);
+          onUpdateTitle(titleValue);
+        }
+      }
+    }
   };
 
   const handleClickCopy = () => {
