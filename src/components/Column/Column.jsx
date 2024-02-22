@@ -123,7 +123,6 @@ export const Column = ({ title, columns, id, rows, setRows, onClickCopy, onClick
       setIsClickEditHeading(false);
     } else {
       if (!titleValue) {
-        refValue.current.focus();
         setIsClickEditHeading(true);
         toast.error('Vyplňte název sloupce!', {
           position: "top-center",
@@ -135,13 +134,15 @@ export const Column = ({ title, columns, id, rows, setRows, onClickCopy, onClick
           progress: undefined,
           theme: "light",
           transition: Slide,
+          onClose: () => {
+            refValue.current.focus();
+          }
         });
       } else {
         const existingColumnName = columns.find(column => column.name.toLowerCase() === titleValue.toLowerCase());
         if (!isClickButtonAddCard && existingColumnName) {
-          refValue.current.focus();
           setIsClickEditHeading(true);
-          toast.error('Sloupec s tímto názvem již existuje!', {
+          toast.error(<div dangerouslySetInnerHTML={{ __html: `Sloupec s názvem <strong>${titleValue}</strong> již existuje!` }} />, {
             position: "top-center",
             autoClose: 3000,
             hideProgressBar: false,
@@ -151,6 +152,9 @@ export const Column = ({ title, columns, id, rows, setRows, onClickCopy, onClick
             progress: undefined,
             theme: "light",
             transition: Slide,
+            onClose: () => {
+              refValue.current.focus();
+            }
           });
         } else {
           setIsClickEditHeading(false);

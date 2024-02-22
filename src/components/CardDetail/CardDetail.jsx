@@ -43,7 +43,6 @@ export const CardDetail = ({
     if (titleValue) {
       setIsClickEditHeading(false);
     } else {
-      refTitleValue.current.focus();
       toast.error('Název karty nesmí být prázdný!', {
         position: "top-center",
         autoClose: 3000,
@@ -54,6 +53,9 @@ export const CardDetail = ({
         progress: undefined,
         theme: "light",
         transition: Slide,
+        onClose: () => {
+          refTitleValue.current.focus();
+        }
       });
       setIsShowDetailItem(true);
     }
