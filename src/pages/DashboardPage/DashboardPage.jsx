@@ -188,9 +188,8 @@ export const DashboardPage = () => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, title: newTitle }));
 
     setRows((prevRows) => {
-      const currentRowTitle = rows.find(row => row.id === rowId)?.title;
       const updatedRows = prevRows.map(row => {
-        if (row.title === currentRowTitle) {
+        if (row.id === rowId) {
           return { ...row, title: newTitle };
         }
         return row;
@@ -204,9 +203,8 @@ export const DashboardPage = () => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, description: newDescription }));
 
     setRows((prevRows) => {
-      const currentRowDescription = rows.find(row => row.id === rowId)?.description;
       const updatedRows = prevRows.map(row => {
-        if (row.description === currentRowDescription) {
+        if (row.id === rowId) {
           return { ...row, description: newDescription };
         }
         return row;
