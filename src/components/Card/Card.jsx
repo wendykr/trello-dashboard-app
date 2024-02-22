@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { Label } from '../Label/Label';
-// import { Tag } from '../Tag/Tag';
 import { PopupList } from '../PopupList/PopupList';
 import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
@@ -63,10 +62,19 @@ export const Card = ({ id, text, titleValue, labels, src, description }) => {
         <p className="outline-none text-[#172b4d]">
           { text }
         </p>
-        {/* <aside className="mb-0.5 mt-1.5 flex gap-1.5">
-          <Tag category="design" />
-          <Tag category="code" />
-        </aside> */}
+          {
+            (description) &&
+              <aside className="mb-0.5 mt-1.5 flex gap-1.5">
+                {
+                  (description) && (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                      <title>Tato karta má popis</title>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                    </svg>
+                  )
+                }
+              </aside>
+          }
       </div>
       {isShowPopupList && <PopupList />}
       {isShowEditButton && <ButtonEdit onClickButtonEdit={onClickButtonEdit} />}
