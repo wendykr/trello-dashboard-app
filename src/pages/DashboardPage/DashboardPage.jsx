@@ -66,7 +66,7 @@ export const DashboardPage = () => {
       if (existingName) {
         // add red outlet for textarea
         refValueColumn.current.focus();
-        toast.error('Sloupec s tímto názvem již existuje!', {
+        toast.error(<div dangerouslySetInnerHTML={{ __html: `Sloupec s názvem <strong>${titleValue}</strong> již existuje!` }} />, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -141,7 +141,7 @@ export const DashboardPage = () => {
       const existingColumn = columns.find(column => column.name === copiedColumn.name);
 
       if (existingColumn) {
-        toast.error('Nelze duplikovat sloupec s již existujícím názvem!', {
+        toast.error(<div dangerouslySetInnerHTML={{ __html: `Nelze duplikovat sloupec s již existujícím názvem <strong>Kopie ${clickedColumn.name}</strong>!` }} />, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
