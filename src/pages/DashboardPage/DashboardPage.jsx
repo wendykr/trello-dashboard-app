@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { columnsData } from '../../constants/columns';
 import { cardsData } from '../../constants/cards';
+import { commentsData } from '../../constants/comments';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +23,10 @@ export const DashboardPage = () => {
     const storedRows = JSON.parse(localStorage.getItem("cards"));
     return storedRows || cardsData;
   });
+  const [comments, setComments] = useState(() => {
+    const storedComments = JSON.parse(localStorage.getItem("comments"));
+    return storedComments || commentsData;
+  });
   const refValueColumn = useRef(null);
 
   const {
@@ -36,6 +41,10 @@ export const DashboardPage = () => {
 
     if (!localStorage.getItem("cards")) {
       localStorage.setItem("cards", JSON.stringify(cardsData));
+    }
+
+    if (!localStorage.getItem("comments")) {
+      localStorage.setItem("comments", JSON.stringify(commentsData));
     }
   }, []);
 
@@ -188,9 +197,8 @@ export const DashboardPage = () => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, title: newTitle }));
 
     setRows((prevRows) => {
-      const currentRowTitle = rows.find(row => row.id === rowId)?.title;
       const updatedRows = prevRows.map(row => {
-        if (row.title === currentRowTitle) {
+        if (row.id === rowId) {
           return { ...row, title: newTitle };
         }
         return row;
@@ -204,9 +212,8 @@ export const DashboardPage = () => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, description: newDescription }));
 
     setRows((prevRows) => {
-      const currentRowDescription = rows.find(row => row.id === rowId)?.description;
       const updatedRows = prevRows.map(row => {
-        if (row.description === currentRowDescription) {
+        if (row.id === rowId) {
           return { ...row, description: newDescription };
         }
         return row;
@@ -252,6 +259,7 @@ export const DashboardPage = () => {
               setColumns={setColumns}
               rows={rows}
               setRows={setRows}
+              comments={comments}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
@@ -276,7 +284,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <CardDetail detailCard={detailCard}
+      {isShowDetailItem && <CardDetail detailCard={detailCard} comments={comments}
       setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}

@@ -5,12 +5,13 @@ import { Textarea } from '../Textarea/Textarea';
 
 export const CardDetail = ({
     detailCard,
+    comments,
     setIsShowDetailItem,
     onUpdateTitleValue,
     onUpdateDescriptionValue
   }) => {
   
-  const { title, headline, src, description } = detailCard;
+  const { id, title, headline, src, description } = detailCard;
   const [detailValueCard, setDetailValueCard] = useState({
     titleValue: title,
     descriptionValue: description
@@ -26,6 +27,9 @@ export const CardDetail = ({
     (isClickEditHeading && refTitleValue.current) && refTitleValue.current.select();
     (isClickEditDescription && refDescriptionValue.current) && refDescriptionValue.current.focus();
   }, [isClickEditHeading, isClickEditDescription]);
+
+  const filteredComments = comments
+  .filter(oneComment => oneComment.cardId === id);
 
   const onChangeValueTitle = (event) => {
     setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, titleValue: event.target.value }));
@@ -119,6 +123,19 @@ export const CardDetail = ({
               </div>
             )
           )}
+        </div>
+        <div className="mt-6">
+          <h3 className="mb-4 font-semibold">Záznam aktivit</h3>
+          {
+            (filteredComments.length > 0) && (
+              <>
+                
+                {filteredComments.map(oneComment => (
+                  <div key={oneComment.id}>{oneComment.comment}</div>
+                ))}
+              </>
+            )
+          }
         </div>
       </div>
     </div>
