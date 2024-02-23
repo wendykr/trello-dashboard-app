@@ -3,9 +3,11 @@ import { toast, Slide } from 'react-toastify';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
+import { Label } from '../Label/Label';
 
 export const CardDetail = ({
     detailCard,
+    labels,
     comments,
     setIsShowDetailItem,
     onUpdateTitleValue,
@@ -34,6 +36,9 @@ export const CardDetail = ({
 
   const filteredComments = comments
   .filter(oneComment => oneComment.cardId === id);
+
+  const filteredLabels = labels
+  .filter(oneLabel => oneLabel.cardId === id);
 
   const onChangeValueTitle = (event) => {
     setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, titleValue: event.target.value }));
@@ -96,8 +101,9 @@ export const CardDetail = ({
   return (
     <div className="w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
       {src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure>}
-      <div className="p-10">
-        <div className="mx-[-10px] flex flex-row justify-between gap-2">
+      <div className="p-10 flex flex-col gap-4">
+        <div>
+          <div className="mx-[-10px] flex flex-row justify-between gap-2">
           {isClickEditHeading ? (
             <Textarea
               height="h-[40px]"
@@ -110,56 +116,130 @@ export const CardDetail = ({
               onBlurHandler={onBlurHandlerHeading}
               refValue={refTitleValue}
             />
-          ) : (
-            <h2 onClick={onClickEditHeading} className="px-[10px] w-full h-10 text-xl font-semibold flex items-center">{titleValue}</h2>
-          )}
-          <ButtonClose onClickButtonClose={onClickButtonClose} />
-        </div>
-        <p>Ve sloupci <span className="underline">{headline}</span></p>
-        <div className="mt-6">
-          <h3 className="mb-4 font-semibold">Popis</h3>
-          {isClickEditDescription ? (
-            <Textarea
-              padding="px-4 py-2"
-              textareaValue={descriptionValue}
-              onChangeValue={onChangeDescriptionValue}
-              onBlurHandler={onBlurHandlerDescription}
-              refValue={refDescriptionValue}
-            />
-          ) : (
-            descriptionValue ? (
-              <div onClick={onClickEditDescription} className="cursor-pointer">{descriptionValue}</div>
             ) : (
-              <div onClick={onClickEditDescription} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">
-                {!descriptionValue ? 'Detailnější popis...' : descriptionValue}
-              </div>
-            )
-          )}
+              <h2 onClick={onClickEditHeading} className="px-[10px] w-full h-10 text-xl font-semibold flex items-center">{titleValue}</h2>
+            )}
+            <div className="mr-2.5">
+              <ButtonClose onClickButtonClose={onClickButtonClose} />
+            </div>
+          </div>
+          <p>Ve sloupci <span className="underline">{headline}</span></p>
         </div>
-        <div className="mt-6">
-          <h3 className="mb-4 font-semibold">Komentáře</h3>
+        <div className="flex gap-4">
+          <div className="w-[85%]">
           {
-            isClickWriteComment ?
-              <Textarea
-                padding="px-4 py-2"
-                // textareaValue={commentValue}
-                // onChangeValue={onChangeDescriptionValue}
-                onBlurHandler={onBlurHandlerComment}
-                refValue={refCommentValue}
-              /> :
-              <div onClick={onClickWriteComment} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">
-                {'Napsat komentář...'}
+            (filteredLabels.length > 0) && (
+              <div className="mt-0.5 mb-1.5">
+                <h3 className="text-[12px] text-[#44546f] font-bold">Štítky</h3>
+                <div className="mt-1.5 flex flex-row">
+                  {filteredLabels.map(oneLabel => (
+                    oneLabel.label.map(objLabel => 
+                      <Label
+                      color={objLabel.color}
+                      title={objLabel.title}
+                      key={objLabel.id}
+                    />)
+                  ))}
+                </div>
               </div>
-          }
-          {
-            (filteredComments.length > 0) && (
-              <>
-                {filteredComments.map(oneComment => (
-                  <Comment key={oneComment.id} comment={oneComment.comment} />
-                ))}
-              </>
             )
           }
+            <div className="mt-6">
+              <h3 className="mb-4 font-semibold">Popis</h3>
+              {isClickEditDescription ? (
+                <Textarea
+                  padding="px-4 py-2"
+                  textareaValue={descriptionValue}
+                  onChangeValue={onChangeDescriptionValue}
+                  onBlurHandler={onBlurHandlerDescription}
+                  refValue={refDescriptionValue}
+                />
+              ) : (
+                descriptionValue ? (
+                  <div onClick={onClickEditDescription} className="cursor-pointer">{descriptionValue}</div>
+                ) : (
+                  <div onClick={onClickEditDescription} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">
+                    {!descriptionValue ? 'Detailnější popis...' : descriptionValue}
+                  </div>
+                )
+              )}
+            </div>
+            <div className="mt-6">
+              <h3 className="mb-4 font-semibold">Komentáře</h3>
+              {
+                isClickWriteComment ?
+                  <Textarea
+                    padding="px-4 py-2"
+                    // textareaValue={commentValue}
+                    // onChangeValue={onChangeDescriptionValue}
+                    onBlurHandler={onBlurHandlerComment}
+                    refValue={refCommentValue}
+                  /> :
+                  <div onClick={onClickWriteComment} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">
+                    {'Napsat komentář...'}
+                  </div>
+              }
+              {
+                (filteredComments.length > 0) && (
+                  <>
+                    {filteredComments.map(oneComment => (
+                      <Comment key={oneComment.id} comment={oneComment.comment} />
+                    ))}
+                  </>
+                )
+              }
+            </div>
+          </div>
+          <div className="w-[15%] flex flex-col gap-6">
+            <div>
+              <h3 className="text-[12px] text-[#44546f] font-bold">Přidat na kartu</h3>
+              <div className="mt-2 flex flex-col gap-2">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Štítky">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
+                  </svg>
+                  <p>Štítky</p>
+                </button>
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Termín">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                  <p>Termín</p>
+                </button>
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Přílohy">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+                  </svg>
+                  <p>Přílohy</p>
+                </button>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-[12px] text-[#44546f] font-bold">Akce</h3>
+              <div className="mt-2 flex flex-col gap-2">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Přesunout">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
+                  <p>Přesunout</p>
+                </button>
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Kopírovat">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                  </svg>
+                  <p>Kopírovat</p>
+                </button>
+                <hr className="border-1 border-[#d1d4dB]"></hr>
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Archivovat">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                  </svg>
+                  <p>Archivovat</p>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

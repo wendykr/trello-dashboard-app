@@ -294,7 +294,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <CardDetail detailCard={detailCard} comments={comments}
+      {isShowDetailItem && <CardDetail detailCard={detailCard} labels={labels} comments={comments}
       setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
