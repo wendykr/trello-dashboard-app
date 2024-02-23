@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../Card/Card';
 
-export const CardsList = ({ cards, comments, titleValue }) => {
+export const CardsList = ({ cards, labels, comments, titleValue }) => {
 
   return (
     <ul className="relative overflow-visible">
@@ -13,8 +13,8 @@ export const CardsList = ({ cards, comments, titleValue }) => {
             titleValue={titleValue}
             src={oneCard.image}
             description={oneCard.description}
-            labels={oneCard.labels}
             key={oneCard.id}
+            labels={labels}
             comments={comments}
           />
         ))

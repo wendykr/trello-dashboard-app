@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { columnsData } from '../../constants/columns';
 import { cardsData } from '../../constants/cards';
+import { labelsData } from '../../constants/labels';
 import { commentsData } from '../../constants/comments';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
@@ -27,6 +28,10 @@ export const DashboardPage = () => {
     const storedComments = JSON.parse(localStorage.getItem("comments"));
     return storedComments || commentsData;
   });
+  const [labels, setLabels] = useState(() => {
+    const storedLabels = JSON.parse(localStorage.getItem("labels"));
+    return storedLabels || labelsData;
+  });
   const refValueColumn = useRef(null);
 
   const {
@@ -45,6 +50,10 @@ export const DashboardPage = () => {
 
     if (!localStorage.getItem("comments")) {
       localStorage.setItem("comments", JSON.stringify(commentsData));
+    }
+
+    if (!localStorage.getItem("labels")) {
+      localStorage.setItem("labels", JSON.stringify(labelsData));
     }
   }, []);
 
@@ -260,6 +269,7 @@ export const DashboardPage = () => {
               rows={rows}
               setRows={setRows}
               comments={comments}
+              labels={labels}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}

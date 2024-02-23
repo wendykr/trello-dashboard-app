@@ -5,7 +5,7 @@ import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
 import { useDrag } from 'react-dnd';
 
-export const Card = ({ id, text, titleValue, labels, src, description, comments }) => {
+export const Card = ({ id, text, titleValue, src, description, labels, comments }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "li",
     item: {id},
@@ -18,6 +18,9 @@ export const Card = ({ id, text, titleValue, labels, src, description, comments 
   const [isShowPopupList, setIsShowPopupList]= useState(false);
   const { isShowDetailItem, onClickDetail } = useDetail();
 
+
+  const filteredLabels = labels
+  .filter(oneLabel => oneLabel.cardId === id);
 
   const filteredComments = comments
   .filter(oneComment => oneComment.cardId === id);
@@ -51,14 +54,15 @@ export const Card = ({ id, text, titleValue, labels, src, description, comments 
       }
       <div className="p-2">
         {
-          labels && (
+          (filteredLabels.length > 0) && (
             <aside className="mt-0.5 mb-1.5 flex">
-              {labels.map(oneLabel => (
-                <Label
-                  color={oneLabel.color}
-                  title={oneLabel.title}
-                  key={oneLabel.id}
-                />
+              {filteredLabels.map(oneLabel => (
+                oneLabel.label.map(objLabel => 
+                  <Label
+                  color={objLabel.color}
+                  title={objLabel.title}
+                  key={objLabel.id}
+                />)
               ))}
             </aside>
           )
