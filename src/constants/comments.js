@@ -23,5 +23,5 @@ export const commentsData = [
     id: 5,
     cardId: 2,
     comment: 'Jak využít TypeScript v Reactu',
-  },
+  }
 ]

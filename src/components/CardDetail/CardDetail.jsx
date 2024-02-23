@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toast, Slide } from 'react-toastify';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
+import { Comment } from '../Comment/Comment';
 
 export const CardDetail = ({
     detailCard,
@@ -20,13 +21,16 @@ export const CardDetail = ({
 
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
+  const [isClickWriteComment, setIsClickWriteComment] = useState(false);
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
+  const refCommentValue = useRef(null);
 
   useEffect(() => {
     (isClickEditHeading && refTitleValue.current) && refTitleValue.current.select();
     (isClickEditDescription && refDescriptionValue.current) && refDescriptionValue.current.focus();
-  }, [isClickEditHeading, isClickEditDescription]);
+    (isClickWriteComment && refCommentValue.current) && refCommentValue.current.focus();
+  }, [isClickEditHeading, isClickEditDescription, isClickWriteComment]);
 
   const filteredComments = comments
   .filter(oneComment => oneComment.cardId === id);
@@ -81,8 +85,16 @@ export const CardDetail = ({
     setIsClickEditDescription(false);
   };
 
+  const onClickWriteComment = () => {
+    setIsClickWriteComment(true);
+  }
+
+  const onBlurHandlerComment = () => {
+    setIsClickWriteComment(false);
+  };
+
   return (
-    <div className="w-[60%] h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
+    <div className="w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
       {src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure>}
       <div className="p-10">
         <div className="mx-[-10px] flex flex-row justify-between gap-2">
@@ -125,13 +137,25 @@ export const CardDetail = ({
           )}
         </div>
         <div className="mt-6">
-          <h3 className="mb-4 font-semibold">Záznam aktivit</h3>
+          <h3 className="mb-4 font-semibold">Komentáře</h3>
+          {
+            isClickWriteComment ?
+              <Textarea
+                padding="px-4 py-2"
+                // textareaValue={commentValue}
+                // onChangeValue={onChangeDescriptionValue}
+                onBlurHandler={onBlurHandlerComment}
+                refValue={refCommentValue}
+              /> :
+              <div onClick={onClickWriteComment} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">
+                {'Napsat komentář...'}
+              </div>
+          }
           {
             (filteredComments.length > 0) && (
               <>
-                
                 {filteredComments.map(oneComment => (
-                  <div key={oneComment.id}>{oneComment.comment}</div>
+                  <Comment key={oneComment.id} comment={oneComment.comment} />
                 ))}
               </>
             )
