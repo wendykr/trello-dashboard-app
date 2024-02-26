@@ -99,7 +99,7 @@ export const CardDetail = ({
   };
 
   return (
-    <div className="w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
+    <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
       {src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure>}
       <div className="p-10 flex flex-col gap-4">
         <div>
@@ -125,8 +125,8 @@ export const CardDetail = ({
           </div>
           <p>Ve sloupci <span className="underline">{headline}</span></p>
         </div>
-        <div className="flex gap-4">
-          <div className="w-[85%]">
+        <div className="flex sm:flex-col md:flex-row gap-4">
+          <div className="w-[100%] md:w-[80%]">
           {
             (filteredLabels.length > 0) && (
               <div className="mt-0.5 mb-1.5">
@@ -190,7 +190,7 @@ export const CardDetail = ({
               }
             </div>
           </div>
-          <div className="w-[15%] flex flex-col gap-6">
+          <div className="w-[100%] md:w-[20%] flex flex-col gap-6">
             <div>
               <h3 className="text-[12px] text-[#44546f] font-bold">Přidat na kartu</h3>
               <div className="mt-2 flex flex-col gap-2">
