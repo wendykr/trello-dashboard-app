@@ -10,7 +10,7 @@ import { ButtonMore } from '../ButtonMore/ButtonMore';
 import { Textarea } from '../Textarea/Textarea';
 import { useDrop } from 'react-dnd';
 
-export const Column = ({ title, columns, id, rows, setRows, onClickCopy, onClickDetail, isShowDetailItem, onUpdateTitle }) => {
+export const Column = ({ title, columns, id, rows, setRows, labels, comments, onClickCopy, onClickDetail, isShowDetailItem, onUpdateTitle }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "li",
     drop: (item) => addItemToCard(item.id),
@@ -206,6 +206,8 @@ export const Column = ({ title, columns, id, rows, setRows, onClickCopy, onClick
       <div className="h-full overflow-x-hidden overflow-y-auto">
         <CardsList
           cards={filteredRows}
+          labels={labels}
+          comments={comments}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}
           titleValue={titleValueUpperCase}
