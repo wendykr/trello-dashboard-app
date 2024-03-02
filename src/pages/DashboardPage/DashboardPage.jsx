@@ -84,7 +84,7 @@ export const DashboardPage = () => {
       if (existingName) {
         // add red outlet for textarea
         refValueColumn.current.focus();
-        toast.error(<div dangerouslySetInnerHTML={{ __html: `Sloupec s názvem <strong>${titleValue}</strong> již existuje!` }} />, {
+        toast.error(<div dangerouslySetInnerHTML={{ __html: `Sloupec s názvem <strong>${existingName.name}</strong> již existuje!` }} />, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -202,6 +202,20 @@ export const DashboardPage = () => {
     }
   };
 
+  const onAddNewComment = (rowId, commentValue) => {
+    // console.log(id, newComment);
+    const newComment = {
+      id: uuidv4(),
+      cardId: rowId,
+      comment: commentValue
+    };
+
+    const updatedComments = [...comments, newComment];
+    setComments(updatedComments);
+
+    localStorage.setItem("comments", JSON.stringify(updatedComments));
+  }
+
   const onUpdateTitleValue = (rowId, newTitle) => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, title: newTitle }));
 
@@ -297,6 +311,7 @@ export const DashboardPage = () => {
       {isShowDetailItem && <CardDetail detailCard={detailCard} labels={labels} comments={comments}
       setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
+      onAddNewComment={(newComment) => onAddNewComment(detailCard.id, newComment)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
       /> }
     </main>
