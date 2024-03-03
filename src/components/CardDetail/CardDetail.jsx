@@ -4,6 +4,7 @@ import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
 import { Label } from '../Label/Label';
+import { Button } from '../Button/Button';
 
 export const CardDetail = ({
     detailCard,
@@ -11,7 +12,9 @@ export const CardDetail = ({
     comments,
     setIsShowDetailItem,
     onUpdateTitleValue,
-    onUpdateDescriptionValue
+    onUpdateDescriptionValue,
+    onAddNewComment,
+    onDeleteComment
   }) => {
   
   const { id, title, headline, src, description } = detailCard;
@@ -20,6 +23,8 @@ export const CardDetail = ({
     descriptionValue: description
   });
   const { titleValue, descriptionValue } = detailValueCard;
+
+  const [commentValue, setCommentValue] = useState('');
 
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
@@ -47,6 +52,10 @@ export const CardDetail = ({
   const onChangeDescriptionValue = (event) => {
     setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, descriptionValue: event.target.value }));
   }
+
+  const onAddCommentValue = (event) => {
+    // console.log(event.target.value);
+    setCommentValue(event.target.value);  }
 
   const onClickEditHeading = () => {
     setIsClickEditHeading(true);
@@ -94,8 +103,33 @@ export const CardDetail = ({
     setIsClickWriteComment(true);
   }
 
-  const onBlurHandlerComment = () => {
+  const onClickCloseComment = () => {
     setIsClickWriteComment(false);
+    setCommentValue('');
+  }
+
+  const onClickSaveComment = () => {
+    if(commentValue) {
+      setIsClickWriteComment(false);
+      onAddNewComment(commentValue);
+      setCommentValue('');
+    } else {
+      setIsClickWriteComment(true);
+      toast.error('Nelze vložit prázdný text komentáře!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        onClose: () => {
+          refCommentValue.current.focus();
+        }
+      });
+    }
   };
 
   return (
@@ -168,13 +202,17 @@ export const CardDetail = ({
               <h3 className="mb-4 font-semibold">Komentáře</h3>
               {
                 isClickWriteComment ?
+                <>
                   <Textarea
                     padding="px-4 py-2"
-                    // textareaValue={commentValue}
-                    // onChangeValue={onChangeDescriptionValue}
-                    onBlurHandler={onBlurHandlerComment}
+                    textareaValue={commentValue}
+                    onChangeValue={onAddCommentValue}
                     refValue={refCommentValue}
-                  /> :
+                  />
+                  <div className="flex flex-row gap-2">
+                    <Button text="Uložit" onClickButton={onClickSaveComment} /> <ButtonClose text="Zavřít" showText={true} onClickButtonClose={onClickCloseComment}/>
+                  </div>
+                </> :
                   <div onClick={onClickWriteComment} className="px-3 py-2 min-h-14 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer">
                     {'Napsat komentář...'}
                   </div>
@@ -183,7 +221,7 @@ export const CardDetail = ({
                 (filteredComments.length > 0) && (
                   <>
                     {filteredComments.map(oneComment => (
-                      <Comment key={oneComment.id} comment={oneComment.comment} />
+                      <Comment key={oneComment.id} id={oneComment.id} comment={oneComment.comment} deleteComment={onDeleteComment} />
                     ))}
                   </>
                 )
@@ -194,20 +232,20 @@ export const CardDetail = ({
             <div>
               <h3 className="text-[12px] text-[#44546f] font-bold">Přidat na kartu</h3>
               <div className="mt-2 flex flex-col gap-2">
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Štítky">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center gap-1 cursor-pointer" title="Štítky">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
                   </svg>
                   <p>Štítky</p>
                 </button>
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Termín">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointe" title="Termín">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                   <p>Termín</p>
                 </button>
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Přílohy">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointer" title="Přílohy">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
                   </svg>
@@ -218,20 +256,20 @@ export const CardDetail = ({
             <div>
               <h3 className="text-[12px] text-[#44546f] font-bold">Akce</h3>
               <div className="mt-2 flex flex-col gap-2">
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Přesunout">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointer" title="Přesunout">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                   </svg>
                   <p>Přesunout</p>
                 </button>
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Kopírovat">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointer" title="Kopírovat">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                   </svg>
                   <p>Kopírovat</p>
                 </button>
                 <hr className="border-1 border-[#d1d4dB]"></hr>
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center cursor-pointer flex gap-1" title="Archivovat">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointer" title="Archivovat">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                   </svg>
