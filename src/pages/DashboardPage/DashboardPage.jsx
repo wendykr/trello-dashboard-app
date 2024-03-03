@@ -203,7 +203,6 @@ export const DashboardPage = () => {
   };
 
   const onAddNewComment = (rowId, commentValue) => {
-    // console.log(id, newComment);
     const newComment = {
       id: uuidv4(),
       cardId: rowId,
@@ -214,6 +213,12 @@ export const DashboardPage = () => {
     setComments(updatedComments);
 
     localStorage.setItem("comments", JSON.stringify(updatedComments));
+  }
+
+  const onDeleteComment = (commentId) => {
+    const currentComments = comments.filter((comment) => comment.id !== commentId);
+    setComments(currentComments);
+    localStorage.setItem("comments", JSON.stringify(currentComments));
   }
 
   const onUpdateTitleValue = (rowId, newTitle) => {
@@ -312,6 +317,7 @@ export const DashboardPage = () => {
       setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
       onAddNewComment={(newComment) => onAddNewComment(detailCard.id, newComment)}
+      onDeleteComment={(idComment) => onDeleteComment(idComment)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
       /> }
     </main>

@@ -13,7 +13,8 @@ export const CardDetail = ({
     setIsShowDetailItem,
     onUpdateTitleValue,
     onUpdateDescriptionValue,
-    onAddNewComment
+    onAddNewComment,
+    onDeleteComment
   }) => {
   
   const { id, title, headline, src, description } = detailCard;
@@ -220,7 +221,7 @@ export const CardDetail = ({
                 (filteredComments.length > 0) && (
                   <>
                     {filteredComments.map(oneComment => (
-                      <Comment key={oneComment.id} comment={oneComment.comment} />
+                      <Comment key={oneComment.id} id={oneComment.id} comment={oneComment.comment} deleteComment={onDeleteComment} />
                     ))}
                   </>
                 )
