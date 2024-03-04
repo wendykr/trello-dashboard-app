@@ -14,6 +14,7 @@ export const CardDetail = ({
     onUpdateTitleValue,
     onUpdateDescriptionValue,
     onAddNewComment,
+    onEditComment,
     onDeleteComment
   }) => {
   
@@ -25,19 +26,24 @@ export const CardDetail = ({
   const { titleValue, descriptionValue } = detailValueCard;
 
   const [commentValue, setCommentValue] = useState('');
+  const [editedCommentValue, setEditedCommentValue] = useState('');
 
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
+  const [isClickEditComment, setIsClickEditComment] = useState(false);
   const [isClickWriteComment, setIsClickWriteComment] = useState(false);
+  const [clickedCommentId, setClickedCommentId] = useState('');
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
   const refCommentValue = useRef(null);
+  const refEditCommentValue = useRef(null);
 
   useEffect(() => {
     (isClickEditHeading && refTitleValue.current) && refTitleValue.current.select();
     (isClickEditDescription && refDescriptionValue.current) && refDescriptionValue.current.focus();
     (isClickWriteComment && refCommentValue.current) && refCommentValue.current.focus();
-  }, [isClickEditHeading, isClickEditDescription, isClickWriteComment]);
+    (isClickEditComment && refEditCommentValue.current) && refEditCommentValue.current.focus();
+  }, [isClickEditHeading, isClickEditDescription, isClickWriteComment, isClickEditComment]);
 
   const filteredComments = comments
   .filter(oneComment => oneComment.cardId === id);
@@ -54,8 +60,8 @@ export const CardDetail = ({
   }
 
   const onAddCommentValue = (event) => {
-    // console.log(event.target.value);
-    setCommentValue(event.target.value);  }
+    setCommentValue(event.target.value);
+  }
 
   const onClickEditHeading = () => {
     setIsClickEditHeading(true);
@@ -112,7 +118,7 @@ export const CardDetail = ({
     if(commentValue) {
       setIsClickWriteComment(false);
       onAddNewComment(commentValue);
-      setCommentValue('');
+      commentValue('');
     } else {
       setIsClickWriteComment(true);
       toast.error('Nelze vložit prázdný text komentáře!', {
@@ -126,11 +132,49 @@ export const CardDetail = ({
         theme: "light",
         transition: Slide,
         onClose: () => {
-          refCommentValue.current.focus();
+          refEditCommentValue.current.focus();
         }
       });
     }
   };
+
+  const onEditCommentValue = (event) => {
+    setEditedCommentValue(event.target.value);
+  }
+  
+  const onClickEditComment = (commentId, commentValue) => {
+    setIsClickEditComment(true);
+    setClickedCommentId(commentId);
+    setEditedCommentValue(commentValue);
+  }
+
+  const onClickSaveEditComment = () => {
+    if(editedCommentValue) {
+      setIsClickEditComment(false);
+      onEditComment(clickedCommentId, editedCommentValue);
+      setEditedCommentValue('');
+    } else {
+      setIsClickEditComment(true);
+      toast.error('Nelze vložit prázdný text komentáře!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        onClose: () => {
+          refEditCommentValue.current.focus();
+        }
+      });
+    }
+  };
+
+  const onClickCloseEditComment = () => {
+    setIsClickEditComment(false);
+  }
 
   return (
     <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
@@ -218,13 +262,32 @@ export const CardDetail = ({
                   </div>
               }
               {
-                (filteredComments.length > 0) && (
-                  <>
-                    {filteredComments.map(oneComment => (
-                      <Comment key={oneComment.id} id={oneComment.id} comment={oneComment.comment} deleteComment={onDeleteComment} />
-                    ))}
-                  </>
-                )
+                filteredComments.map(oneComment => (
+                  <div key={oneComment.id}>
+                    {isClickEditComment && clickedCommentId === oneComment.id ? (
+                      <>
+                        <Textarea
+                          margin="mt-4"
+                          padding="px-4 py-2"
+                          textareaValue={editedCommentValue}
+                          onChangeValue={onEditCommentValue}
+                          refValue={refEditCommentValue}
+                        />
+                        <div className="flex flex-row gap-2">
+                          <Button text="Uložit" onClickButton={onClickSaveEditComment} />
+                          <ButtonClose text="Zahodit změny" showText={true} onClickButtonClose={onClickCloseEditComment} />
+                        </div>
+                      </>
+                    ) : (
+                      <Comment
+                        id={oneComment.id}
+                        comment={oneComment.comment}
+                        editComment={() => onClickEditComment(oneComment.id, oneComment.comment)}
+                        deleteComment={() => onDeleteComment(oneComment.id)}
+                      />
+                    )}
+                  </div>
+                ))
               }
             </div>
           </div>
