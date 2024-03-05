@@ -19,7 +19,7 @@ export const CardDetail = ({
     onDeleteComment
   }) => {
   
-  const { id, title, headline, src, description } = detailCard;
+  const { id, title, headline, src, description, dateStart, dateEnd } = detailCard;
   const [detailValueCard, setDetailValueCard] = useState({
     titleValue: title,
     descriptionValue: description
@@ -224,6 +224,14 @@ export const CardDetail = ({
               </div>
             )
           }
+          {dateEnd !== '' && (
+            <div className="mt-0.5 mb-1.5">
+              <h3 className="text-[12px] text-[#44546f] font-bold">Termín</h3>
+              <div className="mt-1.5 text-[14px]">
+                {dayjs(dateEnd).format('DD.MM.YYYY HH:mm')}
+              </div>
+            </div>
+          )}
             <div className="mt-6">
               <h3 className="mb-4 font-semibold">Popis</h3>
               {isClickEditDescription ? (

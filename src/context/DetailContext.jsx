@@ -12,15 +12,19 @@ export const DetailProvider = ({ children }) => {
     title: '',
     src: '',
     description: '',
+    dateStart: '',
+    dateEndd: '',
   });
 
-  const onClickDetail = (id, title, headline, src, description) => {
+  const onClickDetail = (id, title, headline, src, description, dateStart, dateEnd) => {
     setDetailCard({
       id,
       headline,
       title,
       src,
       description,
+      dateStart,
+      dateEnd,
     });
     setIsShowDetailItem(true);
   }
