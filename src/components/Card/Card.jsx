@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
+import dayjs from 'dayjs';
 import { Label } from '../Label/Label';
 import { PopupList } from '../PopupList/PopupList';
 import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
 import { useDrag } from 'react-dnd';
 
-export const Card = ({ id, text, titleValue, src, description, labels, comments }) => {
+export const Card = ({ id, text, titleValue, src, description, labels, dateStart, dateEnd, comments }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "li",
     item: {id},
@@ -34,13 +35,19 @@ export const Card = ({ id, text, titleValue, src, description, labels, comments 
   };
 
   const handleClickDetail = () => {
-    onClickDetail(id, text, titleValue, src, description);
+    onClickDetail(id, text, titleValue, src, description, dateStart, dateEnd);
   }
 
   const onClickButtonEdit = (event) => {
     event.stopPropagation();
     setIsShowPopupList(true);
   }
+
+  const styledDateEnd =
+    dayjs(dateEnd).isAfter(dayjs()) ? '' : dayjs(dateEnd).isSame(dayjs(), 'day') ? 'bg-yellow-600 text-white' : 'bg-red-600 text-white';
+
+  const titleDateEnd =
+    dayjs(dateEnd).isAfter(dayjs()) ? 'Karta má termín později' : dayjs(dateEnd).isSame(dayjs(), 'day') ? 'Karta má dnešní termín' : 'Karta je po termínu';
 
   return (
     <li ref={drag}
@@ -71,8 +78,18 @@ export const Card = ({ id, text, titleValue, src, description, labels, comments 
           { text }
         </p>
           {
-            (description || filteredComments.length > 0) &&
-              <aside className="mb-0.5 mt-1.5 flex gap-2">
+            (dateEnd !== '' || description || filteredComments.length > 0) &&
+              <aside className="mb-0.5 mt-1.5 flex items-center gap-2">
+                {
+                  (dateEnd !== '') && (
+                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd}>
+                      <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                      </svg>
+                      <span className="text-[12px]">{dayjs(dateEnd).format('DD. MM.')}</span>
+                    </span>
+                  )
+                }
                 {
                   (description) && (
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

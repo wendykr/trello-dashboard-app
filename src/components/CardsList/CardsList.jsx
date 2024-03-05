@@ -13,6 +13,8 @@ export const CardsList = ({ cards, labels, comments, titleValue }) => {
             titleValue={titleValue}
             src={oneCard.image}
             description={oneCard.description}
+            dateStart={oneCard.dateStart}
+            dateEnd={oneCard.dateEnd}
             key={oneCard.id}
             labels={labels}
             comments={comments}

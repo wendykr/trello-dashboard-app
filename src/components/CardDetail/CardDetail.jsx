@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast, Slide } from 'react-toastify';
+import dayjs from 'dayjs';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
@@ -14,10 +15,11 @@ export const CardDetail = ({
     onUpdateTitleValue,
     onUpdateDescriptionValue,
     onAddNewComment,
+    onEditComment,
     onDeleteComment
   }) => {
   
-  const { id, title, headline, src, description } = detailCard;
+  const { id, title, headline, src, description, dateStart, dateEnd } = detailCard;
   const [detailValueCard, setDetailValueCard] = useState({
     titleValue: title,
     descriptionValue: description
@@ -25,22 +27,28 @@ export const CardDetail = ({
   const { titleValue, descriptionValue } = detailValueCard;
 
   const [commentValue, setCommentValue] = useState('');
+  const [editedCommentValue, setEditedCommentValue] = useState('');
 
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
+  const [isClickEditComment, setIsClickEditComment] = useState(false);
   const [isClickWriteComment, setIsClickWriteComment] = useState(false);
+  const [clickedCommentId, setClickedCommentId] = useState('');
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
   const refCommentValue = useRef(null);
+  const refEditCommentValue = useRef(null);
 
   useEffect(() => {
     (isClickEditHeading && refTitleValue.current) && refTitleValue.current.select();
     (isClickEditDescription && refDescriptionValue.current) && refDescriptionValue.current.focus();
     (isClickWriteComment && refCommentValue.current) && refCommentValue.current.focus();
-  }, [isClickEditHeading, isClickEditDescription, isClickWriteComment]);
+    (isClickEditComment && refEditCommentValue.current) && refEditCommentValue.current.focus();
+  }, [isClickEditHeading, isClickEditDescription, isClickWriteComment, isClickEditComment]);
 
   const filteredComments = comments
-  .filter(oneComment => oneComment.cardId === id);
+  .filter(oneComment => oneComment.cardId === id)
+  .sort((a, b) => dayjs(b.datetime).unix() - dayjs(a.datetime).unix());
 
   const filteredLabels = labels
   .filter(oneLabel => oneLabel.cardId === id);
@@ -54,8 +62,8 @@ export const CardDetail = ({
   }
 
   const onAddCommentValue = (event) => {
-    // console.log(event.target.value);
-    setCommentValue(event.target.value);  }
+    setCommentValue(event.target.value);
+  }
 
   const onClickEditHeading = () => {
     setIsClickEditHeading(true);
@@ -112,7 +120,7 @@ export const CardDetail = ({
     if(commentValue) {
       setIsClickWriteComment(false);
       onAddNewComment(commentValue);
-      setCommentValue('');
+      commentValue('');
     } else {
       setIsClickWriteComment(true);
       toast.error('Nelze vložit prázdný text komentáře!', {
@@ -126,11 +134,49 @@ export const CardDetail = ({
         theme: "light",
         transition: Slide,
         onClose: () => {
-          refCommentValue.current.focus();
+          refEditCommentValue.current.focus();
         }
       });
     }
   };
+
+  const onEditCommentValue = (event) => {
+    setEditedCommentValue(event.target.value);
+  }
+  
+  const onClickEditComment = (commentId, commentValue) => {
+    setIsClickEditComment(true);
+    setClickedCommentId(commentId);
+    setEditedCommentValue(commentValue);
+  }
+
+  const onClickSaveEditComment = () => {
+    if(editedCommentValue) {
+      setIsClickEditComment(false);
+      onEditComment(clickedCommentId, editedCommentValue);
+      setEditedCommentValue('');
+    } else {
+      setIsClickEditComment(true);
+      toast.error('Nelze vložit prázdný text komentáře!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        onClose: () => {
+          refEditCommentValue.current.focus();
+        }
+      });
+    }
+  };
+
+  const onClickCloseEditComment = () => {
+    setIsClickEditComment(false);
+  }
 
   return (
     <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
@@ -178,6 +224,14 @@ export const CardDetail = ({
               </div>
             )
           }
+          {dateEnd !== '' && (
+            <div className="mt-0.5 mb-1.5">
+              <h3 className="text-[12px] text-[#44546f] font-bold">Termín</h3>
+              <div className="mt-1.5 text-[14px]">
+                {dayjs(dateEnd).format('DD.MM.YYYY HH:mm')}
+              </div>
+            </div>
+          )}
             <div className="mt-6">
               <h3 className="mb-4 font-semibold">Popis</h3>
               {isClickEditDescription ? (
@@ -218,13 +272,32 @@ export const CardDetail = ({
                   </div>
               }
               {
-                (filteredComments.length > 0) && (
-                  <>
-                    {filteredComments.map(oneComment => (
-                      <Comment key={oneComment.id} id={oneComment.id} comment={oneComment.comment} deleteComment={onDeleteComment} />
-                    ))}
-                  </>
-                )
+                filteredComments.map(oneComment => (
+                  <div key={oneComment.id}>
+                    <p className="mt-6 mb-1 pl-2 text-[12px]">{dayjs(oneComment.datetime).format('DD.MM.YYYY HH:mm')}</p>
+                    {isClickEditComment && clickedCommentId === oneComment.id ? (
+                      <>
+                        <Textarea
+                          padding="px-4 py-2"
+                          textareaValue={editedCommentValue}
+                          onChangeValue={onEditCommentValue}
+                          refValue={refEditCommentValue}
+                        />
+                        <div className="flex flex-row gap-2">
+                          <Button text="Uložit" onClickButton={onClickSaveEditComment} />
+                          <ButtonClose text="Zahodit změny" showText={true} onClickButtonClose={onClickCloseEditComment} />
+                        </div>
+                      </>
+                    ) : (
+                      <Comment
+                        id={oneComment.id}
+                        comment={oneComment.comment}
+                        editComment={() => onClickEditComment(oneComment.id, oneComment.comment)}
+                        deleteComment={() => onDeleteComment(oneComment.id)}
+                      />
+                    )}
+                  </div>
+                ))
               }
             </div>
           </div>

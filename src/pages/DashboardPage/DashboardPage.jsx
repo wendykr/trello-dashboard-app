@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import dayjs from 'dayjs';
 import { columnsData } from '../../constants/columns';
 import { cardsData } from '../../constants/cards';
 import { labelsData } from '../../constants/labels';
@@ -206,7 +207,8 @@ export const DashboardPage = () => {
     const newComment = {
       id: uuidv4(),
       cardId: rowId,
-      comment: commentValue
+      comment: commentValue,
+      datetime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     };
 
     const updatedComments = [...comments, newComment];
@@ -275,6 +277,19 @@ export const DashboardPage = () => {
     localStorage.setItem("cards", JSON.stringify(updatedRows));
   };
 
+  const onEditComment = (commentId, editValueComment) => {
+    setComments((prevComments) => {
+      const updatedComments = prevComments.map(comment => {
+        if (comment.id === commentId) {
+          return { ...comment, comment: editValueComment };
+        }
+        return comment;
+      });
+      localStorage.setItem("comments", JSON.stringify(updatedComments));
+      return updatedComments;
+    });
+  };
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -317,6 +332,7 @@ export const DashboardPage = () => {
       setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
       onAddNewComment={(newComment) => onAddNewComment(detailCard.id, newComment)}
+      onEditComment={(idComment, editValueComment) => onEditComment(idComment, editValueComment)}
       onDeleteComment={(idComment) => onDeleteComment(idComment)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
       /> }
