@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import dayjs from 'dayjs';
 import { columnsData } from '../../constants/columns';
 import { cardsData } from '../../constants/cards';
 import { labelsData } from '../../constants/labels';
@@ -206,7 +207,8 @@ export const DashboardPage = () => {
     const newComment = {
       id: uuidv4(),
       cardId: rowId,
-      comment: commentValue
+      comment: commentValue,
+      datetime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     };
 
     const updatedComments = [...comments, newComment];

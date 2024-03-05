@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast, Slide } from 'react-toastify';
+import dayjs from 'dayjs';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
@@ -46,7 +47,8 @@ export const CardDetail = ({
   }, [isClickEditHeading, isClickEditDescription, isClickWriteComment, isClickEditComment]);
 
   const filteredComments = comments
-  .filter(oneComment => oneComment.cardId === id);
+  .filter(oneComment => oneComment.cardId === id)
+  .sort((a, b) => dayjs(b.datetime).unix() - dayjs(a.datetime).unix());
 
   const filteredLabels = labels
   .filter(oneLabel => oneLabel.cardId === id);
@@ -264,10 +266,10 @@ export const CardDetail = ({
               {
                 filteredComments.map(oneComment => (
                   <div key={oneComment.id}>
+                    <p className="mt-6 mb-1 pl-2 text-[12px]">{dayjs(oneComment.datetime).format('DD.MM.YYYY HH:mm')}</p>
                     {isClickEditComment && clickedCommentId === oneComment.id ? (
                       <>
                         <Textarea
-                          margin="mt-4"
                           padding="px-4 py-2"
                           textareaValue={editedCommentValue}
                           onChangeValue={onEditCommentValue}
