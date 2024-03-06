@@ -3,9 +3,9 @@
 Cílem tohoto projektu je prohloubit znalosti Reactu a napojit data na Supabase.
 
 
->**Na tomto projektu aktuálně pracuju.**
->
->
+**Na tomto projektu aktuálně pracuju.**
+
+
 >- programuju v **Reactu**
 >- styluju pomocí **Tailwind CSS**
 >- využívám bundler **Vite**
@@ -13,7 +13,7 @@ Cílem tohoto projektu je prohloubit znalosti Reactu a napojit data na Supabase.
 
 
 
-Aktuálně aplikace umožňuje:
+## Aktuálně aplikace umožňuje:
 
 ### Práce se sloupci
 - **přidat** nový sloupec, **duplikovat** sloupec, **změnit název** sloupce
