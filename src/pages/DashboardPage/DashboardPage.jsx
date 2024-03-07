@@ -290,6 +290,36 @@ export const DashboardPage = () => {
     });
   };
 
+  const onSaveDateStart = (rowId, newDateStart) => {
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, dateStart: newDateStart }));
+
+    setRows((prevRows) => {
+      const updatedRows = prevRows.map(row => {
+        if (row.id === rowId) {
+          return { ...row, dateStart: newDateStart };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
+    });
+  };
+
+  const onSaveDateEnd= (rowId, newDateEnd, newTimeEnd) => {
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, dateEnd: newDateEnd + newTimeEnd }));
+
+    setRows((prevRows) => {
+      const updatedRows = prevRows.map(row => {
+        if (row.id === rowId) {
+          return { ...row, dateEnd: newDateEnd + newTimeEnd };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
+    });
+  };
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -335,6 +365,8 @@ export const DashboardPage = () => {
       onEditComment={(idComment, editValueComment) => onEditComment(idComment, editValueComment)}
       onDeleteComment={(idComment) => onDeleteComment(idComment)}
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
+      onSaveDateStart={(newDateStart) => onSaveDateStart(detailCard.id, newDateStart)}
+      onSaveDateEnd={(newDateEnd, newTimeEnd) => onSaveDateEnd(detailCard.id, newDateEnd, newTimeEnd)}
       /> }
     </main>
   )

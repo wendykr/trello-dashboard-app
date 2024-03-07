@@ -39,7 +39,7 @@ export const cardsData = [
     description: 'Pracuju na sobě a učím se tak, abych se mohla dále vzdělávat ve frontendu zahraničními online kurzy a tutoriály.',
     image: '',
     status: 'In progress',
-    dateStart: '',
+    dateStart: '2023-07-24 17:00:00',
     dateEnd: '',
   },
   {

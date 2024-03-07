@@ -78,15 +78,35 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
           { text }
         </p>
           {
-            (dateEnd !== '' || description || filteredComments.length > 0) &&
+            (dateStart !== '' || dateEnd !== '' || description || filteredComments.length > 0) &&
               <aside className="mb-0.5 mt-1.5 flex items-center gap-2">
                 {
-                  (dateEnd !== '') && (
+                  (dateEnd !== '' && dateStart === '') && (
                     <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd}>
                       <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
-                      <span className="text-[12px]">{dayjs(dateEnd).format('DD. MM.')}</span>
+                      <span className="text-[12px]">{dayjs(dateEnd).format(`DD.MM.${dayjs(dateEnd).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}</span>
+                    </span>
+                  )
+                }
+                {
+                  (dateEnd === '' && dateStart !== '') && (
+                    <span className={`px-1 py-0.5 rounded-[3px] flex items-center gap-1`}>
+                      <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                      </svg>
+                      <span className="text-[12px]">Začátek: {dayjs(dateStart).format(`DD.MM.${dayjs(dateStart).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}</span>
+                    </span>
+                  )
+                }
+                {
+                  (dateEnd !== '' && dateStart !== '') && (
+                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd}>
+                      <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                      </svg>
+                      <span className="text-[12px]">{dayjs(dateStart).format(`DD.MM.${dayjs(dateStart).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)} - {dayjs(dateEnd).format(`DD.MM.${dayjs(dateEnd).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}</span>
                     </span>
                   )
                 }
