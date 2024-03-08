@@ -182,6 +182,24 @@ export const CardDetail = ({
     setIsClickEditComment(false);
   }
 
+  const handleClickDataTime = () => {
+    setIsShowFormDateTime(true);
+  }
+
+  const termHeading =
+  dateEnd !== '' && dateStart === '' ? 'Termín' :
+  dateEnd === '' && dateStart !== '' ? 'Datum zahájení' :
+  'Data';
+
+  const formDataTime =
+  dateEnd !== '' && dateStart === ''
+    ? `${dayjs(dateEnd).format('DD.MM.YYYY')} v ${dayjs(dateEnd).format('HH:mm')}`
+    : dateEnd === '' && dateStart !== ''
+    ? `${dayjs(dateStart).format('DD.MM.YYYY')}`
+    : `${dayjs(dateStart).format('DD.MM.')} - ${dayjs(dateEnd).format(
+        'DD.MM.YYYY'
+      )} v ${dayjs(dateEnd).format('HH:mm')}`;
+
   return (
     <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
       {src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure>}
@@ -228,30 +246,18 @@ export const CardDetail = ({
               </div>
             )
           }
-          {(dateEnd !== '' && dateStart === '') && (
-            <div className="mt-0.5 mb-1.5">
-              <h3 className="text-[12px] text-[#44546f] font-bold">Termín</h3>
-              <div className="mt-1.5 text-[14px]">
-                {dayjs(dateEnd).format('DD.MM.YYYY')} v {dayjs(dateEnd).format('HH:mm')}
+          {
+            ((dateEnd !== '' && dateStart === '') || (dateEnd === '' && dateStart !== '') || (dateEnd !== '' && dateStart !== '')) &&
+              <div className="mt-0.5 mb-1.5">
+                <h3 className="text-[12px] text-[#44546f] font-bold">{termHeading}</h3>
+                <div className="inline-block mt-1.5 px-[6px] py-3 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer" onClick={handleClickDataTime}>
+                  {formDataTime}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="ml-2 w-4 h-4 inline-block">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
               </div>
-            </div>
-          )}
-          {(dateEnd === '' && dateStart !== '') && (
-            <div className="mt-0.5 mb-1.5">
-              <h3 className="text-[12px] text-[#44546f] font-bold">Datum zahájení</h3>
-              <div className="mt-1.5 text-[14px]">
-                {dayjs(dateStart).format('DD.MM.YYYY')}
-              </div>
-            </div>
-          )}
-          {(dateEnd !== '' && dateStart !== '') && (
-            <div className="mt-0.5 mb-1.5">
-              <h3 className="text-[12px] text-[#44546f] font-bold">Data</h3>
-              <div className="mt-1.5 text-[14px]">
-                {dayjs(dateStart).format('DD.MM.')} - {dayjs(dateEnd).format('DD.MM.YYYY')} v {dayjs(dateEnd).format('HH:mm')}
-              </div>
-            </div>
-          )}
+          }
           {
             isShowFormDateTime && <FormDataTime dateStart={dateStart} dateEnd={dateEnd} setIsShowFormDateTime={setIsShowFormDateTime} onSaveDateStart={onSaveDateStart} onSaveDateEnd={onSaveDateEnd} />
           }

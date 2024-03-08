@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toast, Slide } from 'react-toastify';
 import dayjs from 'dayjs';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 
 export const FormDataTime = ({ dateStart, dateEnd, setIsShowFormDateTime, onSaveDateStart, onSaveDateEnd }) => {
 
   const [currentDateStart, setCurrentDateStart] = useState(dateStart ? dayjs(dateStart).format('YYYY-MM-DD') : '');
-  const [currentDateEnd, setCurrentDateEnd] = useState(dateEnd ? dayjs(dateEnd).format('YYYY-MM-DD') : dayjs().add(1, 'day').format('YYYY-MM-DD'));
+  const [currentDateEnd, setCurrentDateEnd] = useState(dateEnd ? dayjs(dateEnd).format('YYYY-MM-DD') : dayjs().add(2, 'day').format('YYYY-MM-DD'));
   const [currentTimeEnd, setCurrentTimeEnd] = useState(dateEnd ? dayjs(dateEnd).format('HH:mm') : dayjs().format('HH:mm'));
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabledStart, setIsDisabledStart] = useState(dateStart ? false : true);
+  const [isDisabledEnd, setIsDisabledEnd] = useState(false);
 
   const handleChangeDateStart = (event) => {
     setCurrentDateStart(event.target.value);
@@ -23,9 +25,23 @@ export const FormDataTime = ({ dateStart, dateEnd, setIsShowFormDateTime, onSave
 
   const handleClickSave = (event) => {
     event.preventDefault();
-    setIsShowFormDateTime(false);
-    onSaveDateStart(currentDateStart);
-    onSaveDateEnd(currentDateEnd, currentTimeEnd);
+    if (currentDateEnd && (currentDateStart > currentDateEnd)) {
+      toast.error('Datum zahájení je později než termín dokončení!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+    } else {
+      setIsShowFormDateTime(false);
+      onSaveDateStart(currentDateStart);
+      onSaveDateEnd(currentDateEnd, currentTimeEnd);
+    }
   }
 
   const handleClickDelete = (event) => {
@@ -35,28 +51,44 @@ export const FormDataTime = ({ dateStart, dateEnd, setIsShowFormDateTime, onSave
     setIsShowFormDateTime(false);
   }
 
-  const handleCheckboxChange = () => {
-    setIsDisabled(!isDisabled);
+  const handleCheckboxChangeStart = () => {
+    if (isDisabledStart) {
+      setCurrentDateStart(dayjs().format('YYYY-MM-DD'));
+    } else {
+      setCurrentDateStart('');
+    }
+    setIsDisabledStart(!isDisabledStart);
   }
 
-  const valueStart = (dateStart) ? currentDateStart : (isDisabled) ? 'DD.MM.YYYY' : dayjs().subtract(2, 'day').format('YYYY-MM-DD');
+  const handleCheckboxChangeEnd = () => {
+    if (isDisabledEnd) {
+      setCurrentDateEnd(dayjs().add(2, 'day').format('YYYY-MM-DD'));
+      setCurrentTimeEnd(dayjs().format('HH:mm'));
+    } else {
+      setCurrentDateEnd('');
+      setCurrentTimeEnd('');
+    }
+    setIsDisabledEnd(!isDisabledEnd);
+  }
 
   return (
     <div className="absolute top-40 left-20 p-4 w-[350px] h-[350px] bg-white rounded-[8px] shadow-[0px_0px_6px_1px_#00000024]">
-      <div className="flex justify-end">
-        <ButtonClose onClickButtonClose={() => setIsShowFormDateTime(false)} />
+      <div className="flex justify-center">
+        <h2 className="px-[10px] w-full h-10 text-base text-[#44546f] font-semibold flex justify-center items-center">Data</h2><ButtonClose onClickButtonClose={() => setIsShowFormDateTime(false)} />
       </div>
       <form action="" className="mt-4 flex flex-col gap-3">
         <div>
-          <label className={`block text-[14px] ${(isDisabled) ? ' text-[#44546f]' : ' text-[#0c66e4]'} font-bold`} htmlFor="datum">Datum zahájení:</label>
-          <input className="inline-block" type="checkbox" id="datum" name="datum" onClick={handleCheckboxChange}/> <input className="inline-block outline-none border-[#0c66e4]" type="date" id="datum" name="datum" value={valueStart} onChange={handleChangeDateStart} disabled={isDisabled} />
+          <label className={`block text-[14px] ${(isDisabledStart) ? ' text-[#44546f]' : ' text-[#0c66e4]'} font-bold`} htmlFor="datum">Datum zahájení:</label>
+          <div className="mt-2 flex gap-2 items-center">
+            <input className="inline-block w-4 h-4" type="checkbox" id="datum" name="datum" onClick={handleCheckboxChangeStart} defaultChecked={!isDisabledStart} /> <input className={`inline-block p-[6px] text-[14px] uppercase outline-none border-[2px] ${(isDisabledStart) ? 'border-white text-[#091e424f] cursor-not-allowed' : 'border-[#0c66e4] cursor-text'} rounded-[3px]`} type="date" id="datum" name="datum" value={currentDateStart} onChange={handleChangeDateStart} disabled={isDisabledStart} />
+          </div>
         </div>
 
         <div>
-          <label className="block text-[14px] text-[#44546f] font-bold" htmlFor="datum">Termín:</label>
-          <div className="flex gap-2">
-            <input className="inline-block" type="checkbox" id="datum" name="datum" /> <input className="inline-block" type="date" id="datum" name="datum" value={currentDateEnd} onChange={handleChangeDateEnd} />
-            <input type="time" id="datum" name="datum" value={currentTimeEnd} onChange={handleChangeTimeEnd} />
+          <label className={`block text-[14px] ${(isDisabledEnd) ? ' text-[#44546f]' : ' text-[#0c66e4]'} font-bold`} htmlFor="datum">Termín:</label>
+          <div className="mt-2 flex gap-2 items-center">
+            <input className="inline-block w-4 h-4" type="checkbox" id="datum" name="datum" onClick={handleCheckboxChangeEnd} defaultChecked={!isDisabledEnd} /> <input className={`inline-block p-[6px] text-[14px] uppercase outline-none border-[2px] ${(isDisabledEnd) ? 'border-white text-[#091e424f] cursor-not-allowed' : 'border-[#0c66e4] cursor-text'} rounded-[3px] cursor-text`} type="date" id="datum" name="datum" value={currentDateEnd} onChange={handleChangeDateEnd} disabled={isDisabledEnd} />
+            <input className={`inline-block p-[6px] text-[14px] uppercase outline-none border-[2px] ${(isDisabledEnd) ? 'border-white text-[#091e424f] cursor-not-allowed' : 'border-[#0c66e4] cursor-text'} rounded-[3px] cursor-text`} type="time" id="datum" name="datum" value={currentTimeEnd} onChange={handleChangeTimeEnd} disabled={isDisabledEnd} />
           </div>
         </div>
 
