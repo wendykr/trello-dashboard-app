@@ -19,15 +19,17 @@ export const CardDetail = ({
     onEditComment,
     onDeleteComment,
     onSaveDateStart,
-    onSaveDateEnd
+    onSaveDateEnd,
+    onUpdateDone
   }) => {
   
   const { id, title, headline, src, description, dateStart, dateEnd, done } = detailCard;
   const [detailValueCard, setDetailValueCard] = useState({
     titleValue: title,
-    descriptionValue: description
+    descriptionValue: description,
+    doneValue: done
   });
-  const { titleValue, descriptionValue } = detailValueCard;
+  const { titleValue, descriptionValue, doneValue } = detailValueCard;
 
   const [commentValue, setCommentValue] = useState('');
   const [editedCommentValue, setEditedCommentValue] = useState('');
@@ -200,10 +202,10 @@ export const CardDetail = ({
     : `${dayjs(dateStart).format('DD.MM.')} - ${dayjs(dateEnd).format(
         'DD.MM.YYYY'
       )} v ${dayjs(dateEnd).format('HH:mm')}`;
-  
+
   const handleClickDone = () => {
-    setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, done: true }));
-    setIsDone(prev => !prev);
+    setDetailValueCard(prevDetailValueCard => ({ ...prevDetailValueCard, doneValue: !doneValue }));
+    onUpdateDone(!doneValue);
   }
 
   const termStatusTitle = done ? 'Hotovo' :
@@ -267,7 +269,9 @@ export const CardDetail = ({
               <div className="mt-0.5 mb-1.5">
                 <h3 className="text-[12px] text-[#44546f] font-bold">{termHeading}</h3>
                 <div className=" mt-1.5 flex flex-row items-center gap-2">
-                  <input className="inline-block w-4 h-4" type="checkbox" id="datatime" name="datatime" onClick={handleClickDone} defaultChecked={(done ? isDone : !isDone)} />
+                  {
+                    ((dayjs(dateEnd).isBefore(dayjs()) || (dayjs(dateEnd).isSame(dayjs(), 'day')) || (dayjs(dateEnd).isAfter(dayjs())) || done)) && <input className="inline-block w-4 h-4" type="checkbox" id="datatime" name="datatime" onClick={handleClickDone} defaultChecked={(done ? true : false)} />
+                  }
                   <div className="px-[6px] py-3 w-auto bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer flex flex-row items-center" onClick={handleClickDataTime}>
                     {formDataTime}
                     {

@@ -320,6 +320,21 @@ export const DashboardPage = () => {
     });
   };
 
+  const onUpdateDone = (rowId, newDone) => {
+    setDetailCard((prevDetailCard) => ({ ...prevDetailCard, done: newDone }));
+
+    setRows((prevRows) => {
+      const updatedRows = prevRows.map(row => {
+        if (row.id === rowId) {
+          return { ...row, done: newDone };
+        }
+        return row;
+      });
+      localStorage.setItem("cards", JSON.stringify(updatedRows));
+      return updatedRows;
+    });
+  };
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -367,6 +382,7 @@ export const DashboardPage = () => {
       onUpdateDescriptionValue={(newDescription) => onUpdateDescriptionValue(detailCard.id, newDescription)}
       onSaveDateStart={(newDateStart) => onSaveDateStart(detailCard.id, newDateStart)}
       onSaveDateEnd={(newDateEnd, newTimeEnd) => onSaveDateEnd(detailCard.id, newDateEnd, newTimeEnd)}
+      onUpdateDone={(newDone) => onUpdateDone(detailCard.id, newDone)}
       /> }
     </main>
   )
