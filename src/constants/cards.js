@@ -14,6 +14,7 @@ export const cardsData = [
     status: 'Todo',
     dateStart: '2024-01-20 18:00:00',
     dateEnd: '2024-04-02 20:00:00',
+    done: true,
   },
   {
     id: 3,
@@ -22,7 +23,8 @@ export const cardsData = [
     image: '',
     status: 'Todo',
     dateStart: '',
-    dateEnd: '',
+    dateEnd: '2024-11-03 00:00:00',
+    done: false,
   },
   {
     id: 4,
@@ -32,6 +34,7 @@ export const cardsData = [
     status: 'Todo',
     dateStart: '',
     dateEnd: '2024-02-03 09:30:00',
+    done: false,
   },
   {
     id: 6,
@@ -41,6 +44,7 @@ export const cardsData = [
     status: 'In progress',
     dateStart: '2023-07-24 17:00:00',
     dateEnd: '',
+    done: false,
   },
   {
     id: 7,
@@ -49,7 +53,8 @@ export const cardsData = [
     image: vite_img,
     status: 'In progress',
     dateStart: '',
-    dateEnd: '',
+    dateEnd: '2023-11-15 00:00:00',
+    done: true,
   },
   {
     id: 8,
@@ -58,7 +63,8 @@ export const cardsData = [
     image: '',
     status: 'In progress',
     dateStart: '',
-    dateEnd: '',
+    dateEnd: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    done: false,
   },
   {
     id: 9,
@@ -68,6 +74,7 @@ export const cardsData = [
     status: 'In progress',
     dateStart: '',
     dateEnd: '',
+    done: false,
   },
   {
     id:10,
@@ -77,6 +84,7 @@ export const cardsData = [
     status: 'In progress',
     dateStart: '',
     dateEnd: '',
+    done: false,
   },
   {
     id: 11,
@@ -85,6 +93,7 @@ export const cardsData = [
     image: tailwind_img,
     status: 'In progress',
     dateStart: '',
-    dateEnd: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    dateEnd: '',
+    done: false,
   },
 ]

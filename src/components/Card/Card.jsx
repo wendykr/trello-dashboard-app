@@ -6,7 +6,7 @@ import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
 import { useDrag } from 'react-dnd';
 
-export const Card = ({ id, text, titleValue, src, description, labels, dateStart, dateEnd, comments }) => {
+export const Card = ({ id, text, titleValue, src, description, labels, dateStart, dateEnd, done, comments }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "li",
     item: {id},
@@ -18,7 +18,6 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
   const [isShowEditButton, setIsShowEditButton] = useState(false);
   const [isShowPopupList, setIsShowPopupList]= useState(false);
   const { isShowDetailItem, onClickDetail } = useDetail();
-
 
   const filteredLabels = labels
   .filter(oneLabel => oneLabel.cardId === id);
@@ -35,7 +34,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
   };
 
   const handleClickDetail = () => {
-    onClickDetail(id, text, titleValue, src, description, dateStart, dateEnd);
+    onClickDetail(id, text, titleValue, src, description, dateStart, dateEnd, done);
   }
 
   const onClickButtonEdit = (event) => {
@@ -43,11 +42,13 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
     setIsShowPopupList(true);
   }
 
-  const styledDateEnd =
-    dayjs(dateEnd).isAfter(dayjs()) ? '' : dayjs(dateEnd).isSame(dayjs(), 'day') ? 'bg-yellow-600 text-white' : 'bg-red-600 text-white';
+  const styledDateEnd = done ? 'bg-green-700 text-white' : 
+    dayjs(dateEnd).isAfter(dayjs()) ? '' :
+      dayjs(dateEnd).isSame(dayjs(), 'day') ? 'bg-yellow-600 text-white' : 'bg-red-600 text-white';
 
-  const titleDateEnd =
-    dayjs(dateEnd).isAfter(dayjs()) ? 'Karta má termín později' : dayjs(dateEnd).isSame(dayjs(), 'day') ? 'Karta má dnešní termín' : 'Karta je po termínu';
+  const titleDateEnd = done ? 'Karta je hotová' :
+    dayjs(dateEnd).isAfter(dayjs()) ? 'Karta má termín později' :
+      dayjs(dateEnd).isSame(dayjs(), 'day') ? 'Karta má dnešní termín' : 'Karta je po termínu';
 
   return (
     <li ref={drag}

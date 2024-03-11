@@ -22,7 +22,7 @@ export const CardDetail = ({
     onSaveDateEnd
   }) => {
   
-  const { id, title, headline, src, description, dateStart, dateEnd } = detailCard;
+  const { id, title, headline, src, description, dateStart, dateEnd, done } = detailCard;
   const [detailValueCard, setDetailValueCard] = useState({
     titleValue: title,
     descriptionValue: description
@@ -38,6 +38,7 @@ export const CardDetail = ({
   const [isClickWriteComment, setIsClickWriteComment] = useState(false);
   const [clickedCommentId, setClickedCommentId] = useState('');
   const [isShowFormDateTime, setIsShowFormDateTime] = useState(false);
+  const [isDone, setIsDone] = useState(true);
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
   const refCommentValue = useRef(null);
@@ -187,9 +188,9 @@ export const CardDetail = ({
   }
 
   const termHeading =
-  dateEnd !== '' && dateStart === '' ? 'Termín' :
-  dateEnd === '' && dateStart !== '' ? 'Datum zahájení' :
-  'Data';
+    dateEnd !== '' && dateStart === '' ? 'Termín' :
+    dateEnd === '' && dateStart !== '' ? 'Datum zahájení' :
+    'Data';
 
   const formDataTime =
   dateEnd !== '' && dateStart === ''
@@ -199,6 +200,21 @@ export const CardDetail = ({
     : `${dayjs(dateStart).format('DD.MM.')} - ${dayjs(dateEnd).format(
         'DD.MM.YYYY'
       )} v ${dayjs(dateEnd).format('HH:mm')}`;
+  
+  const handleClickDone = () => {
+    setDetailValueCard((prevDetailValueCard) => ({ ...prevDetailValueCard, done: true }));
+    setIsDone(prev => !prev);
+  }
+
+  const termStatusTitle = done ? 'Hotovo' :
+    dayjs(dateEnd).isSame(dayjs(), 'day') ? 'Dnešní termín' :
+    dayjs(dateEnd).isBefore(dayjs()) ? 'Po termínu' : 
+    '';
+
+  const termStatusStyled = done ? 'bg-green-700' :
+    dayjs(dateEnd).isSame(dayjs(), 'day') ? 'bg-yellow-600' :
+    dayjs(dateEnd).isBefore(dayjs()) ? 'bg-red-600' :
+    '';
 
   return (
     <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
@@ -250,11 +266,17 @@ export const CardDetail = ({
             ((dateEnd !== '' && dateStart === '') || (dateEnd === '' && dateStart !== '') || (dateEnd !== '' && dateStart !== '')) &&
               <div className="mt-0.5 mb-1.5">
                 <h3 className="text-[12px] text-[#44546f] font-bold">{termHeading}</h3>
-                <div className="inline-block mt-1.5 px-[6px] py-3 bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer" onClick={handleClickDataTime}>
-                  {formDataTime}
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="ml-2 w-4 h-4 inline-block">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                  </svg>
+                <div className=" mt-1.5 flex flex-row items-center gap-2">
+                  <input className="inline-block w-4 h-4" type="checkbox" id="datatime" name="datatime" onClick={handleClickDone} defaultChecked={(done ? isDone : !isDone)} />
+                  <div className="px-[6px] py-3 w-auto bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer flex flex-row items-center" onClick={handleClickDataTime}>
+                    {formDataTime}
+                    {
+                      ((dayjs(dateEnd).isBefore(dayjs()) || (dayjs(dateEnd).isSame(dayjs(), 'day')) || done)) && <span className={`ml-2 px-2 text-white ${termStatusStyled} rounded-[2px]`}>{termStatusTitle}</span>
+                    }
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="ml-2 w-4 h-4 inline-block">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </div>
                 </div>
               </div>
           }
