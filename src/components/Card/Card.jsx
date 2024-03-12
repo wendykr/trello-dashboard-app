@@ -6,7 +6,7 @@ import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
 import { useDrag } from 'react-dnd';
 
-export const Card = ({ id, text, titleValue, src, description, labels, dateStart, dateEnd, done, comments }) => {
+export const Card = ({ id, text, titleValue, src, description, labels, dateStart, dateEnd, done, comments, onUpdateDone }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "li",
     item: {id},
@@ -16,7 +16,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
   }));
 
   const [isShowEditButton, setIsShowEditButton] = useState(false);
-  const [isShowPopupList, setIsShowPopupList]= useState(false);
+  const [isShowPopupList, setIsShowPopupList] = useState(false);
   const { isShowDetailItem, onClickDetail } = useDetail();
 
   const filteredLabels = labels
@@ -40,6 +40,11 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
   const onClickButtonEdit = (event) => {
     event.stopPropagation();
     setIsShowPopupList(true);
+  }
+
+  const handleClickDone = (event) => {
+    event.stopPropagation();
+    onUpdateDone(id, !done);
   }
 
   const styledDateEnd = done ? 'bg-green-700 text-white' : 
@@ -83,7 +88,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
               <aside className="mb-0.5 mt-1.5 flex items-center gap-2">
                 {
                   (dateEnd !== '' && dateStart === '') && (
-                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd}>
+                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd} onClick={handleClickDone}>
                       <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
@@ -93,7 +98,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
                 }
                 {
                   (dateEnd === '' && dateStart !== '') && (
-                    <span className={`px-1 py-0.5 rounded-[3px] flex items-center gap-1`}>
+                    <span className={`px-1 py-0.5 rounded-[3px] flex items-center gap-1`} onClick={handleClickDone}>
                       <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
@@ -103,7 +108,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
                 }
                 {
                   (dateEnd !== '' && dateStart !== '') && (
-                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd}>
+                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd} onClick={handleClickDone}>
                       <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>

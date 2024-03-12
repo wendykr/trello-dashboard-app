@@ -40,7 +40,6 @@ export const CardDetail = ({
   const [isClickWriteComment, setIsClickWriteComment] = useState(false);
   const [clickedCommentId, setClickedCommentId] = useState('');
   const [isShowFormDateTime, setIsShowFormDateTime] = useState(false);
-  const [isDone, setIsDone] = useState(true);
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
   const refCommentValue = useRef(null);
@@ -255,10 +254,11 @@ export const CardDetail = ({
                   {filteredLabels.map(oneLabel => (
                     oneLabel.label.map(objLabel => 
                       <Label
-                      color={objLabel.color}
-                      title={objLabel.title}
-                      key={objLabel.id}
-                    />)
+                        color={objLabel.color}
+                        title={objLabel.title}
+                        key={objLabel.id}
+                        showDetail={true}
+                      />)
                   ))}
                 </div>
               </div>

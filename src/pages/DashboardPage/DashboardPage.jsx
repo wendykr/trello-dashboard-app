@@ -354,6 +354,7 @@ export const DashboardPage = () => {
               onClickCopy={onClickCopy}
               detailTitle={detailCard.title}
               onUpdateTitle={(newTitle) => onUpdateTitle(oneTask.id, newTitle)}
+              onUpdateDone={(rowId, newDone) => onUpdateDone(rowId, newDone)}
             />
           ))
         }
