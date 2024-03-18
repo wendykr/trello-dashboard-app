@@ -97,11 +97,19 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
               <aside className="mb-0.5 mt-1.5 flex items-center gap-2">
                 {
                   (dateEnd !== '' && dateStart === '') && (
-                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd} onClick={handleClickDone} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1 hover:brightness-[85%] hover:saturate-[85%]`} title={titleDateEnd} onClick={handleClickDone} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                       {
                         (showCheckIcon) ?
                           (done) ?
-                            <svg className={`w-[18px] h-[18px] ${dayjs(dateEnd).isAfter(dayjs()) ? 'text-[#172b4d]' : 'text-white'}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <svg className=
+                              {`w-[18px] h-[18px]
+                                ${(dayjs(dateEnd).isAfter(dayjs()) || dayjs(dateEnd).isSame(dayjs(), 'day'))
+                                ? 'text-white' 
+                                : (dayjs(dateEnd).isBefore(dayjs())) 
+                                  ? 'text-white' 
+                                  : 'text-[#172b4d]'}
+                              `}
+                              width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z"/><polyline points="9 11 12 14 20 6" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
                             </svg>
                               :
@@ -129,11 +137,19 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
                 }
                 {
                   (dateEnd !== '' && dateStart !== '') && (
-                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1`} title={titleDateEnd} onClick={handleClickDone} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1 hover:brightness-[85%] hover:saturate-[85%]`} title={titleDateEnd} onClick={handleClickDone} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                       {
                         (showCheckIcon) ?
                           (done) ?
-                            <svg className={`w-[18px] h-[18px] ${dayjs(dateEnd).isAfter(dayjs()) ? 'text-white' : 'text-[#172b4d]'}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <svg className=
+                            {`w-[18px] h-[18px]
+                              ${(dayjs(dateEnd).isAfter(dayjs()) || dayjs(dateEnd).isSame(dayjs(), 'day'))
+                              ? 'text-white' 
+                              : (dayjs(dateEnd).isBefore(dayjs())) 
+                                ? 'text-white' 
+                                : 'text-[#172b4d]'}
+                            `}
+                            width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z"/>  <polyline points="9 11 12 14 20 6" />  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
                             </svg>
                               :
