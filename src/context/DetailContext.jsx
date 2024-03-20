@@ -14,9 +14,10 @@ export const DetailProvider = ({ children }) => {
     description: '',
     dateStart: '',
     dateEndd: '',
+    done: false,
   });
 
-  const onClickDetail = (id, title, headline, src, description, dateStart, dateEnd) => {
+  const onClickDetail = (id, title, headline, src, description, dateStart, dateEnd, done) => {
     setDetailCard({
       id,
       headline,
@@ -25,6 +26,7 @@ export const DetailProvider = ({ children }) => {
       description,
       dateStart,
       dateEnd,
+      done,
     });
     setIsShowDetailItem(true);
   }

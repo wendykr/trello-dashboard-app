@@ -6,6 +6,7 @@ import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
 import { Label } from '../Label/Label';
 import { Button } from '../Button/Button';
+import { FormDataTime } from '../FormDataTime/FormDataTime';
 
 export const CardDetail = ({
     detailCard,
@@ -16,15 +17,19 @@ export const CardDetail = ({
     onUpdateDescriptionValue,
     onAddNewComment,
     onEditComment,
-    onDeleteComment
+    onDeleteComment,
+    onSaveDateStart,
+    onSaveDateEnd,
+    onUpdateDone
   }) => {
   
-  const { id, title, headline, src, description, dateStart, dateEnd } = detailCard;
+  const { id, title, headline, src, description, dateStart, dateEnd, done } = detailCard;
   const [detailValueCard, setDetailValueCard] = useState({
     titleValue: title,
-    descriptionValue: description
+    descriptionValue: description,
+    doneValue: done
   });
-  const { titleValue, descriptionValue } = detailValueCard;
+  const { titleValue, descriptionValue, doneValue } = detailValueCard;
 
   const [commentValue, setCommentValue] = useState('');
   const [editedCommentValue, setEditedCommentValue] = useState('');
@@ -34,6 +39,7 @@ export const CardDetail = ({
   const [isClickEditComment, setIsClickEditComment] = useState(false);
   const [isClickWriteComment, setIsClickWriteComment] = useState(false);
   const [clickedCommentId, setClickedCommentId] = useState('');
+  const [isShowFormDateTime, setIsShowFormDateTime] = useState(false);
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
   const refCommentValue = useRef(null);
@@ -178,6 +184,39 @@ export const CardDetail = ({
     setIsClickEditComment(false);
   }
 
+  const handleClickDataTime = () => {
+    setIsShowFormDateTime(true);
+  }
+
+  const termHeading =
+    dateEnd !== '' && dateStart === '' ? 'Termín' :
+    dateEnd === '' && dateStart !== '' ? 'Datum zahájení' :
+    'Data';
+
+  const formDataTime =
+  dateEnd !== '' && dateStart === ''
+    ? `${dayjs(dateEnd).format('DD.MM.YYYY')} v ${dayjs(dateEnd).format('HH:mm')}`
+    : dateEnd === '' && dateStart !== ''
+    ? `${dayjs(dateStart).format('DD.MM.YYYY')}`
+    : `${dayjs(dateStart).format('DD.MM.')} - ${dayjs(dateEnd).format(
+        'DD.MM.YYYY'
+      )} v ${dayjs(dateEnd).format('HH:mm')}`;
+
+  const handleClickDone = () => {
+    setDetailValueCard(prevDetailValueCard => ({ ...prevDetailValueCard, doneValue: !doneValue }));
+    onUpdateDone(!doneValue);
+  }
+
+  const termStatusTitle = done ? 'Hotovo' :
+    dayjs(dateEnd).isSame(dayjs(), 'day') ? 'Dnešní termín' :
+    dayjs(dateEnd).isBefore(dayjs()) ? 'Po termínu' : 
+    '';
+
+  const termStatusStyled = done ? 'bg-green-700' :
+    dayjs(dateEnd).isSame(dayjs(), 'day') ? 'bg-yellow-600' :
+    dayjs(dateEnd).isBefore(dayjs()) ? 'bg-red-600' :
+    '';
+
   return (
     <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
       {src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure>}
@@ -215,23 +254,39 @@ export const CardDetail = ({
                   {filteredLabels.map(oneLabel => (
                     oneLabel.label.map(objLabel => 
                       <Label
-                      color={objLabel.color}
-                      title={objLabel.title}
-                      key={objLabel.id}
-                    />)
+                        color={objLabel.color}
+                        title={objLabel.title}
+                        key={objLabel.id}
+                        showDetail={true}
+                      />)
                   ))}
                 </div>
               </div>
             )
           }
-          {dateEnd !== '' && (
-            <div className="mt-0.5 mb-1.5">
-              <h3 className="text-[12px] text-[#44546f] font-bold">Termín</h3>
-              <div className="mt-1.5 text-[14px]">
-                {dayjs(dateEnd).format('DD.MM.YYYY HH:mm')}
+          {
+            ((dateEnd !== '' && dateStart === '') || (dateEnd === '' && dateStart !== '') || (dateEnd !== '' && dateStart !== '')) &&
+              <div className="mt-0.5 mb-1.5">
+                <h3 className="text-[12px] text-[#44546f] font-bold">{termHeading}</h3>
+                <div className=" mt-1.5 flex flex-row items-center gap-2">
+                  {
+                    ((dayjs(dateEnd).isBefore(dayjs()) || (dayjs(dateEnd).isSame(dayjs(), 'day')) || (dayjs(dateEnd).isAfter(dayjs())) || done)) && <input className="inline-block w-4 h-4" type="checkbox" id="datatime" name="datatime" onClick={handleClickDone} defaultChecked={(done ? true : false)} />
+                  }
+                  <div className="px-[6px] py-3 w-auto bg-[#e5e6ea] hover:bg-[#d1d4db] text-[14px] font-semibold rounded-[3px] cursor-pointer flex flex-row items-center" onClick={handleClickDataTime}>
+                    {formDataTime}
+                    {
+                      ((dayjs(dateEnd).isBefore(dayjs()) || (dayjs(dateEnd).isSame(dayjs(), 'day')) || done)) && <span className={`ml-2 px-2 text-white ${termStatusStyled} rounded-[2px]`}>{termStatusTitle}</span>
+                    }
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="ml-2 w-4 h-4 inline-block">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
+          }
+          {
+            isShowFormDateTime && <FormDataTime dateStart={dateStart} dateEnd={dateEnd} setIsShowFormDateTime={setIsShowFormDateTime} onSaveDateStart={onSaveDateStart} onSaveDateEnd={onSaveDateEnd} />
+          }
             <div className="mt-6">
               <h3 className="mb-4 font-semibold">Popis</h3>
               {isClickEditDescription ? (
@@ -312,7 +367,7 @@ export const CardDetail = ({
                   </svg>
                   <p>Štítky</p>
                 </button>
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointe" title="Termín">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex gap-1 items-center cursor-pointe" title="Termín" onClick={() => setIsShowFormDateTime(true)}>
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
