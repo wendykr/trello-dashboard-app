@@ -26,8 +26,6 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
 
-  const titleValueUpperCase = titleValue.toUpperCase();
-
   const filteredRows = useMemo(() => {
     const filtered = rows.filter(card => card.status === title);
     return filtered;
@@ -193,12 +191,14 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
             refValue={refValue}
           /></form> :
           <h3
-            className="pl-2 py-[6px] text-[#172b4d] font-bold text-transform:uppercase leading-none outline-none cursor-pointer flex-grow"
+            className="pl-2 pb-[6px] h-[38px] text-[#172b4d] font-bold leading-none outline-none cursor-pointer flex-grow flex items-center"
             onClick={onClickEditHeading}
-            >{titleValueUpperCase}
+            >{titleValue}
           </h3>
         }
-        <ButtonMore />
+        <div className="pb-[4px]">
+          <ButtonMore />
+        </div>
       </div>
 
       <div className="h-full overflow-x-hidden overflow-y-auto">
@@ -208,7 +208,7 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
           comments={comments}
           onClickDetail={onClickDetail}
           isShowDetailItem={isShowDetailItem}
-          titleValue={titleValueUpperCase}
+          titleValue={titleValue}
           onUpdateDone={onUpdateDone}
         />
 
