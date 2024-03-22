@@ -63,6 +63,12 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
   const titleDateEnd = done ? 'Karta je hotová' :
     dayjs(dateEnd).isAfter(dayjs()) ? 'Karta má termín později' :
       dayjs(dateEnd).isSame(dayjs(), 'day') ? 'Karta má dnešní termín' : 'Karta je po termínu';
+  
+  const formatDateTime = (dateEnd !== '' && dateStart === '') ?
+      dayjs(dateEnd).format(`DD.MM.${dayjs(dateEnd).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`) :
+      (dateEnd !== '' && dateStart !== '') ?
+      `${dayjs(dateStart).format(`DD.MM.${dayjs(dateStart).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)} - ${dayjs(dateEnd).format(`DD.MM.${dayjs(dateEnd).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}` :
+      '';
 
   return (
     <li ref={drag}
@@ -96,7 +102,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
             (dateStart !== '' || dateEnd !== '' || description || filteredComments.length > 0) &&
               <aside className="mb-0.5 mt-1.5 flex items-center gap-2">
                 {
-                  (dateEnd !== '' && dateStart === '') && (
+                  ((dateEnd !== '' && dateStart === '') || (dateEnd !== '' && dateStart !== '')) && (
                     <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1 hover:brightness-[85%] hover:saturate-[85%]`} title={titleDateEnd} onClick={handleClickDone} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                       {
                         (showCheckIcon) ?
@@ -121,7 +127,7 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                           </svg>
                       }
-                      <span className="text-[12px]">{dayjs(dateEnd).format(`DD.MM.${dayjs(dateEnd).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}</span>
+                      <span className="text-[12px]">{formatDateTime}</span>
                     </span>
                   )
                 }
@@ -132,36 +138,6 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
                       <span className="text-[12px]">Začátek: {dayjs(dateStart).format(`DD.MM.${dayjs(dateStart).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}</span>
-                    </span>
-                  )
-                }
-                {
-                  (dateEnd !== '' && dateStart !== '') && (
-                    <span className={`px-1 py-0.5 ${styledDateEnd} rounded-[3px] flex items-center gap-1 hover:brightness-[85%] hover:saturate-[85%]`} title={titleDateEnd} onClick={handleClickDone} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                      {
-                        (showCheckIcon) ?
-                          (done) ?
-                            <svg className=
-                            {`w-[18px] h-[18px]
-                              ${(dayjs(dateEnd).isAfter(dayjs()) || dayjs(dateEnd).isSame(dayjs(), 'day'))
-                              ? 'text-white' 
-                              : (dayjs(dateEnd).isBefore(dayjs())) 
-                                ? 'text-white' 
-                                : 'text-[#172b4d]'}
-                            `}
-                            width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z"/>  <polyline points="9 11 12 14 20 6" />  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
-                            </svg>
-                              :
-                            <svg className={`w-[18px] h-[18px] ${dayjs(dateEnd).isAfter(dayjs()) ? 'text-[#172b4d]' : 'text-white'}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z"/><rect x="4" y="4" width="16" height="16" rx="2" />
-                            </svg>
-                          :
-                          <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                          </svg>
-                      }
-                      <span className="text-[12px]">{dayjs(dateStart).format(`DD.MM.${dayjs(dateStart).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)} - {dayjs(dateEnd).format(`DD.MM.${dayjs(dateEnd).format('YYYY') !== dayjs().format('YYYY') ? 'YYYY' : ''}`)}</span>
                     </span>
                   )
                 }
