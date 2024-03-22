@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,21 +19,18 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
     })
   }));
 
-  const [filteredRows, setFilteredRows] = useState([]);
   const [isClickButtonAddCard, setIsClickButtonAddCard] = useState(false);
   const [isClickButtonClose, setIsClickButtonClose] = useState(true);
   const [textareaValue, setTextareaValue] = useState('');
   const [titleValue, setTitleValue] = useState(title);
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const refValue = useRef(null);
-  const refRows = useRef(rows);
 
   const titleValueUpperCase = titleValue.toUpperCase();
 
-  useEffect(() => {
-    const filteredRows = rows.filter(card => card.status === title);
-    setFilteredRows(filteredRows);
-    refRows.current = rows;
+  const filteredRows = useMemo(() => {
+    const filtered = rows.filter(card => card.status === title);
+    return filtered;
   }, [rows, title]);
 
   useEffect(() => {
@@ -70,7 +67,6 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
 
       const updatedRows = [...rows, newRow];
       setRows(updatedRows);
-      refRows.current = updatedRows;
 
       localStorage.setItem("cards", JSON.stringify(updatedRows));
 
@@ -169,14 +165,16 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
   }
 
   const addItemToCard = (id) => {
-    const draggedCard = refRows.current.find(card => card.id === id);
-    draggedCard.status = title;
+    const updatedRows = (prevRows) => {
+      const draggedCard = prevRows.find(card => card.id === id);
+      draggedCard.status = title;
+  
+      const updatedColumns = [draggedCard, ...prevRows.filter(card => card.id !== id)];
+      localStorage.setItem("cards", JSON.stringify(updatedColumns));
+      return updatedColumns;
 
-    const updatedColumns = [draggedCard, ...refRows.current.filter(card => card.id !== id)];
-
-    setRows(updatedColumns);
-    refRows.current = updatedColumns;
-    localStorage.setItem("cards", JSON.stringify(updatedColumns));
+    }
+    setRows(updatedRows);
   };
 
   return (
