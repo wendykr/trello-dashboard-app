@@ -180,7 +180,7 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
       className={`flex flex-col max-h-full mb-10 sm:mb-0 sm:mx-10 p-3 w-full sm:w-80 ${isOver ? 'bg-[#d4d7de]' : 'bg-[#f1f2f4]'} text-gray-800 rounded-xl shadow-xl flex-shrink-0 gap-0.5`}>
       <div className="mx-1 flex flex-row justify-between items-center gap-1">
         { isClickEditHeading ?
-          <form><Textarea
+          <div className="pt-[0.4px]"><Textarea
             height="h-8"
             padding="px-1.5 py-0.5"
             border="border-[2px] border-[#5881fd]"
@@ -189,9 +189,9 @@ export const Column = ({ title, columns, id, rows, setRows, labels, comments, on
             onChangeValue={onChangeValueTitle}
             onBlurHandler={onBlurHandler}
             refValue={refValue}
-          /></form> :
+          /></div> :
           <h3
-            className="pl-2 pb-[6px] h-[38px] text-[#172b4d] font-bold leading-none outline-none cursor-pointer flex-grow flex items-center"
+            className="pl-[7.5px] pb-[6px] h-[38px] text-[#172b4d] font-bold leading-none outline-none cursor-pointer flex-grow flex items-center"
             onClick={onClickEditHeading}
             >{titleValue}
           </h3>
