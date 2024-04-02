@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
+import { labelsDatabase } from '../../constants/labelsDatabase';
 import { Label } from '../Label/Label';
 import { PopupList } from '../PopupList/PopupList';
 import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
@@ -84,14 +85,19 @@ export const Card = ({ id, text, titleValue, src, description, labels, dateStart
         {
           (filteredLabels.length > 0) && (
             <aside className="mt-0.5 mb-1.5 flex">
-              {filteredLabels.map(oneLabel => (
-                oneLabel.label.map(objLabel => 
-                  <Label
-                  color={objLabel.color}
-                  title={objLabel.title}
-                  key={objLabel.id}
-                />)
-              ))}
+              {filteredLabels.map(oneLabel => {
+                const correspondingLabel = labelsDatabase.find(label => label.id === oneLabel.labelId);
+                if (correspondingLabel) {
+                  return (
+                    <Label
+                      color={correspondingLabel.color}
+                      title={correspondingLabel.title}
+                      key={correspondingLabel.id}
+                    />
+                  );
+                }
+                return null;
+              })}
             </aside>
           )
         }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast, Slide } from 'react-toastify';
 import dayjs from 'dayjs';
+import { labelsDatabase } from '../../constants/labelsDatabase';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
 import { Label } from '../Label/Label';
 import { Button } from '../Button/Button';
+import { FormLabels } from '../FormLabels/FormLabels';
 import { FormDataTime } from '../FormDataTime/FormDataTime';
 
 export const CardDetail = ({
@@ -40,6 +42,7 @@ export const CardDetail = ({
   const [isClickWriteComment, setIsClickWriteComment] = useState(false);
   const [clickedCommentId, setClickedCommentId] = useState('');
   const [isShowFormDateTime, setIsShowFormDateTime] = useState(false);
+  const [isShowFormLabels, setIsShowFormLabels] = useState(false);
   const refTitleValue = useRef(null);
   const refDescriptionValue = useRef(null);
   const refCommentValue = useRef(null);
@@ -251,15 +254,20 @@ export const CardDetail = ({
               <div className="mt-0.5 mb-1.5">
                 <h3 className="text-[12px] text-[#44546f] font-bold">Štítky</h3>
                 <div className="mt-1.5 flex flex-row">
-                  {filteredLabels.map(oneLabel => (
-                    oneLabel.label.map(objLabel => 
-                      <Label
-                        color={objLabel.color}
-                        title={objLabel.title}
-                        key={objLabel.id}
-                        showDetail={true}
-                      />)
-                  ))}
+                  {filteredLabels.map(oneLabel => {
+                    const correspondingLabel = labelsDatabase.find(label => label.id === oneLabel.labelId);
+                    if (correspondingLabel) {
+                      return (
+                        <Label
+                          color={correspondingLabel.color}
+                          title={correspondingLabel.title}
+                          key={correspondingLabel.id}
+                          showDetail={true}
+                        />
+                      );
+                    }
+                    return null;
+                  })}
                 </div>
               </div>
             )
@@ -283,6 +291,9 @@ export const CardDetail = ({
                   </div>
                 </div>
               </div>
+          }
+          {
+            isShowFormLabels && <FormLabels setIsShowFormLabels={setIsShowFormLabels} />
           }
           {
             isShowFormDateTime && <FormDataTime dateStart={dateStart} dateEnd={dateEnd} setIsShowFormDateTime={setIsShowFormDateTime} onSaveDateStart={onSaveDateStart} onSaveDateEnd={onSaveDateEnd} />
@@ -360,7 +371,7 @@ export const CardDetail = ({
             <div>
               <h3 className="text-[12px] text-[#44546f] font-bold">Přidat na kartu</h3>
               <div className="mt-2 flex flex-col gap-2">
-                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center gap-1 cursor-pointer" title="Štítky">
+                <button className="px-1.5 py-3 h-8 w-full bg-[#e5e6ea] text-[14px] text-[#44546f] font-bold hover:bg-[#d1d4db] flex items-center gap-1 cursor-pointer" title="Štítky" onClick={() => setIsShowFormLabels(true)}>
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
