@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export const LabelItem = ({ title, color }) => {
+export const LabelItem = ({ title, color, isCheckedLabel }) => {
+  const [isCheckedValue, setIsCheckedValue] = useState(isCheckedLabel);
 
-  console.log(color);
+  const handleChange = () => {
+    setIsCheckedValue(prev => !prev);
+  }
+
   return (
     <div className="flex flex-row gap-2">
       <input
         type="checkbox"
-        checked={false}
+        checked={isCheckedValue}
+        onChange={handleChange}
       />
       <span
         style={{ backgroundColor: `#${color}` }}

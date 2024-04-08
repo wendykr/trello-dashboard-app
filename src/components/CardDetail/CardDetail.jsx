@@ -35,6 +35,7 @@ export const CardDetail = ({
 
   const [commentValue, setCommentValue] = useState('');
   const [editedCommentValue, setEditedCommentValue] = useState('');
+  const [checkedLabel, setCheckedLabel] = useState([]);
 
   const [isClickEditHeading, setIsClickEditHeading] = useState(false);
   const [isClickEditDescription, setIsClickEditDescription] = useState(false);
@@ -54,6 +55,11 @@ export const CardDetail = ({
     (isClickWriteComment && refCommentValue.current) && refCommentValue.current.focus();
     (isClickEditComment && refEditCommentValue.current) && refEditCommentValue.current.focus();
   }, [isClickEditHeading, isClickEditDescription, isClickWriteComment, isClickEditComment]);
+
+  useEffect(() => {
+    const labelIds = filteredLabels.map(filteredLabel => filteredLabel.labelId);
+    setCheckedLabel(labelIds);
+  }, []);
 
   const filteredComments = comments
   .filter(oneComment => oneComment.cardId === id)
@@ -293,7 +299,7 @@ export const CardDetail = ({
               </div>
           }
           {
-            isShowFormLabels && <FormLabels setIsShowFormLabels={setIsShowFormLabels} />
+            isShowFormLabels && <FormLabels setIsShowFormLabels={setIsShowFormLabels} checkedLabel={checkedLabel} />
           }
           {
             isShowFormDateTime && <FormDataTime dateStart={dateStart} dateEnd={dateEnd} setIsShowFormDateTime={setIsShowFormDateTime} onSaveDateStart={onSaveDateStart} onSaveDateEnd={onSaveDateEnd} />
