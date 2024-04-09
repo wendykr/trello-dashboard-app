@@ -3,7 +3,7 @@ import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { labelsDatabase } from '../../constants/labelsDatabase';
 import { LabelItem } from '../LabelItem/LabelItem';
 
-export const FormLabels = ({ setIsShowFormLabels, checkedLabel }) => {
+export const FormLabels = ({ setIsShowFormLabels, checkedLabel, onChangeLabel }) => {
   return (
     <div className="absolute top-40 left-20 p-4 w-[350px] h-auto bg-white rounded-[8px] shadow-[0px_0px_6px_1px_#00000024]">
       <div className="flex justify-center">
@@ -11,7 +11,7 @@ export const FormLabels = ({ setIsShowFormLabels, checkedLabel }) => {
       </div>
       <div className="my-4 flex flex-col gap-2">
         {
-          labelsDatabase.map((label, index) => <LabelItem color={label.color} title={label.title} key={index} isCheckedLabel={checkedLabel.includes(label.id)} />)
+          labelsDatabase.map((label, index) => <LabelItem id={label.id} color={label.color} title={label.title} key={index} isCheckedLabel={checkedLabel.includes(label.id)} onChangeLabel={onChangeLabel}/>)
         }
       </div>
       <button

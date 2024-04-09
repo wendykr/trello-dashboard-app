@@ -22,7 +22,8 @@ export const CardDetail = ({
     onDeleteComment,
     onSaveDateStart,
     onSaveDateEnd,
-    onUpdateDone
+    onUpdateDone,
+    onChangeLabel
   }) => {
   
   const { id, title, headline, src, description, dateStart, dateEnd, done } = detailCard;
@@ -299,7 +300,7 @@ export const CardDetail = ({
               </div>
           }
           {
-            isShowFormLabels && <FormLabels setIsShowFormLabels={setIsShowFormLabels} checkedLabel={checkedLabel} />
+            isShowFormLabels && <FormLabels setIsShowFormLabels={setIsShowFormLabels} checkedLabel={checkedLabel} onChangeLabel={onChangeLabel} />
           }
           {
             isShowFormDateTime && <FormDataTime dateStart={dateStart} dateEnd={dateEnd} setIsShowFormDateTime={setIsShowFormDateTime} onSaveDateStart={onSaveDateStart} onSaveDateEnd={onSaveDateEnd} />

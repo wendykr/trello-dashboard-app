@@ -335,6 +335,29 @@ export const DashboardPage = () => {
     });
   };
 
+  const onChangeLabel = (cardId, labelId) => {
+    const newLabel = {
+      id: uuidv4(),
+      cardId,
+      labelId
+    };
+
+    const labelIndex = labels.findIndex(label => label.cardId === newLabel.cardId && label.labelId === newLabel.labelId);
+
+    if (labelIndex !== -1) {
+      const updatedLabels = [...labels];
+      updatedLabels.splice(labelIndex, 1);
+      setLabels(updatedLabels);
+      localStorage.setItem("labels", JSON.stringify(updatedLabels));
+      return;
+    }
+  
+    const updatedLabels = [...labels, newLabel];
+    setLabels(updatedLabels);
+  
+    localStorage.setItem("labels", JSON.stringify(updatedLabels));
+  };
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -384,6 +407,7 @@ export const DashboardPage = () => {
       onSaveDateStart={(newDateStart) => onSaveDateStart(detailCard.id, newDateStart)}
       onSaveDateEnd={(newDateEnd, newTimeEnd) => onSaveDateEnd(detailCard.id, newDateEnd, newTimeEnd)}
       onUpdateDone={(newDone) => onUpdateDone(detailCard.id, newDone)}
+      onChangeLabel={(labelId) => onChangeLabel(detailCard.id, labelId) }
       /> }
     </main>
   )

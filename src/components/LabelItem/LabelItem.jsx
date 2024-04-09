@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 
-export const LabelItem = ({ title, color, isCheckedLabel }) => {
+export const LabelItem = ({ id, title, color, isCheckedLabel, onChangeLabel }) => {
   const [isCheckedValue, setIsCheckedValue] = useState(isCheckedLabel);
 
   const handleChange = () => {
     setIsCheckedValue(prev => !prev);
+    onChangeLabel(id);
   }
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 items-center">
       <input
+        className="w-5 h-5 cursor-pointer"
         type="checkbox"
         checked={isCheckedValue}
         onChange={handleChange}
