@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
-import { labelsDatabase } from '../../constants/labelsDatabase';
 import { Label } from '../Label/Label';
 import { PopupList } from '../PopupList/PopupList';
 import { ButtonEdit } from '../ButtonEdit/ButtonEdit';
 import { useDetail } from '../../context/DetailContext';
 import { useDrag } from 'react-dnd';
 
-export const Card = ({ id, text, titleValue, src, description, labels, dateStart, dateEnd, done, comments, onUpdateDone }) => {
+export const Card = ({ id, text, titleValue, src, description, labels, labelsDatabase, dateStart, dateEnd, done, comments, onUpdateDone }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "li",
     item: {id},

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast, Slide } from 'react-toastify';
 import dayjs from 'dayjs';
-import { labelsDatabase } from '../../constants/labelsDatabase';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
 import { Textarea } from '../Textarea/Textarea';
 import { Comment } from '../Comment/Comment';
@@ -13,6 +12,7 @@ import { FormDataTime } from '../FormDataTime/FormDataTime';
 export const CardDetail = ({
     detailCard,
     labels,
+    labelsDatabase,
     comments,
     setIsShowDetailItem,
     onUpdateTitleValue,
@@ -23,7 +23,8 @@ export const CardDetail = ({
     onSaveDateStart,
     onSaveDateEnd,
     onUpdateDone,
-    onChangeLabel
+    onChangeLabel,
+    onAddNewLabelsDatabase
   }) => {
   
   const { id, title, headline, src, description, dateStart, dateEnd, done } = detailCard;
@@ -300,7 +301,7 @@ export const CardDetail = ({
               </div>
           }
           {
-            isShowFormLabels && <FormLabels setIsShowFormLabels={setIsShowFormLabels} checkedLabel={checkedLabel} onChangeLabel={onChangeLabel} />
+            isShowFormLabels && <FormLabels id={id} labelsDatabase={labelsDatabase} onAddNewLabelsDatabase={onAddNewLabelsDatabase} setIsShowFormLabels={setIsShowFormLabels} checkedLabel={checkedLabel} onChangeLabel={onChangeLabel} />
           }
           {
             isShowFormDateTime && <FormDataTime dateStart={dateStart} dateEnd={dateEnd} setIsShowFormDateTime={setIsShowFormDateTime} onSaveDateStart={onSaveDateStart} onSaveDateEnd={onSaveDateEnd} />

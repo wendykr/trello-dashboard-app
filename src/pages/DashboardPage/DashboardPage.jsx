@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { columnsData } from '../../constants/columns';
 import { cardsData } from '../../constants/cards';
+import { labelsDatabaseData } from '../../constants/labelsDatabase';
 import { labelsData } from '../../constants/labels';
 import { commentsData } from '../../constants/comments';
 import { v4 as uuidv4 } from 'uuid';
@@ -29,6 +30,10 @@ export const DashboardPage = () => {
     const storedComments = JSON.parse(localStorage.getItem("comments"));
     return storedComments || commentsData;
   });
+  const [labelsDatabase, setLabelsDatabase] = useState(() => {
+    const storedLabelsDatabase = JSON.parse(localStorage.getItem("labelsDb"));
+    return storedLabelsDatabase || labelsDatabaseData;
+  });
   const [labels, setLabels] = useState(() => {
     const storedLabels = JSON.parse(localStorage.getItem("labels"));
     return storedLabels || labelsData;
@@ -51,6 +56,10 @@ export const DashboardPage = () => {
 
     if (!localStorage.getItem("comments")) {
       localStorage.setItem("comments", JSON.stringify(commentsData));
+    }
+
+    if (!localStorage.getItem("labelsDb")) {
+      localStorage.setItem("labelsDb", JSON.stringify(labelsDatabase));
     }
 
     if (!localStorage.getItem("labels")) {
@@ -305,7 +314,7 @@ export const DashboardPage = () => {
     });
   };
 
-  const onSaveDateEnd= (rowId, newDateEnd, newTimeEnd) => {
+  const onSaveDateEnd = (rowId, newDateEnd, newTimeEnd) => {
     setDetailCard((prevDetailCard) => ({ ...prevDetailCard, dateEnd: newDateEnd + newTimeEnd }));
 
     setRows((prevRows) => {
@@ -358,6 +367,28 @@ export const DashboardPage = () => {
     localStorage.setItem("labels", JSON.stringify(updatedLabels));
   };
 
+  const onAddNewLabelsDatabase = (cardId, colorValue) => {
+
+    const newLabel = {
+      id: uuidv4(),
+      title: '',
+      color: colorValue
+    };
+
+    const updatedLabelsDatabase = [...labelsDatabase, newLabel];
+    setLabelsDatabase(updatedLabelsDatabase);
+
+    localStorage.setItem("labelsDb", JSON.stringify(updatedLabelsDatabase));
+  
+    setTimeout(() => {
+      const foundLabel = updatedLabelsDatabase.find(label => label.color === colorValue);
+      const updatedLabels = [...labels, {id: uuidv4(), cardId, labelId: foundLabel.id}];
+      setLabels(updatedLabels);
+
+      localStorage.setItem("labels", JSON.stringify(updatedLabels));
+    }, 0);
+  }
+
   return (
     <main className="flex bg-gradient-to-br from-[#228cd5] via-[#228cd5] to-[#37B4C3]">
       <div className="w-screen h-screen px-10 sm:px-4 py-10 overflow-x-auto sm:flex items-start ">
@@ -372,6 +403,7 @@ export const DashboardPage = () => {
               setRows={setRows}
               comments={comments}
               labels={labels}
+              labelsDatabase={labelsDatabase}
               key={oneTask.id}
               id={oneTask.id}
               onClickCopy={onClickCopy}
@@ -397,7 +429,7 @@ export const DashboardPage = () => {
           }
         </div>
       </div>
-      {isShowDetailItem && <CardDetail detailCard={detailCard} labels={labels} comments={comments}
+      {isShowDetailItem && <CardDetail detailCard={detailCard} labels={labels} labelsDatabase={labelsDatabase} comments={comments}
       setIsShowDetailItem={setIsShowDetailItem}
       onUpdateTitleValue={(newTitle) => onUpdateTitleValue(detailCard.id, newTitle)}
       onAddNewComment={(newComment) => onAddNewComment(detailCard.id, newComment)}
@@ -407,8 +439,9 @@ export const DashboardPage = () => {
       onSaveDateStart={(newDateStart) => onSaveDateStart(detailCard.id, newDateStart)}
       onSaveDateEnd={(newDateEnd, newTimeEnd) => onSaveDateEnd(detailCard.id, newDateEnd, newTimeEnd)}
       onUpdateDone={(newDone) => onUpdateDone(detailCard.id, newDone)}
-      onChangeLabel={(labelId) => onChangeLabel(detailCard.id, labelId) }
-      /> }
+      onChangeLabel={(labelId) => onChangeLabel(detailCard.id, labelId)}
+      onAddNewLabelsDatabase={(idCard, customColor) => onAddNewLabelsDatabase(idCard, customColor)}
+      />}
     </main>
   )
 }
