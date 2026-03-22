@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast, Slide } from 'react-toastify';
 import dayjs from 'dayjs';
 import { ButtonClose } from '../ButtonClose/ButtonClose';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { columnsData } from '../../constants/columns';
 import { cardsData } from '../../constants/cards';

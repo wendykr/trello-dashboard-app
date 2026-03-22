@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Comment = ({ id, comment, editComment, deleteComment }) => {
 
   const handleClickEdit = () => {
