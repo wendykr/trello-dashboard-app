@@ -1,4 +1,3 @@
-import React from 'react';
 import { PopupLink } from '../PopupLink/PopupLink';
 
 export const PopupList = () => {

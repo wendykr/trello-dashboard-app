@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast, Slide } from 'react-toastify';
 import dayjs from 'dayjs';
 import { ButtonClose } from '../ButtonClose/ButtonClose';
@@ -218,8 +218,11 @@ export const CardDetail = ({
     '';
 
   return (
-    <div className="sm:w-[80%] lg:w-[60%] min-h-[80%] bg-[#f1f2f4] text-[#172b4d] rounded-[8px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
-      {src && <figure><img className="sm:max-h-36 max-h-52 w-full rounded-t-[8px]" src={src} alt="***" /></figure>}
+    <>
+    <div className="fixed inset-0 z-[99] bg-transparent" onClick={onClickButtonClose} />
+    <div className="sm:w-[80%] lg:w-[60%] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] rounded-[8px] overflow-hidden">
+    <div className="max-h-[90vh] overflow-y-auto bg-[#f1f2f4] text-[#172b4d]">
+      {src && <figure><img className="sm:max-h-36 max-h-52 w-full" src={src} alt="***" /></figure>}
       <div className="p-10 flex flex-col gap-4">
         <div>
           <div className="mx-[-10px] flex flex-row justify-between gap-2">
@@ -252,7 +255,7 @@ export const CardDetail = ({
                 <h3 className="text-[12px] text-[#44546f] font-bold">Štítky</h3>
                 <div className="mt-1.5 flex flex-row">
                   {filteredLabels.map(oneLabel => (
-                    oneLabel.label.map(objLabel => 
+                    oneLabel.label?.map(objLabel =>
                       <Label
                         color={objLabel.color}
                         title={objLabel.title}
@@ -409,5 +412,7 @@ export const CardDetail = ({
         </div>
       </div>
     </div>
+    </div>
+    </>
   )
 }

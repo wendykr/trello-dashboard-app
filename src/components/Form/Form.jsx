@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../Button/Button';
 import { Textarea } from '../Textarea/Textarea';
 import { ButtonClose } from '../ButtonClose/ButtonClose';

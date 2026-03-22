@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLabel } from '../../context/LabelContext';
 
 export const Label = ({ color, title, showDetail }) => {

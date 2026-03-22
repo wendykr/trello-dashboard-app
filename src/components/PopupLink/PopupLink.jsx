@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const PopupLink = ({ icon, link }) => {
   return (
     <li className="flex overflow-visible">

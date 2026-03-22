@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Textarea = ({ rows, placeholder, height, margin, padding, shadow, border, bold, font, onChangeValue, onBlurHandler, textareaValue, refValue }) => {
 
   return (
