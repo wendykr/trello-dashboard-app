@@ -350,7 +350,7 @@ export const DashboardPage = () => {
               comments={comments}
               labels={labels}
               key={oneTask.id}
-              id={oneTask.id}
+              idColumn={oneTask.id}
               onClickCopy={onClickCopy}
               detailTitle={detailCard.title}
               onUpdateTitle={(newTitle) => onUpdateTitle(oneTask.id, newTitle)}
